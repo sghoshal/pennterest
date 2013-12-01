@@ -1,0 +1,15 @@
+doctype 5
+html(lang="en")
+  head
+    title
+        | #{pageTitle}
+    block head
+  body
+    #link_container
+        a(id="followers", href="../followers")
+            Followers
+        a(id="following", href="../following")
+            Following
+    .col
+    - for (var i = 0; i < data.length; i++)
+        | #{data[i].FIRSTNAME} #{data[i].LASTNAME} <br/>
