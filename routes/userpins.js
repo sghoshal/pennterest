@@ -43,7 +43,7 @@ function output_pins (res, fName, lName, results) {
 			 results: results});
 }
 
-exports.pins = function(req, res) {
+exports.pins = function(req, res){
 	console.log ("First Name: " + req.query.firstName);
 	console.log ("Last Name: " + req.query.lastName);
 	query_db(res, req.query.firstName, req.query.lastName);
