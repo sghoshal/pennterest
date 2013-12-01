@@ -1,9 +1,8 @@
-
 /**
  * Module dependencies.
  */
 
-/* HEAD */
+/* This is app initialization code */
 var express = require('express'),
 	routes = require('./routes'),
 	http = require('http'),
@@ -15,7 +14,8 @@ var express = require('express'),
 	signup = require('./routes/signup'), 
 	logout = require('./routes/logout'),
 	user = require('./routes/user'), 
-	pins = require('./routes/pins');
+	pins = require('./routes/pins'),
+	boards = require('./routes/boards');
 
 var app = express();
 init_app(app);
@@ -27,7 +27,9 @@ function compile(str, path) {
 	.use(nib());
 }
 
-/* This is app initialization code */
+/**
+ * This is app initialization code
+ */ 
 function init_app() {
 	// all environments
 	app.set('port', process.env.PORT || 8080);
@@ -35,7 +37,6 @@ function init_app() {
 	// Use Jade to do views
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'jade');
-	
 	
 	app.use(express.favicon());
 	// Set the express logger: log to the console in dev mode
@@ -68,8 +69,11 @@ app.get('/', routes.do_work);
 app.post('/login', login.do_work);
 app.get('/signupdetails', signupdetails.do_work);
 app.post('/signup', signup.do_work);
+//when we get a request for {app/pins} we should call routes/pins.js
 app.get('/pins', pins.get_user_pins);
 app.get('/logout',logout.do_work);
+//when we get a request for {app/boards} we should call routes/boards.js
+app.get('/boards', boards.do_work);
 
 http.createServer(app).listen(app.get('port'), function(){
 	console.log('Express server listening on port ' + app.get('port'));

@@ -1,0 +1,26 @@
+// Jade file to specify output of an actors list
+// Inherits from layout
+extend layout
+block content
+  h1 #{title}
+  
+  // Put a click button that lets us return to the index page 
+  p
+    form(method='post', action='./login')
+      input(type='submit', value='Return')
+  
+  // Create a table with one row per result
+  table
+    - for (var inx = 0; inx < results.length; inx++)
+        tr
+          td=results[inx].BN+" "
+        tr  
+          td 
+            img(src=results[inx].BOARD_PIC, height="240" width="320")
+          td &nbsp;
+          td &nbsp;
+          td=results[inx].COUNTER
+          td &nbsp;
+          td &nbsp;
+          
+  

@@ -9,7 +9,7 @@ var connectData = {
 		"database": "CIS550" };
 var oracle =  require("oracle");
 
-function query_db(req, res, fName, lName) {
+function query_db(req, res) {
 	oracle.connect(connectData, function (err, connection) {
 		var sqlGetPins = 
 			"SELECT P.PHOTOID, PH.URL " +
@@ -29,7 +29,7 @@ function query_db(req, res, fName, lName) {
 						connection.close();
 						for (var i = 0; i < results.length; i++)
 							console.log ("USER: " + results[i]);
-							output_pins(res, fName, lName, results);
+							output_pins(req, res, results);
 					}	
 				}
 			);
@@ -37,16 +37,16 @@ function query_db(req, res, fName, lName) {
 	});
 }
 
-function output_pins (res, fName, lName, results) {
+function output_pins (req, res, results) {
 	res.render('pins.jade', 
-			{title: "Pins of " + fName + " " + lName, 
+			{title: "Pins of " + req.session.userid, 
 			 results: results});
 }
 
 exports.get_user_pins = function(req, res){
-	console.log ("First Name: " + req.query.firstName);
-	console.log ("Last Name: " + req.query.lastName);
+	// console.log ("First Name: " + req.query.firstName);
+	// console.log ("Last Name: " + req.query.lastName);
 	console.log("USER FROM SESSION: "  + req.session.userid);
-	query_db(req, res, req.query.firstName, req.query.lastName);
+	query_db(req, res);
 };
 
