@@ -1,0 +1,63 @@
+h3 USER INFORMATION
+ p #{error_msg}
+  p (*) Compulsory Fields
+    form(method='post', action='./signup')
+      table(border='0')
+        tr
+          td Username(email id)*
+          td :
+          td
+            input(type='email', name='username', size='25')
+        tr
+          td First Name*
+          td :
+          td
+            input(type='text', name='firstname', size='25')
+        tr
+          td Last Name*
+          td :
+          td
+            input(type='text', name='lastname', size='25')
+        tr
+          td Password*
+          td :
+          td
+            input(type='password', name='password', size='25')
+        tr
+          td Gender*
+          td :
+          td
+            input(type='radio', name='gender' value='M')
+            | Male
+            input(type='radio', name='gender' value='F')
+            | Female
+        tr
+          td Date of Birth*
+          td :
+          td
+            input(type='text', name='date_of_birth', value='DD-MON-YYYY')
+        tr
+          td School
+          td :
+          td
+            input(type='text', name='school', size='25')
+        tr
+          td Company
+          td :
+          td
+            input(type='text', name='company', size='25')
+        tr
+          td Profile Picture
+          td :
+          td
+            input(type='text', name='profile_pic', size='25')
+        tr
+          td Cover Picture
+          td :
+          td
+            input(type='text', name='cover_pic', size='25')
+        tr
+          td  
+          td  
+          td
+            input(type='submit', value='Submit')

@@ -1,0 +1,29 @@
+extends layout
+
+block content
+
+ h1= ''
+  p #{title}
+  p #{msg}
+  
+  h3 USER LOGIN
+    form(method='post', action='./login')
+      table(border='0')
+        tr
+          td Username
+          td :
+          td
+            input(type='text', name='username', size='25')
+        tr
+          td Password
+          td :
+          td
+            input(type='password', name='password', size='25')
+        tr
+          td  
+          td  
+          td
+            input(type='submit', value='Login')
+        
+            p Not a member? 
+             a(href='/signupdetails') Sign up
