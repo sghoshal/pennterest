@@ -3,7 +3,7 @@
 }
 
 #container {
-    width: 800px;
+    width: 1300px;
 }
 
 #usercol {
@@ -12,6 +12,13 @@
 }
 
 #photocol {
-    width: 400px;
+    width: 900px;
     float: right;
+}
+
+.img {
+    width: 280px;
+    height: 200px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
