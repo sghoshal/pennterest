@@ -1,0 +1,17 @@
+.col {
+    width: 150px;
+}
+
+#container {
+    width: 800px;
+}
+
+#usercol {
+    width: 400px;
+    float: left;
+}
+
+#photocol {
+    width: 400px;
+    float: right;
+}

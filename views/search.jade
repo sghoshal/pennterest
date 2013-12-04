@@ -1,10 +1,19 @@
 doctype 5
 html(lang="en")
   head
+    link(rel="stylesheet", href="/stylesheets/search.css")
     title
       | #{pageTitle}
   body
     form(method="get")
-        | Search: <input type="text" name="q">
-    - for (var i = 0; i < data.length; i++)
-        | #{data[i]['URL']} <br/>
+        | Search: <input type="text" name="q"> <input type="submit" value="Search">
+    #container
+        #usercol.col
+            | Users <br/>
+            - for (var i = 0; i < users.length; i++)
+                | #{users[i]['EMAIL']} <br/>
+        #photocol.col
+            | Photos <br/>
+            - for (var i = 0; i < photos.length; i++)
+                | #{photos[i]['URL']} <br/>
+
