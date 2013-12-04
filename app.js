@@ -1,9 +1,9 @@
 var http = require('http'),
-    routes = require('./routes');
+    router = require('./routes/router');
 
-var app = routes.app;
+var app = router.app;
 
-app.set('views', __dirname);
+app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
 http.createServer(app).listen(9000);
