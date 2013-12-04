@@ -170,7 +170,14 @@ function check_password(req,res,pwd) {
 			  	connection.execute("SELECT userid, firstname, passwd FROM users WHERE email='"+username+"'", 
 			  			   [], 
 			  			   function(err, results) {
-			  	    if ( err ) {
+			  		if(results.length == 0)
+			  		{
+			  			res.render('index.jade',
+				  	   			   { title: 'Welcome to Pennterest!',
+				  	    			msg: "Invalid username or password" }
+				  	   		  );
+		  	    	}
+			  	else if ( err ) {
 			  	    	console.log(err);
 			  	    } else {
 			  	    	if(results[0].PASSWD == pwd)

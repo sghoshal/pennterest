@@ -147,14 +147,14 @@ function ensurenumberandletter(s) {
  return s;
 }
 
-function adduser(res,email,fname,lname,pwd,gender,dob,school,company,pp,cp) {
+function adduser(res,email,fname,lname,pwd,gender,dob,affiliation,pp,cp) {
 	 oracle.connect(connectData, function(err, connection) {
 		    if ( err ) {
 		    	console.log(err);
 		    } else {
 			  	// inserting user entry
 			  	connection.execute("INSERT INTO users VALUES(userid_seq.nextval,'"+email+"','"+fname+"','"+lname+"','"+
-			  			pwd+"','"+school+"','"+company+"','"+gender+"','"+pp+"','"+dob+"','"+pp+"')",
+			  			pwd+"','"+affiliation+"','"+gender+"','"+pp+"','"+dob+"','"+pp+"')",
 			  			   [], 
 			  			   function(err, results) {
 			  	    if ( err ) {
@@ -184,12 +184,14 @@ exports.do_work = function(req, res){
 		}
 	else
 	{
-	 if(req.body.school=='' || req.body.company=='' || req.body.profile_pic=='' || req.body.cover_pic=='')
-		 {
-		 req.body.school="";req.body.company="";req.body.profile_pic="";req.body.cover_pic="";
-		 }
+	 if(req.body.affiliation=='')
+		 req.body.affiliation="";
+     if(req.body.profile_pic=='')
+    	 req.body.profile_pic="";
+     if(req.body.cover_pic=='')
+    	 req.body.cover_pic="";
 	 
 	var pwd = generatehash(res,req.body.password,"SHA");
-	adduser(res,req.body.username,req.body.firstname,req.body.lastname,pwd,req.body.gender,req.body.date_of_birth,req.body.school,req.body.company,req.body.profile_pic,req.body.cover_pic);
+	adduser(res,req.body.username,req.body.firstname,req.body.lastname,pwd,req.body.gender,req.body.date_of_birth,req.body.affiliation,req.body.profile_pic,req.body.cover_pic);
 	}
 };
