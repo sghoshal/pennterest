@@ -161,13 +161,13 @@ function ensurenumberandletter(s) {
      return s;
 }
 
-function check_password(req,res,pwd) {
+function get_user_info (req, res, pwd) {
 	 oracle.connect(connectData, function(err, connection) {
 		    if ( err ) {
 		    	console.log(connection);
 		    } else {
 			  	// selecting rows
-			  	connection.execute("SELECT userid, firstname, passwd FROM users WHERE email='"+username+"'", 
+			  	connection.execute("SELECT userid, firstname, lastname FROM users WHERE email='" + username + "'", 
 			  			   [], 
 			  			   function(err, results) {
 			  	    if ( err ) {
@@ -180,7 +180,7 @@ function check_password(req,res,pwd) {
 			  	    		req.session.userid = userid;
 			  	    		console.log("userid is "+req.session.userid);
 			  	    		user_display_name = results[0].FIRSTNAME;
-			  	    		redirect_to_home(req, res);
+			  	    		welcomeuser(req, res);
 			  	    	}
 			  	    	else
 			  	    		res.render('index.jade',
@@ -195,27 +195,22 @@ function check_password(req,res,pwd) {
 		  }); // end oracle.connect
 }
 
-function redirect_to_home (req, res){
+function welcomeuser(req, res){
 
-  console.log("Session started. Redirecting user to home page");
-  res.writeHead(301, {Location: '/home?id=' + req.session.userid});
-  res.end();
-	/*res.render('login.jade',
-			   { title: "Welcome " + user_display_name + "!",
+	res.render('login.jade',
+			   { title: "Welcome " + req.session.userid + "!",
            user_id: req.session.userid }
-		  );
-  */
+		    );
 }
 
 exports.do_work = function(req, res){
-    console.log("LOGIN PAGE!:");
-    console.log("SESSION AUTH: " + req.session.userAuthenticated);
-    console.log("SESSION user_id: " + req.session.userid);
-     
-    /* When the user is logging in for the first time */
-		req.session.userAuthenticated = true;
-		username = req.body.username;
-		generatehash(req,res,req.body.password,"SHA");
-		//req.session.userid = userid;
-		//console.log(req.session.userid);
+  console.log("HOME PAGE.");
+    console.log("REQ PARAMS: " + req.params);
+
+  console.log("REQ BODY: " + req.body.username);
+  console.log("SESSION AUTH: " + req.session.userAuthenticated);
+  console.log("SESSION user_id: " + req.session.userid);
+  
+	welcomeuser(req, res);
+	
 };

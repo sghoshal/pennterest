@@ -4,16 +4,16 @@ block content
 
  h1= title
   p
-   '
-   a(href='/login') Home
    '  '
-   a(href='/boards') Boards
+   a(href='/home?id=' + user_id) Home
    '  '
-   a(href='/pins') Pins
+   a(href='/boards?id=' + user_id) Boards
    '  '
-   a(href='/followers') Followers
+   a(href='/pins?id=' + user_id) Pins
    '  '
-   a(href='/following') Following
+   a(href='/followers?id=' + user_id) Followers
    '  '
-   a(href='/logout') Logout
+   a(href='/following?id=' + user_id) Following
+   '  '
+   a(href='/logout?id=' + user_id) Logout
    '

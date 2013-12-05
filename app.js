@@ -16,6 +16,7 @@ var express = require('express'),
 	user = require('./routes/user'), 
 	pins = require('./routes/pins'),
 	boards = require('./routes/boards'),
+	home = require('./routes/home'),
     query = require('./routes/followers');
 
 var app = express();
@@ -76,6 +77,7 @@ app.get('/logout',logout.do_work);
 //when we get a request for {app/boards} we should call routes/boards.js
 app.get('/boards', boards.do_work);
 app.get('/followers', query.load);
+app.get('/home', home.do_work);
 
 http.createServer(app).listen(app.get('port'), function(){
 	console.log('Express server listening on port ' + app.get('port'));

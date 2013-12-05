@@ -6,7 +6,7 @@ html(lang="en")
     block head
   body
     p
-      form(method='post', action='./login')
+      form(method='get', action='./home')
         input(type='submit', value='Return')
         
     #link_container
@@ -16,4 +16,6 @@ html(lang="en")
             Following
     .col
     - for (var i = 0; i < data.length; i++)
-        | #{data[i].FIRSTNAME} #{data[i].LASTNAME} <br/>
+        tr
+          td 
+            a(href="./pins") #{data[i].FIRSTNAME} #{data[i].LASTNAME} <br/>
