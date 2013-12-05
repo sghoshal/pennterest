@@ -10,19 +10,31 @@ block content
       a(href="/home?id="+session_userid) Home <br/>
       <br/>
   
+  
+
   // Create a table with one row per result
   table
     - for (var inx = 0; inx < results.length; inx++)
         tr
-          td
-            a(href="/boards/pins?bid=" + results[inx].BID) #{results[inx].BN}
-        tr  
           td 
-            img(src=results[inx].BOARD_PIC, height="240" width="320")
+            #{results[inx].PID}
           td &nbsp;
+          td
+            img(src=results[inx].URL height="240" width="320")
           td &nbsp;
-          td=results[inx].COUNTER
+
+        tr       
+          td 
+            Average Rating = #{results[inx].AVG}
           td &nbsp;
+          td 
+            My Rating = #{results[inx].SCORE}
+          td &nbsp;
+          td 
+            First Pinner ID = #{results[inx].FPID}
+          td &nbsp;
+          td 
+            This photo has been pinned #{results[inx].COUNT} many times
           td &nbsp;
           
   

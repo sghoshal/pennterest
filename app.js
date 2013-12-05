@@ -16,6 +16,7 @@ var express = require('express'),
 	user = require('./routes/user'), 
 	pins = require('./routes/pins'),
 	boards = require('./routes/boards'),
+	boardpins = require('./routes/boards/boardpins'),
 	home = require('./routes/home'),
     query = require('./routes/followers');
 
@@ -75,6 +76,7 @@ app.get('/pins', pins.get_user_pins);
 app.get('/logout',logout.do_work);
 //when we get a request for {app/boards} we should call routes/boards.js
 app.get('/boards', boards.do_work);
+app.get('/boards/pins', boardpins.do_work);
 app.get('/followers', query.load);
 app.get('/home', home.do_work);
 
