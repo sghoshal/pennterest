@@ -199,11 +199,6 @@ function redirect_to_home (req, res){
   console.log("Session started. Redirecting user to home page");
   res.writeHead(301, {Location: '/home?id=' + req.session.userid});
   res.end();
-	/*res.render('login.jade',
-			   { title: "Welcome " + user_display_name + "!",
-           user_id: req.session.userid }
-		  );
-  */
 }
 
 exports.do_work = function(req, res){

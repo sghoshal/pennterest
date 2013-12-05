@@ -48,6 +48,13 @@ function load_error_page(req, res) {
     res.render('error.jade');
 }
 
+function redirect_to_login(req, res){
+
+  console.log("Session started. Redirecting user to home page");
+  res.writeHead(301, {Location: '/'});
+  res.end();
+}
+
 exports.get_user_pins = function(req, res){
 
 	console.log("IN PINS PAGE...");
@@ -58,6 +65,6 @@ exports.get_user_pins = function(req, res){
 	if (req.session.userAuthenticated)
 		query_db(req, res, req.query.id);
 	else
-		load_error_page(req, res);
+		redirect_to_login (req, res);
 };
 

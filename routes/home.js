@@ -38,6 +38,14 @@ function welcomeuser(req, res) {
   		    );
 }
 
+function redirect_to_login(req, res){
+
+  console.log("Session started. Redirecting user to home page");
+  res.writeHead(301, {Location: '/'});
+  res.end();
+}
+
+
 function load_error_page(req, res) {
     res.render('error.jade');
 }
@@ -51,5 +59,5 @@ exports.do_work = function(req, res){
   if (req.session.userAuthenticated)
     get_user_info(req, res);
   else
-    load_error_page(req, res);
+    redirect_to_login(req, res);
 };
