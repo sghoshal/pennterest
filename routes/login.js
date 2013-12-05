@@ -172,7 +172,7 @@ function check_password(req,res,pwd) {
 			  	    if ( err ) {
 			  	    	console.log(err);
 			  	    } else {
-			  	    	if(results[0].PASSWD == pwd)
+			  	    	if((results.length != 0) && results[0].PASSWD == pwd)
 			  	    	{
 			  	    		connection.close(); // done with the connection
 			  	    		userid = results[0].USERID;

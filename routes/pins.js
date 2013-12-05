@@ -65,6 +65,6 @@ exports.get_user_pins = function(req, res){
 	if (req.session.userAuthenticated)
 		query_db(req, res, req.query.id);
 	else
-		redirect_to_login (req, res);
+		redirect_to_login(req, res);
 };
 

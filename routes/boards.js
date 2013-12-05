@@ -48,7 +48,6 @@ function output_boards(req, res,results) {
 }
 
 function redirect_to_login(req, res){
-
   console.log("Session started. Redirecting user to home page");
   res.writeHead(301, {Location: '/'});
   res.end();
