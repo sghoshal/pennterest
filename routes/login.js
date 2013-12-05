@@ -179,6 +179,7 @@ function check_password(req,res,pwd) {
 			  	    		req.session.userid = userid;
 			  	    		console.log("userid is "+req.session.userid);
 			  	    		user_display_name = results[0].FIRSTNAME;
+                  req.session.userAuthenticated = true;
 			  	    		redirect_to_home(req, res);
 			  	    	}
 			  	    	else
@@ -207,7 +208,6 @@ exports.do_work = function(req, res){
     console.log("SESSION user_id: " + req.session.userid);
      
     /* When the user is logging in for the first time */
-		req.session.userAuthenticated = true;
 		username = req.body.username;
 		generatehash(req,res,req.body.password,"SHA");
 		//req.session.userid = userid;
