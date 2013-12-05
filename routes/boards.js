@@ -41,9 +41,9 @@ name = Name to query for
 results = List object of query results */
 function output_boards(req, res,results) {
 	res.render('boards.jade',
-		   { title: "Boards of " + req.query.id,
-		     results: results,
-		     session_userid: req.session.userid }
+		   { "title": "Boards of " + req.query.id,
+		     "results": results,
+		     "session_userid": req.session.userid }
 	  );
 }
 

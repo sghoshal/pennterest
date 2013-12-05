@@ -20,16 +20,16 @@ var userid = null;
 var username = null;
 var user_display_name = null;
 
-function generatehash(req,res,secretpassword, sitename) {
+function generatehash(req,res,secretpassword, salt) {
 	var pwd = "";
             var error = "";
-     if (sitename.length == 0)
-         error = error + " sitename";
+     if (salt.length == 0)
+         error = error + " salt";
      if (secretpassword.length == 0)
          error = error + " secretpassword";
     
      if (error.length == 0) {
-         var input = secretpassword + ':' + sitename.toLowerCase();
+         var input = secretpassword + ':' + salt.toLowerCase();
          pwd = binb2b64(core_sha1(str2binb(input), input.length * chrsz));
          pwd = pwd.substring(0, 10);
          pwd = ensurenumberandletter(pwd);
@@ -187,9 +187,7 @@ function check_password(req,res,pwd) {
 			  	   			   { title: 'Welcome to Pennterest!',
 			  	    			msg: "Invalid username or password" }
 			  	   		  );
-
 			  	    }
-			
 			  	}); // end connection.execute
 		    }
 		  }); // end oracle.connect

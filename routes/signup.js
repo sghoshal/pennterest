@@ -7,16 +7,16 @@ var oracle =  require("oracle");
 
 var b64pad  = "";
 var chrsz   = 8;
-function generatehash(res,secretpassword, sitename) {
+function generatehash(res,secretpassword, salt) {
 	var pwd = "";
         var error = "";
- if (sitename.length == 0)
-     error = error + " sitename";
+ if (salt.length == 0)
+     error = error + " salt";
  if (secretpassword.length == 0)
      error = error + " secretpassword";
 
  if (error.length == 0) {
-     var input = secretpassword + ':' + sitename.toLowerCase();
+     var input = secretpassword + ':' + salt.toLowerCase();
      pwd = binb2b64(core_sha1(str2binb(input), input.length * chrsz));
      pwd = pwd.substring(0, 10);
      pwd = ensurenumberandletter(pwd);

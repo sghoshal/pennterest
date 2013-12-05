@@ -20,5 +20,9 @@ html(lang="en")
     .col
     - for (var i = 0; i < data.length; i++)
         tr
-          td 
-            a(href="./pins") #{data[i].FIRSTNAME} #{data[i].LASTNAME} <br/>
+          td
+            followers_userid = '/home?id=' + data[i].USERID
+            // div
+            //  - console.log("From Jade: " + followers_userid)
+            // div
+            a(href=followers_userid) #{data[i].FIRSTNAME} #{data[i].LASTNAME} <br/>

@@ -52,7 +52,7 @@ function get_followers(req, res) {
                             return res.send("Connection error", 500);
                         }
                         connection.execute(
-                            "SELECT firstname, lastname FROM Users WHERE userid in (" +
+                            "SELECT firstname, lastname, userid FROM Users WHERE userid in (" +
                             "SELECT DISTINCT userid FROM Following WHERE boardid IN " +
                             "(SELECT boardid FROM Board WHERE userid=" + id +"))",
                             [], function(error, followers) {
@@ -60,10 +60,11 @@ function get_followers(req, res) {
                                     console.log("error" + error);
                                     return res.send("Query error: followers not found", 500);
                                 }
+
                             res.render("followers.jade", {
                                                 "pageTitle": "Followers",
                                                 "data": followers,
-                                                session_userid: req.session.userid
+                                                "session_userid": req.session.userid
 
                                             });
                             });

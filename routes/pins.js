@@ -39,9 +39,9 @@ function query_db(req, res, query_id) {
 
 function output_pins (req, res, results) {
 	res.render('pins.jade', 
-			{title: "Pins of " + req.query.id, 
-			 results: results,
-			 session_userid: req.session.userid});
+			{"title": "Pins of " + req.query.id, 
+			 "results": results,
+			 "session_userid": req.session.userid});
 }
 
 function load_error_page(req, res) {

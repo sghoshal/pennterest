@@ -33,8 +33,8 @@ function get_user_info (req, res) {
 
 function welcomeuser(req, res) {
   	res.render('login.jade',
-  			   { title: "Welcome " + user_display_name + "!",
-             queried_id: req.query.id, user_id: req.session.userid}
+  			   { "title": "Welcome " + user_display_name + "!",
+             "queried_id": req.query.id, "user_id": req.session.userid}
   		    );
 }
 
