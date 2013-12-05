@@ -9,14 +9,14 @@ var connectData = {
 		"database": "CIS550" };
 var oracle =  require("oracle");
 
-function query_db(req, res) {
+function query_db(req, res, query_id) {
 	oracle.connect(connectData, function (err, connection) {
 		var sqlGetPins = 
 			"SELECT P.PHOTOID, PH.URL " +
 			"FROM USERS U, BOARD B, PIN P, PHOTO PH " +
 			"WHERE U.USERID=B.USERID AND B.BOARDID=P.BOARDID " +
 					"AND P.PHOTOID=PH.PHOTOID AND " +
-					"U.USERID=" + req.session.userid;
+					"U.USERID=" + query_id;
 		
 		if (err) {
 			console.log(err);
@@ -39,14 +39,25 @@ function query_db(req, res) {
 
 function output_pins (req, res, results) {
 	res.render('pins.jade', 
-			{title: "Pins of " + req.session.userid, 
-			 results: results});
+			{title: "Pins of " + req.query.id, 
+			 results: results,
+			 session_userid: req.session.userid});
+}
+
+function load_error_page(req, res) {
+    res.render('error.jade');
 }
 
 exports.get_user_pins = function(req, res){
-	// console.log ("First Name: " + req.query.firstName);
-	// console.log ("Last Name: " + req.query.lastName);
-	console.log("USER FROM SESSION: "  + req.session.userid);
-	query_db(req, res);
+
+	console.log("IN PINS PAGE...");
+	console.log("Session Authenticated: " + req.session.userAuthenticated);
+    console.log("User ID Queried " + req.query.id);
+    console.log("Session User ID: "  + req.session.userid);
+	
+	if (req.session.userAuthenticated)
+		query_db(req, res, req.query.id);
+	else
+		load_error_page(req, res);
 };
 

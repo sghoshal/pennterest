@@ -14,7 +14,6 @@ var app = express();
 
 app.get('/logout',logout.do_work);
 
-
 var b64pad  = "";
 var chrsz   = 8;
 var userid = null;

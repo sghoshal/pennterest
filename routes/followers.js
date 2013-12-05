@@ -8,8 +8,24 @@ var db = {
     "database": "CIS550"
 };
 
-exports.load =  function(req, res) {
-    var id = req.session.userid;
+exports.load = function(req, res) {
+    console.log("IN FOLLOWERS MODULE...");
+    console.log("Session Authenticated: " + req.session.userAuthenticated);
+    console.log("User ID Queried " + req.query.id);
+    console.log("Session User ID: "  + req.session.userid);
+    
+    if (req.session.userAuthenticated)
+        get_followers(req, res);
+    else
+        load_error_page(req, res);
+};
+
+function load_error_page(req, res) {
+    res.render('error.jade');
+}
+
+function get_followers(req, res) {
+    var id = req.query.id;
     console.log("FOLLOWER PAGE USERID: " + id);
     oracle.connect(db, function(error, connection) {
         if (error) {
@@ -22,7 +38,7 @@ exports.load =  function(req, res) {
                 return res.send("Query error: id not found", 500);
             }
             for (key in rows) {
-                if (rows[key]["USERID"] === id) {
+                if (rows[key]["USERID"] == id) {
                     oracle.connect(db, function(error) {
                         if (error) {
                             console.log("error: " + error);
@@ -39,7 +55,9 @@ exports.load =  function(req, res) {
                                 }
                             res.render("followers.jade", {
                                                 "pageTitle": "Followers",
-                                                "data": followers
+                                                "data": followers,
+                                                session_userid: req.session.userid
+
                                             });
                             });
                     });

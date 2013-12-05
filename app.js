@@ -53,7 +53,6 @@ function init_app() {
 	app.use(app.router);
 	app.use(express.static(path.join(__dirname, 'public')));
 	
-
 	// Use Stylus, which compiles .styl --> CSS
 	app.use(stylus.middleware(
 	{ src: __dirname + '/public'

@@ -5,9 +5,12 @@ html(lang="en")
         | #{pageTitle}
     block head
   body
-    p
-      form(method='get', action='./home')
-        input(type='submit', value='Return')
+
+    // Home page of logged in user
+    tr
+      td
+        a(href="./home?id="+session_userid) Home <br/>
+        <br/>
         
     #link_container
         a(id="followers", href="../followers")
