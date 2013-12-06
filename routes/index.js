@@ -9,5 +9,5 @@ exports.index = function(req, res){
 */
 
 exports.do_work = function(req, res) {
-  res.render('index', { title: 'Welcome to Pennterest!' });
+    res.render('index', { title: 'Welcome to Pennterest!' });
 };
