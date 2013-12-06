@@ -147,51 +147,40 @@ function ensurenumberandletter(s) {
  return s;
 }
 
-function adduser(res,email,fname,lname,pwd,gender,dob,affiliation,pp,cp) {
-	 oracle.connect(connectData, function(err, connection) {
-		    if ( err ) {
-		    	console.log(err);
-		    } else {
-			  	// inserting user entry
-			  	connection.execute("INSERT INTO users VALUES(userid_seq.nextval,'"+email+"','"+fname+"','"+lname+"','"+
-			  			pwd+"','"+affiliation+"','"+gender+"','"+pp+"','"+dob+"','"+pp+"')",
-			  			   [], 
-			  			   function(err, results) {
-			  	    if ( err ) {
-			  	    	console.log(err);
-			  	    } else {
-			  	    	connection.close();
-			  	    	res.render('index.jade',
-			  	  			   { 
-			  	   			msg: "Sign up complete. You can now login and start pining!" }
-			  	  		  );
+function changePasswordInDB(req,res,pwd)
+{
+	oracle.connect(connectData, function(err, connection) {
+	    if ( err ) {
+	    	console.log(err);
+	    } else {
+		  	// change password query
+		  	connection.execute("UPDATE users SET passwd='"+pwd+"' WHERE userid="+req.session.userid,
+		  			   [], 
+		  			   function(err, results) {
+		  	    if ( err ) {
+		  	    	console.log(err);
+		  	    } else {
+		  	    	connection.close();
+		  	    	if(req.session)
+		  	  	{
+		  	  		req.session.userAuthenticated = false;
+		  	  		req.session.userid = null;
+		  	  		req.session.destroy(function() {});
+		  	  	}
+		  	  	res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+		  	    	res.render('index.jade',
+		  	  			   { 
+		  	   			msg: "Password changed successfully. Please login again with your new password." }
+		  	  		  );
 
-			  	    }
-			
-			  	}); // end connection.execute
-		    }
-		  }); // end oracle.connect
+		  	    }
+		
+		  	}); // end connection.execute
+	    }
+	  }); // end oracle.connect
 }
 
-
-
 exports.do_work = function(req, res){
-	if(req.body.email=='' || req.body.firstname=='' || req.body.lastname=='' || req.body.password=='' ||
-			req.body.gender=='' || req.body.date_of_birth=='')
-		{
-		res.render('signupdetails.jade',
-	   			   { error_msg: "You did not fill all the compulsory fields. Please re-enter your details." });
-		}
-	else
-	{
-	 if(req.body.affiliation=='')
-		 req.body.affiliation="";
-     if(req.body.profile_pic=='')
-    	 req.body.profile_pic="";
-     if(req.body.cover_pic=='')
-    	 req.body.cover_pic="";
-	 
 	var pwd = generatehash(res,req.body.password,"SHA");
-	adduser(res,req.body.username,req.body.firstname,req.body.lastname,pwd,req.body.gender,req.body.date_of_birth,req.body.affiliation,req.body.profile_pic,req.body.cover_pic);
-	}
+	changePasswordInDB(req,res,pwd);
 };

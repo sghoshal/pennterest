@@ -167,23 +167,38 @@ function check_password(req,res,pwd) {
 	 oracle.connect(connectData, function(err, connection) {
 		    if ( err ) {
 		    	console.log(connection);
-		    } else {
+		    } 
+            else {
 			  	// selecting rows
 			  	connection.execute("SELECT userid, firstname, passwd FROM users WHERE email='"+username+"'", 
 			  			   [], 
 			  			   function(err, results) {
-			  	    if ( err ) {
+			  		if(results.length == 0)
+			  		{
+			  			res.render('index.jade',
+				  	   			   { title: 'Welcome to Pennterest!',
+				  	    			msg: "Invalid username or password" }
+				  	   		  );
+		  	    	}
+                    else if ( err ) {
 			  	    	console.log(err);
-			  	    } else {
-			  	    	if((results.length != 0) && results[0].PASSWD == pwd)
-			  	    	{
+			  	    } 
+                    else {
+			  	    	if((results.length != 0) && results[0].PASSWD == pwd) {
 			  	    		connection.close(); // done with the connection
 			  	    		userid = results[0].USERID;
 			  	    		req.session.userid = userid;
 			  	    		console.log("userid is "+req.session.userid);
 			  	    		user_display_name = results[0].FIRSTNAME;
-                  req.session.userAuthenticated = true;
-			  	    		redirect_to_home(req, res);
+
+			  	    		if(req.body.password == 'password')
+			  	    			res.render('changepassword.jade',
+						  	   			   { title: 'Enter new password' }
+						  	   		  );
+			  	    		else {
+        		  	    		req.session.userAuthenticated = true;
+                                redirect_to_home(req, res);
+                            }
 			  	    	}
 			  	    	else
 			  	    		res.render('index.jade',
