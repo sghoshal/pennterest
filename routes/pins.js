@@ -41,6 +41,7 @@ function output_pins (req, res, results) {
 	res.render('pins.jade', 
 			{title: "Pins of " + req.query.id, 
 			 results: results,
+			 queried_userid: req.query.id,
 			 session_userid: req.session.userid});
 }
 

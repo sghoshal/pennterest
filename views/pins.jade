@@ -11,7 +11,8 @@ block content
   table(border='1')
     - for (var inx = 0; inx < results.length; inx++)
         tr
-          td=results[inx].PHOTOID
+          td
+            a(href="/pins/pinsphoto?id=" + queried_userid + "&pid=" + results[inx].PHOTOID) #{results[inx].PHOTOID}
           td 
             img(src=results[inx].URL, height="240" width="320") 
   

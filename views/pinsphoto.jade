@@ -1,0 +1,38 @@
+// Jade file to specify output of an actors list
+// Inherits from layout
+extend layout
+block content
+  h1 #{title}
+  
+  // Get back to logged in users home page
+  tr
+    td
+      a(href="/home?id="+session_userid) Home <br/>
+      <br/>
+  
+  
+  - var resultsCopy = results
+  // Create a table with one row per result
+  table
+    - for (var inx = 0; inx < results.length; inx++)
+        tr
+          td 
+            The Photo ID = #{results[inx].PID}
+          td &nbsp;
+          td 
+            The Average Rating = #{results[inx].AVG}
+          td &nbsp;
+          td 
+            The My Rating = #{results[inx].SCORE}
+          td &nbsp;
+          td 
+            The First Pinner ID = #{results[inx].FPID}
+          td &nbsp;
+          td 
+            The This photo has been pinned #{results[inx].COUNT} times
+          td &nbsp;
+          td 
+            The Tag = #{results[inx].TAG}
+          td &nbsp;
+          
+ 
