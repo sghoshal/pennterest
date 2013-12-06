@@ -5,6 +5,7 @@ var connectData = {
   "password": "databaseproject", 
   "database": "CIS550" };
 var oracle =  require("oracle");
+var flag = 10;
 
 function query_db(req, res) {
 	oracle.connect(connectData, function (err, connection) {
@@ -13,6 +14,12 @@ function query_db(req, res) {
 			"from photo p, pin pi, rating r, tag t " +
 			"where pi.photoid = p.photoid and t.photoid = p.photoid and t.photoid = r.photoid and pi.boardid=" + req.query.bid + " " + "and r.userid=" + req.session.userid + " "
 			"order by p.photoid";
+
+		var sqlGetBoardsTwo =
+			"select distinct p.photoid AS PID, p.url AS URL, p.avg_rating AS AVG, p.first_pinnerid AS FPID, p.pin_count AS COUNT, r.score AS SCORE, t.tagvalue AS TAG " +
+			"from photo p, pin pi, rating r, tag t " +
+			"where pi.photoid = p.photoid and t.photoid = p.photoid and t.photoid = r.photoid and pi.boardid=" + req.query.bid + " "
+			"order by p.photoid, p.first_pinnerid";	
 		
 		
 		if (err) {
@@ -21,14 +28,35 @@ function query_db(req, res) {
 			connection.execute(sqlGetBoards, [], 
 				function (err, results) {
 					if (err) {
-						console.log(err);
+						console.log("Error after executing the first query: "+err);
 					} else {
-						connection.close();
-						console.log("Size of the results: "+results.length)
-						output_pins(req, res, results);
+						console.log("Size of the results of first query: "+results.length)
+						// If the user has rated the photo then the first version of the query will successfully run
+						if(results.length!=0) {
+							output_pins(req, res, results);
+							connection.close();
+							flag = 0;
+						}
+						// If the user has NOT rated the photo then the second version of the query will successfully run
+						else {
+							connection.execute(sqlGetBoardsTwo, [], 
+								function (err, resultsTwo) {
+									if (err) {
+										console.log("Error after executing the second query: "+err);
+									} else {
+										console.log("Size of the results of second query: "+resultsTwo.length)
+										if(resultsTwo.length!=0) {
+											output_pins(req, res, resultsTwo);
+											connection.close();
+											flag = 10;
+										}					
+									}	
+								}
+							);
+						}					
 					}	
 				}
-			);
+			);	
 		}
 	});
 }
