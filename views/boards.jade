@@ -7,7 +7,7 @@ block content
   // Get back to logged in users home page
   tr
     td
-      a(href="/home?id="+session_userid) Home <br/>
+      a(href="/home?id="+queried_userid) Home <br/>
       <br/>
   
   // Create a table with one row per result
@@ -15,7 +15,7 @@ block content
     - for (var inx = 0; inx < results.length; inx++)
         tr
           td
-            a(href="/boards/pins?bid=" + results[inx].BID) #{results[inx].BN}
+            a(href="/boards/boardpins?id=" + queried_userid + "&bid=" + results[inx].BID) #{results[inx].BN}
         tr  
           td 
             img(src=results[inx].BOARD_PIC, height="240" width="320")

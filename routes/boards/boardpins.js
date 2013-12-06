@@ -42,7 +42,9 @@ function output_pins(req, res,results) {
 	res.render('boardpins.jade',
 		   { title: "Pins of Board " + req.query.bid,
 		     results: results,
-		     session_userid: req.session.userid }
+		     session_userid: req.session.userid,
+		     queried_userid: req.query.id,
+		     queried_boardid: req.query.bid }
 	  );
 }
 

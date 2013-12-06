@@ -43,7 +43,8 @@ function output_boards(req, res,results) {
 	res.render('boards.jade',
 		   { title: "Boards of " + req.query.id,
 		     results: results,
-		     session_userid: req.session.userid }
+		     session_userid: req.session.userid,
+		     queried_userid: req.query.id }
 	  );
 }
 
