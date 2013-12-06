@@ -187,6 +187,11 @@ function check_password(req,res,pwd) {
 			  	    		req.session.userid = userid;
 			  	    		console.log("userid is "+req.session.userid);
 			  	    		user_display_name = results[0].FIRSTNAME;
+			  	    		if(req.body.password == 'password')
+			  	    			res.render('changepassword.jade',
+						  	   			   { title: 'Enter new password' }
+						  	   		  );
+			  	    		else
 			  	    		welcomeuser(res);
 			  	    	}
 			  	    	else
