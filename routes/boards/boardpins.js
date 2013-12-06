@@ -8,16 +8,16 @@ var oracle =  require("oracle");
 
 function query_db(req, res) {
 	oracle.connect(connectData, function (err, connection) {
-		var sqlGetBoards =
-			"select p.photoid AS PID, p.url AS URL, p.avg_rating AS AVG, p.first_pinnerid AS FPID, p.pin_count AS COUNT, t.tagvalue AS TAG " +
-			"from photo p, pin pi, tag t " +
-			"where pi.photoid = p.photoid and t.photoid = p.photoid and pi.boardid=" + req.query.bid + " " 
+		var sqlGetBoardPins =
+			"select p.photoid AS PID, p.url AS URL, p.avg_rating AS AVG, p.pin_count AS COUNT " +
+			"from photo p, pin pi " +
+			"where pi.photoid = p.photoid and pi.boardid=" + req.query.bid + " " 
 			"order by p.photoid";
 		
 		if (err) {
 			console.log("Error in query: "+err);
 		} else {
-			connection.execute(sqlGetBoards, [], 
+			connection.execute(sqlGetBoardPins, [], 
 				function (err, results) {
 					if (err) {
 						console.log("Error after executing the first query: "+err);

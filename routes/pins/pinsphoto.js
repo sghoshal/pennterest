@@ -11,24 +11,22 @@ function query_db(req, res) {
 		var sqlGetPhotoWithScore = 
 			"select p.photoid AS PID, p.url AS URL, p.avg_rating AS AVG, r.score AS SCORE, p.first_pinnerid AS FPID, p.pin_count AS COUNT, t.tagvalue AS TAG " +
 			"from photo p, tag t, rating r " +
-			"where t.photoid = p.photoid and r.photoid = p.photoid and p.photoid=" + req.query.pid + " " + " and r.userid=" + req.query.id + " ";
+			"where t.photoid = p.photoid and r.photoid = p.photoid and p.photoid=" + req.query.pid + " " + " and r.userid=" + req.query.id;
 
 		var sqlGetPhotoWithoutScore = 
 			"select p.photoid AS PID, p.url AS URL, p.avg_rating AS AVG, p.first_pinnerid AS FPID, p.pin_count AS COUNT, t.tagvalue AS TAG " +
 			"from photo p, tag t, rating r " +
-			"where t.photoid = p.photoid and r.photoid = p.photoid and p.photoid=" + req.query.pid + " "; 
+			"where t.photoid = p.photoid and r.photoid = p.photoid and p.photoid=" + req.query.pid; 
 
-				
-		console.log ("Before if else");		
 		if (err) {
-			console.log("Error in query" + err);
+			console.log("Error before query" + err);
 		} else {
 			connection.execute(sqlGetPhotoWithScore, [], 
 				function (err, results) {
 					if (err) {
-						console.log("Error after query: " + err);
+						console.log("Error after first query: " + err);
 					} else {
-						console.log ("Number of rows returned: "+results.length);		
+						console.log ("Number of rows returned from first query: "+results.length);		
 						if(results.length!=0) {
 							connection.close();
 							output_pinsphoto(req, res, results);
@@ -37,9 +35,9 @@ function query_db(req, res) {
 							connection.execute(sqlGetPhotoWithoutScore, [], 
 								function (err, results) {
 									if (err) {
-										console.log("Error after query: " + err);
+										console.log("Error after second query: " + err);
 									} else {
-										console.log ("Number of rows returned: "+results.length);		
+										console.log ("Number of rows returned from second query: "+results.length);		
 										if(results.length!=0) {
 											connection.close();
 											output_pinsphoto(req, res, results);

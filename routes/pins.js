@@ -1,7 +1,3 @@
-/**
- * 
- */
-
 var connectData = { 
 		"hostname": "cis550project.c2vffmuf4yhs.us-east-1.rds.amazonaws.com", 
 		"user": "CIS550", 
@@ -9,30 +5,28 @@ var connectData = {
 		"database": "CIS550" };
 var oracle =  require("oracle");
 
-function query_db(req, res, query_id) {
+function query_db(req, res) {
 	oracle.connect(connectData, function (err, connection) {
-		var sqlGetPins = 
-			"SELECT P.PHOTOID, PH.URL " +
-			"FROM USERS U, BOARD B, PIN P, PHOTO PH " +
-			"WHERE U.USERID=B.USERID AND B.BOARDID=P.BOARDID " +
-					"AND P.PHOTOID=PH.PHOTOID AND " +
-					"U.USERID=" + query_id;
+		var sqlGetPins =
+			"select p.photoid AS PID, p.url AS URL, p.avg_rating AS AVG, p.pin_count AS COUNT " +
+			"from photo p, pin pi " +
+			"where pi.photoid = p.photoid and pi.userid=" + req.query.id + " " 
+			"order by p.photoid";
 		
 		if (err) {
-			console.log(err);
+			console.log("Error in query: "+err);
 		} else {
 			connection.execute(sqlGetPins, [], 
 				function (err, results) {
 					if (err) {
-						console.log(err);
+						console.log("Error after executing the first query: "+err);
 					} else {
 						connection.close();
-						for (var i = 0; i < results.length; i++)
-							console.log ("USER: " + results[i]);
-							output_pins(req, res, results);
+						console.log("Size of the results of first query: "+results.length)
+						output_pins(req, res, results);
 					}	
 				}
-			);
+			);	
 		}
 	});
 }
