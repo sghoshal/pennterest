@@ -17,10 +17,13 @@ block content
     - for (var inx = 0; inx < results.length; inx++)
         tr
           td 
-            a(href="/boards/boardpins/boardpinphoto?id=" + queried_userid + "&pid=" + results[inx].PID) #{results[inx].PID}
+            The Photo ID = #{results[inx].PID}
           td &nbsp;
           td 
             The Average Rating = #{results[inx].AVG}
+          td &nbsp;
+          td 
+            The My Rating = #{results[inx].SCORE}
           td &nbsp;
           td 
             The First Pinner ID = #{results[inx].FPID}
@@ -32,4 +35,4 @@ block content
             The Tag = #{results[inx].TAG}
           td &nbsp;
           
-  
+ 
