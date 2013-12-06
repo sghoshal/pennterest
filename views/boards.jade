@@ -9,20 +9,23 @@ block content
     td
       a(href="/home?id="+queried_userid) Home <br/>
       <br/>
+
+  // Get back to logged in users home page
+  tr
+    td
+      a(href="/home?id="+queried_userid) Create a new Board <br/>
+      <br/>    
   
   // Create a table with one row per result
-  table
+  table(border='1')
     - for (var inx = 0; inx < results.length; inx++)
         tr
           td
             a(href="/boards/boardpins?id=" + queried_userid + "&bid=" + results[inx].BID) #{results[inx].BN}
-        tr  
           td 
             img(src=results[inx].BOARD_PIC, height="240" width="320")
-          td &nbsp;
-          td &nbsp;
           td=results[inx].COUNTER
-          td &nbsp;
-          td &nbsp;
+
+
           
   
