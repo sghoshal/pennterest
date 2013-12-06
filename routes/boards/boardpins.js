@@ -11,12 +11,12 @@ function query_db(req, res) {
 		var sqlGetBoards =
 			"select distinct p.photoid AS PID, p.url AS URL, p.avg_rating AS AVG, p.first_pinnerid AS FPID, p.pin_count AS COUNT, r.score AS SCORE, t.tagvalue AS TAG " +
 			"from photo p, pin pi, rating r, tag t " +
-			"where pi.photoid = p.photoid and t.photoid = p.photoid and t.photoid = r.photoid and pi.boardid=" + req.query.bid + " " +
+			"where pi.photoid = p.photoid and t.photoid = p.photoid and t.photoid = r.photoid and pi.boardid=" + req.query.bid + " " + "and r.userid=" + req.session.userid + " "
 			"order by p.photoid";
 		
 		
 		if (err) {
-			console.log(err);
+			console.log("Error in query: "+err);
 		} else {
 			connection.execute(sqlGetBoards, [], 
 				function (err, results) {
@@ -24,6 +24,7 @@ function query_db(req, res) {
 						console.log(err);
 					} else {
 						connection.close();
+						console.log("Size of the results: "+results.length)
 						output_pins(req, res, results);
 					}	
 				}
