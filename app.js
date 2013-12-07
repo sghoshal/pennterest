@@ -17,6 +17,7 @@ var express = require('express'),
 	pins = require('./routes/pins'),
 	boards = require('./routes/boards'),
 	changepassword = require('./routes/changepassword'),
+	recommendation = require('./routes/recommendation'),
     query = require('./routes/followers');
 
 var app = express();
@@ -77,6 +78,7 @@ app.get('/logout',logout.do_work);
 //when we get a request for {app/boards} we should call routes/boards.js
 app.get('/boards', boards.do_work);
 app.post('/changepassword',changepassword.do_work);
+app.get('/recommendation',recommendation.do_work);
 app.get('/followers', query.load);
 
 http.createServer(app).listen(app.get('port'), function(){
