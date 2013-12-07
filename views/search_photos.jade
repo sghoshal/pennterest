@@ -1,0 +1,9 @@
+extends search
+block results
+    #photocol.col
+        - for (var i = 0; i < results.length; i++)
+            img(class="img" src="#{results[i]['URL']}")
+            if i + 1 % 3 === 0
+                <br/>
+
+

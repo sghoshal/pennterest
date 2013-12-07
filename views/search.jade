@@ -7,18 +7,13 @@ html(lang="en")
   body
     form(method="get")
         | Search: <input type="text" name="q"> <input type="submit" value="Search">
+    #buttons
+        a.tab(href="/search/users")
+            | Users
+        a.tab(href="/search/photos")
+            | Photos
+        a.tab(href="/search/interests")
+            | Interests
     #container
-        #usercol.col
-            h1
-                Users
-            - for (var i = 0; i < users.length; i++)
-                | #{users[i]['EMAIL']} <br/>
-        #photocol.col
-            h1
-                Photos
-            - for (var i = 0; i < photos.length; i++)
-                img(class="img" src="#{photos[i]['URL']}")
-                if i + 1 % 3 === 0
-                    <br/>
-
+        block results
 
