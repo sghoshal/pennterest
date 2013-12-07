@@ -9,11 +9,9 @@ var oracle =  require("oracle");
 function query_db(req, res) {
 	oracle.connect(connectData, function (err, connection) {
 		var sqlGetBoards = 
-			"SELECT B.BOARDNAME AS BN, B.BOARDID AS BID, B.BOARD_PIC, COUNT(P.PHOTOID) AS COUNTER " +
-			"FROM BOARD B, PIN P " +
-			"WHERE B.USERID=P.USERID AND B.BOARDID=P.BOARDID " +
-					"AND B.USERID=" + req.query.id + " " +
-			"GROUP BY (B.BOARDID, P.USERID, B.BOARDNAME, B.BOARD_PIC)";
+			"SELECT B.BOARDNAME AS BN, B.BOARDID AS BID, B.BOARD_PIC, B.BOARD_PIN_COUNT AS COUNTER " +
+			"FROM BOARD B " +
+			"WHERE B.USERID=" + req.query.id;
 		console.log ("Before if else");		
 		if (err) {
 			console.log("There is an error" + err);

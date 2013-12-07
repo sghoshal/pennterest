@@ -7,14 +7,15 @@ block content
   // Get back to logged in users home page
   tr
     td
-      a(href="/home?id="+queried_userid) Home <br/>
+      a(href="/home?id="+session_userid) Home <br/>
       <br/>
 
-  // Get back to logged in users home page
-  tr
-    td
-      a(href="/home?id="+queried_userid) Create a new Board <br/>
-      <br/>    
+  if session_userid==queried_userid
+    // If this is currently logged in user's page then only let him add a new board
+    tr
+      td
+        a(href="/createnewboard?id="+queried_userid) Create a new Board <br/>
+        <br/>    
   
   // Create a table with one row per result
   table(border='1')

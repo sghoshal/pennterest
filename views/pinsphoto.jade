@@ -24,6 +24,8 @@ block content
         The First Pinner ID = #{results[0].FPID}
       td 
         The This photo has been pinned #{results[0].COUNT} times
+      td
+        a(href="/pinphotoonboard?id=" + seesion_userid + "&pid=" + results[0].PID) Pin it!
     tr 
       td
         The Tags:   
