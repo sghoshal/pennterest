@@ -1,3 +1,4 @@
+
 var connectData = { 
     "hostname": "cis550project.c2vffmuf4yhs.us-east-1.rds.amazonaws.com", 
     "user": "CIS550", 
@@ -13,6 +14,7 @@ var user_display_name = null;
 
 
 function get_user_info (req, res) {
+
     oracle.connect(connectData, function(err, connection) {
         if ( err ) {
             console.log(connection);

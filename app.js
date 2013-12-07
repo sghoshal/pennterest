@@ -24,6 +24,9 @@ var express = require('express'),
 var app = express();
 init_app(app);
 
+/* Global variable available to all modules */
+photos_cached = false;
+
 /* This funnction compiles the stylus CSS files, etc. */
 function compile(str, path) {
 	return stylus(str)
