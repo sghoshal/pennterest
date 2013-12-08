@@ -1,5 +1,5 @@
 /**
- * Module dependencies.
+ * Module dependencies. 
  */
 
 /* This is app initialization code */
@@ -15,7 +15,14 @@ var express = require('express'),
 	logout = require('./routes/logout'),
 	user = require('./routes/user'), 
 	pins = require('./routes/pins'),
+	pinsphoto = require('./routes/pins/pinsphoto'),
+	pinphotoonboard = require('./routes/pinphotoonboard'),
+	photopinnedonboard = require('./routes/photopinnedonboard'),
 	boards = require('./routes/boards'),
+	createnewboard = require('./routes/createnewboard'),
+	boardcreated = require('./routes/boardcreated'),
+	boardpins = require('./routes/boards/boardpins'),
+	boardpinphoto = require('./routes/boards/boardpins/boardpinphoto'),
 	home = require('./routes/home'),
 	profile = require('./routes/profile'),
 	changepassword = require('./routes/changepassword'),
@@ -74,10 +81,17 @@ app.get('/signupdetails', signupdetails.do_work);
 app.post('/signup', signup.do_work);
 //when we get a request for {app/pins} we should call routes/pins.js
 app.get('/pins', pins.get_user_pins);
+app.get('/pins/pinsphoto', pinsphoto.do_work);
 app.get('/logout',logout.do_work);
 //when we get a request for {app/boards} we should call routes/boards.js
 app.get('/boards', boards.do_work);
 app.post('/changepassword',changepassword.do_work);
+app.get('/pinphotoonboard', pinphotoonboard.do_work);
+app.get('/photopinnedonboard', photopinnedonboard.do_work);
+app.get('/createnewboard', createnewboard.do_work);
+app.post('/boardcreated',boardcreated.do_work);
+app.get('/boards/boardpins', boardpins.do_work);
+app.get('/boards/boardpins/boardpinphoto', boardpinphoto.do_work);
 app.get('/followers', query.load);
 app.get('/home', home.do_work);
 app.get('/profile', profile.do_work);

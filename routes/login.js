@@ -214,7 +214,7 @@ function check_password(req,res,pwd) {
 function redirect_to_home (req, res){
 
     console.log("Session started. Redirecting user to home page");
-    res.writeHead(301, {Location: '/home?id=' + req.session.userid});
+    res.writeHead(301, {Location: '/profile?id=' + req.session.userid});
     res.end();
 }
 

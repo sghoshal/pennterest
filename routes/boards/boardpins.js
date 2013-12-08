@@ -8,25 +8,26 @@ var oracle =  require("oracle");
 
 function query_db(req, res) {
 	oracle.connect(connectData, function (err, connection) {
-		var sqlGetBoards = 
-			"SELECT B.BOARDNAME AS BN, B.BOARDID AS BID, B.BOARD_PIC, B.BOARD_PIN_COUNT AS COUNTER " +
-			"FROM BOARD B " +
-			"WHERE B.USERID=" + req.query.id;
-		console.log ("Before if else");		
+		var sqlGetBoardPins =
+			"select p.photoid AS PID, p.url AS URL, p.avg_rating AS AVG, p.pin_count AS COUNT " +
+			"from photo p, pin pi " +
+			"where pi.photoid = p.photoid and pi.boardid=" + req.query.bid + " " 
+			"order by p.photoid";
+		
 		if (err) {
-			console.log("There is an error" + err);
+			console.log("Error in query: "+err);
 		} else {
-			connection.execute(sqlGetBoards, [], 
+			connection.execute(sqlGetBoardPins, [], 
 				function (err, results) {
 					if (err) {
-						console.log("DB query: " + err);
+						console.log("Error after executing the first query: "+err);
 					} else {
-						console.log ("Returned result from DB");		
 						connection.close();
-						output_boards(req, res, results);
+						console.log("Size of the results of first query: "+results.length)
+						output_pins(req, res, results);
 					}	
 				}
-			);
+			);	
 		}
 	});
 }
@@ -37,12 +38,13 @@ Given a set of query results, output a table
 res = HTTP result object sent back to the client
 name = Name to query for
 results = List object of query results */
-function output_boards(req, res,results) {
-	res.render('boards.jade',
-		   { title: "Boards of " + req.query.id,
+function output_pins(req, res,results) {
+	res.render('boardpins.jade',
+		   { title: "Pins of Board " + req.query.bid,
 		     results: results,
 		     session_userid: req.session.userid,
-		     queried_userid: req.query.id }
+		     queried_userid: req.query.id,
+		     queried_boardid: req.query.bid }
 	  );
 }
 
@@ -59,14 +61,13 @@ function load_error_page(req, res) {
 
 /*This is what's called by the main app */
 exports.do_work = function(req, res){
-	console.log("IN BOARDS PAGE...");
+	console.log("IN BOARDS PINS PAGE...");
 	console.log("Session Authenticated: " + req.session.userAuthenticated);
-    console.log("User ID Queried " + req.query.id);
-    console.log("Session User ID: "  + req.session.userid);
+    //console.log("User ID Queried " + req.query.id);
+    //console.log("Session User ID: "  + req.session.userid);
 	
 	if (req.session.userAuthenticated)
 		query_db(req, res);
 	else
 		redirect_to_login(req, res);
 };
-
