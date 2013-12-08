@@ -99,16 +99,20 @@ function check_photo_exists_mongodb(req, res, photo_id) {
 }
 
 function read_file_mongo(req, res, photo_id) {
+
+    var fileId = photo_id + ".txt";
     MongoClient.connect('mongodb://CIS550:databaseproject@dharma.mongohq.com:10042/Pennterest-Trial', function(err, db) {
         if(!err) {
             console.log("We are connected to Mongo HQ");
         }
-        fileId = photo_id + ".txt";
         console.log("FileID: " + fileId);
 
-        //GridStore.exist(db, fileId, function(err, exists) {
-        //    assert.equal(err, null);
-        //    assert.equal(exists, true);
+        // Create a new instance of the gridstore
+        // var gridStore = new GridStore(db, fileId, 'r');
+        
+        GridStore.exist(db, fileId, function(err, exists) {
+            assert.equal(err, null);
+            assert.equal(exists, true);
 
             console.log("Reading cached pic..." + fileId);
             GridStore.read(db, fileId, function(err, fileData) {
@@ -124,18 +128,7 @@ function read_file_mongo(req, res, photo_id) {
                                 res.end(fileData,"binary");
                                 console.log('Really done');
 
-                /*res.writeHead(200, {
-                    'Content-Type': 'image/jpeg',
-                    'Content-Length':fileData.length});
-
-
-                console.log("File length is " +fileData.length);
-                res.write(fileData, "binary");
-                res.end(fileData,"binary");
-                console.log('Really done');
-                */
-
-            //});
+            });
 
         });
     }); 

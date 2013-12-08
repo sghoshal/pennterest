@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 var MongoClient = require('mongodb').MongoClient;
 var Db = require('mongodb').Db,
 Server = require('mongodb').Server,
@@ -15,7 +13,6 @@ assert = require('assert');
 var MongoDB = require('mongodb');
 var fs = require('fs');
 var http = require('http');
-
 
 var request = require('request');
 
@@ -150,7 +147,7 @@ function write_file_mongo(req, res, photo_id, photo_url) {
             if (exists) {
                 //cached_photos[photo_id] = photo_url;
                 //console.log("Cached: " + photo_id + ": " + cached_photos[photo_id]);
-                console.log ("FILE: " + fileId + " already exists in GridFS. Not writing again!");
+                return console.log ("FILE: " + fileId + " already exists in GridFS. Not writing again!");
             }
             
             // Create a new instance of the gridstore
@@ -229,8 +226,16 @@ function read_file_mongo(req, res, photo_id) {
 
             GridStore.read(db, fileId, function(err, fileData) {
                 if (err) console.log ("ERROR in reading " + fileId + "\nerr");
-                
-                output_cached_pins(req, res, "10024");
+                //output_cached_pins(req, res, "10027");
+                res.writeHead(200, {
+                    'Content-Type': 'image/jpeg',
+                    'Content-Length':fileData.length});
+
+
+                console.log("File length is " +fileData.length);
+                res.write(fileData, "binary");
+                res.end(fileData,"binary");
+                console.log('Really done');
 
             });
 
@@ -247,8 +252,8 @@ exports.get_user_pins = function(req, res) {
     console.log("Session User ID: "  + req.session.userid);
 
 	if (req.session.userAuthenticated)
-        // write_file_mongo(req, res, '10024', 'http://upload.wikimedia.org/wikipedia/commons/7/73/Lion_waiting_in_Namibia.jpg');
-		// read_file_mongo(req, res, "10026");
+        // write_file_mongo(req, res, '10027', 'http://www.hdwallpapers3d.com/wp-content/uploads/2013/06/Robert-Downey-Jr-SH2-Movie-Posters-robert-downey-jr-26552473-800-1278.jpg');
+		// read_file_mongo(req, res, "10027");
         // output_cached_pins(req, res, ["10026", "10024"]);
         query_db(req, res, req.query.id);
 
