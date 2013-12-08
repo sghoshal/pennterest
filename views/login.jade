@@ -18,23 +18,31 @@ block content
       </br>
 
       td
-        a(href='/boards?id=' + queried_id) Boards
+        a(href='/boards?id=' + user_id) Boards
       td
         &nbsp;&nbsp;
       
       td
-        a(href='/pins?id=' + queried_id) Pins
+        a(href='/pins?id=' + user_id) Pins
       td
         &nbsp;&nbsp;   
       
       td
-        a(href='/followers?id=' + queried_id) Followers
+        a(href='/followers?id=' + user_id) Followers
       td
         &nbsp;&nbsp;
       
       td
-        a(href='/following?id=' + queried_id) Following
+        a(href='/following?id=' + user_id) Following
       td
         &nbsp;&nbsp;
 
-      
+      td
+        a(href='/recommendation?id=' + user_id) Recommendation
+      td
+        &nbsp;&nbsp;
+
+      td
+        a(href='/interest') Interests
+      td
+        &nbsp;&nbsp;

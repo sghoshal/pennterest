@@ -1,0 +1,32 @@
+// Jade file to specify output of an recommended photos
+// Inherits from layout
+extend layout
+block content
+  h1 #{title}
+  
+  // Put a click button that lets us return to the index page 
+  p
+    a(href="./home?id="+userid) Home <br/>
+  
+  // Create a table with one row per result
+  table
+    - for (var inx = 0; inx < rec_photos.length; inx++)
+        tr  
+          td 
+            img(src=rec_photos[inx], height="240" width="320")
+          td &nbsp;
+          td &nbsp;
+          td=rec_photos_avg_rating[inx]
+          td &nbsp;
+          td &nbsp;
+          td=rec_photos_pin_count[inx]
+      
+     - for (var inx = 0; inx < rec_ppl.length; inx++)
+        tr  
+          td=rec_ppl[inx].FIRSTNAME
+          td=rec_ppl[inx].LASTNAME
+     
+         
+
+          
+  
