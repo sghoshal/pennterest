@@ -1,0 +1,16 @@
+#container {
+    margin: auto;
+    width: 88%;
+}
+
+.tab {
+    margin-left: 1em;
+    font-size: 35px;
+}
+
+.img {
+    width: 22%;
+    height: 240px;
+    margin-left: 15px;
+    margin-right: 15px;
+}

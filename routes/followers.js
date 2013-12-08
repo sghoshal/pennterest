@@ -32,6 +32,7 @@ function redirect_to_login(req, res){
 }
 
 function get_followers(req, res) {
+    
     var id = req.query.id;
     console.log("FOLLOWER PAGE USERID: " + id);
     oracle.connect(db, function(error, connection) {
@@ -39,33 +40,30 @@ function get_followers(req, res) {
             console.log("error: " + error);
             return res.send("Connection error", 500);
         }
-        connection.execute("SELECT userid FROM Users", [], function(error, rows) {
+        connection.execute('SELECT userid FROM Users', [], function(error, rows) {
             if (error) {
-                console.log("error: " + error);
-                return res.send("Query error: id not found", 500);
+                console.log('error: ' + error);
+                return res.send('Query error: id not found', 500);
             }
             for (key in rows) {
-                if (rows[key]["USERID"] == id) {
+                if (rows[key]['USERID'] === id) {
                     oracle.connect(db, function(error) {
                         if (error) {
-                            console.log("error: " + error);
-                            return res.send("Connection error", 500);
+                            console.log('error: ' + error);
+                            return res.send('Connection error', 500);
                         }
                         connection.execute(
-                            "SELECT firstname, lastname, userid FROM Users WHERE userid in (" +
-                            "SELECT DISTINCT userid FROM Following WHERE boardid IN " +
-                            "(SELECT boardid FROM Board WHERE userid=" + id +"))",
+                            'SELECT firstname, lastname FROM Users WHERE userid in (' +
+                            'SELECT DISTINCT userid FROM Following WHERE boardid IN ' +
+                            '(SELECT boardid FROM Board WHERE userid=' + id +'))',
                             [], function(error, followers) {
                                 if (error) {
-                                    console.log("error" + error);
-                                    return res.send("Query error: followers not found", 500);
+                                    console.log('error' + error);
+                                    return res.send('Query error: followers not found', 500);
                                 }
-
-                            res.render("followers.jade", {
-                                                "pageTitle": "Followers",
-                                                "data": followers,
-                                                "session_userid": req.session.userid
-
+                            res.render('follow.jade', {
+                                                'pageTitle': 'Followers',
+                                                'data': followers
                                             });
                             });
                     });

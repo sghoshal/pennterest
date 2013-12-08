@@ -1,0 +1,6 @@
+extends search
+block results
+    #usercol.col
+        - for (var i = 0; i < results.length; i++)
+            | #{results[i]['EMAIL']} <br/>
+

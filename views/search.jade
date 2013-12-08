@@ -1,0 +1,19 @@
+doctype 5
+html(lang="en")
+  head
+    link(rel="stylesheet", href="/stylesheets/search.css")
+    title
+      | #{pageTitle}
+  body
+    form(method="get")
+        | Search: <input type="text" name="q"> <input type="submit" value="Search">
+    #buttons
+        a.tab(href="/search/users")
+            | Users
+        a.tab(href="/search/photos")
+            | Photos
+        a.tab(href="/search/interests")
+            | Interests
+    #container
+        block results
+

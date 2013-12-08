@@ -1,3 +1,4 @@
+
 /**
  * Module dependencies. 
  */
@@ -29,7 +30,9 @@ var express = require('express'),
 	recommendation = require('./routes/recommendation'),
 	interest = require('./routes/interest'),
 	interestaddition = require('./routes/interestaddition'),
-    query = require('./routes/followers');
+    follow = require('./routes/follow'),
+    search = require('./routes/search');
+    followers = require('./routes/followers');
 
 var app = express();
 init_app(app);
@@ -98,9 +101,14 @@ app.get('/boards/boardpins/boardpinphoto', boardpinphoto.do_work);
 app.get('/recommendation',recommendation.do_work);
 app.get('/interest',interest.do_work);
 app.get('/interestaddition',interestaddition.do_work);
-app.get('/followers', query.load);
+app.get('/followers', followers.load);
+app.get('/following', follow.getFollowing);
+
 app.get('/home', home.do_work);
 app.get('/profile', profile.do_work);
+app.get('/search/users', search.getUsers);
+app.get('/search/photos', search.getPhotos);
+app.get('/search/interests', search.getInterests);
 
 http.createServer(app).listen(app.get('port'), function(){
 	console.log('Express server listening on port ' + app.get('port'));
