@@ -18,6 +18,8 @@ var express = require('express'),
 	boards = require('./routes/boards'),
 	changepassword = require('./routes/changepassword'),
 	recommendation = require('./routes/recommendation'),
+	interest = require('./routes/interest'),
+	interestaddition = require('./routes/interestaddition'),
     query = require('./routes/followers');
 
 var app = express();
@@ -79,6 +81,8 @@ app.get('/logout',logout.do_work);
 app.get('/boards', boards.do_work);
 app.post('/changepassword',changepassword.do_work);
 app.get('/recommendation',recommendation.do_work);
+app.get('/interest',interest.do_work);
+app.get('/interestaddition',interestaddition.do_work);
 app.get('/followers', query.load);
 
 http.createServer(app).listen(app.get('port'), function(){
