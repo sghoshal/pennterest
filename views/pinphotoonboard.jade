@@ -2,11 +2,14 @@
 // Inherits from layout
 extend layout
 block content
-  h1 #{title}
-  
-  // Create a table with one row per result
-  table(border='1')
-    - for (var inx = 0; inx < results.length; inx++)
-        tr
-          td
-            a(href="/photopinnedonboard?id=" + userid + "&pid=" + photoid + "&bid=" + results[inx].ID) #{results[inx].NAME}
+	h1 #{title}
+
+
+	if results.length!=0  
+	// Create a table with one row per result
+	table(border='1')
+		-	for (var inx = 0; inx < results.length; inx++)
+				tr
+					td
+						a(href="/photopinnedonboard?id=" + userid + "&pid=" + photoid + "&bid=" + results[inx].ID) #{results[inx].NAME}
+	

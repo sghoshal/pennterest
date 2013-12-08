@@ -7,10 +7,13 @@ var oracle =  require("oracle");
 
 function query_db(req, res) {
 	oracle.connect(connectData, function (err, connection) {
+		console.log("pid: "+req.query.pid);
+		console.log("uid: "+req.session.userid);
 		var sqlGetBoards =
 			"select BOARDID AS ID, BOARDNAME AS NAME " +
 			"from BOARD " +
-			"where USERID=" + req.session.userid;
+			"where USERID=" + req.session.userid +" "
+			"AND BOARDID NOT IN (select P.BOARDID from PIN P where P.photoid=" + req.query.pid +" and P.userid=" + req.session.userid +");"
 		
 		if (err) {
 			console.log("Error in query: "+err);
