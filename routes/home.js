@@ -58,6 +58,7 @@ exports.do_work = function(req, res){
     console.log("Session Authenticated: " + req.session.userAuthenticated);
     console.log("User ID Queried " + req.query.id);
     console.log("Session User ID: "  + req.session.userid);
+    console.log(cached_photos == null);
 
     if (req.session.userAuthenticated)
     get_user_info(req, res);
