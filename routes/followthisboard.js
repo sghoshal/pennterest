@@ -9,7 +9,7 @@ function query_db(req, res) {
 	var boardname;
 	var username;
 	oracle.connect(connectData, function (err, connection) {
-		var sqlInsertIntoFollowing = "INSERT INTO following VALUES("+req.session.userid+","+req.query.bid+")";		
+		var sqlInsertIntoFollowing = "INSERT INTO following VALUES('"+req.session.userid+"','"+req.query.bid+"')";		
 		if (err) {
 			console.log("Error in query: "+err);
 		} else {
@@ -18,14 +18,14 @@ function query_db(req, res) {
 					if (err) {
 						console.log("Error after inserting data into following table: "+err);
 					} else {
-						connection.execute("SELECT BOARDNAME FROM BOARD WHERE BOARDID=" + req.query.bid, [], 
+						connection.execute("SELECT BOARDNAME FROM BOARD WHERE BOARDID='" + req.query.bid+"'", [], 
 							function (err, results) {
 								if (err) {
 									console.log("Error after fetching the board name which I just followed: "+err);
 								} else {
 									boardname = results[0].BOARDNAME;
 									console.log("The board which I just followed: "+boardname);
-									connection.execute("SELECT FIRSTNAME FROM USERS WHERE USERID=" + req.query.id, [], 
+									connection.execute("SELECT FIRSTNAME FROM USERS WHERE USERID='" + req.query.id+"'", [], 
 										function (err, results) {
 											if (err) {
 												console.log("Error after fetching user whose board I just followed: "+err);

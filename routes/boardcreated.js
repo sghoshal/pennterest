@@ -12,7 +12,7 @@ function addboard(req,res,boardname) {
 	 		var sqlGetBoards = 
 			"SELECT B.BOARDNAME AS BN, B.BOARDID AS BID, B.BOARD_PIC, B.BOARD_PIN_COUNT AS COUNTER " +
 			"FROM BOARD B " +
-			"WHERE B.USERID=" + req.session.userid;
+			"WHERE B.USERID='" + req.session.userid+"'";
 		    if ( err ) {
 		    	console.log(err);
 		    } else {

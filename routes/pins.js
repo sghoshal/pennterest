@@ -10,7 +10,7 @@ function query_db(req, res) {
 		var sqlGetPins =
 			"select distinct p.photoid AS PID, p.url AS URL, p.avg_rating AS AVG, p.pin_count AS COUNT " +
 			"from photo p, pin pi " +
-			"where pi.photoid = p.photoid and pi.userid=" + req.query.id + " " 
+			"where pi.photoid = p.photoid and pi.userid='" + req.query.id + "' " 
 			"order by p.photoid";
 		
 		if (err) {

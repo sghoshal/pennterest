@@ -12,8 +12,8 @@ function query_db(req, res) {
 		var sqlGetBoards =
 			"select BOARDID, BOARDNAME " +
 			"from BOARD " +
-			"where USERID=" + req.session.userid +
-			" AND BOARDID NOT IN (select BOARDID from PIN where photoid=" + req.query.pid +" and userid=" + req.session.userid +")"
+			"where USERID='" + req.session.userid + "' " +
+			" AND BOARDID NOT IN (select BOARDID from PIN where photoid='" + req.query.pid +"' and userid='" + req.session.userid +"')"
 		
 		if (err) {
 			console.log("Error in query: "+err);

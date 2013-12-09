@@ -16,7 +16,7 @@ function get_user_info (req, res) {
 		    	console.log(connection);
 		    } else {
 			  	// selecting rows
-			  	connection.execute("SELECT userid, firstname, lastname FROM users WHERE userid=" + req.query.id, 
+			  	connection.execute("SELECT userid, firstname, lastname FROM users WHERE userid='" + req.query.id+"'", 
 			  			   [], 
 			  			   function(err, results) {
 			  	    if ( err ) {

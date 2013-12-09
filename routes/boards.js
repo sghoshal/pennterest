@@ -11,12 +11,12 @@ function query_db(req, res) {
 		var sqlGetBoards = 
 			"SELECT B.BOARDNAME, B.BOARDID, B.BOARD_PIC, B.BOARD_PIN_COUNT " +
 			"FROM BOARD B " +
-			"WHERE B.USERID=" + req.query.id;
+			"WHERE B.USERID='" + req.query.id+"'";
 
 		var boardsNotFollowed = 
 			"select boardid "+
 			"from board "+
-			"where userid=" +  req.query.id + " and boardid NOT IN (select boardid from following where userid=" + req.session.userid + ")"
+			"where userid='" +  req.query.id + "' and boardid NOT IN (select boardid from following where userid='" + req.session.userid + "')"
 		console.log ("Before if else");		
 		if (err) {
 			console.log("There is an error" + err);

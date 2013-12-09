@@ -10,7 +10,7 @@ function query_db(req, res) {
 	 		var sqlGetBoardPins =
 			"select p.photoid AS PID, p.url AS URL, p.avg_rating AS AVG, p.pin_count AS COUNT " +
 			"from photo p, pin pi " +
-			"where pi.photoid = p.photoid and pi.boardid=" + req.query.bid + " " 
+			"where pi.photoid = p.photoid and pi.boardid='" + req.query.bid + "' " 
 			"order by p.photoid";
 		    if ( err ) {
 		    	console.log(err);
@@ -19,7 +19,7 @@ function query_db(req, res) {
 			  	console.log("pid"+req.query.pid);
 			  	console.log("bid"+req.query.bid);
 			  	console.log("uid"+req.session.userid);
-			  	connection.execute("INSERT INTO pin VALUES("+req.query.pid+","+req.session.userid+","+req.query.bid+")",
+			  	connection.execute("INSERT INTO pin VALUES('"+req.query.pid+"','"+req.session.userid+"','"+req.query.bid+"')",
 			  			   [], 
 			  			   function(err, results) {
 			  	    if ( err ) {

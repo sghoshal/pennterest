@@ -15,6 +15,8 @@ var express = require('express'),
 	logout = require('./routes/logout'),
 	user = require('./routes/user'), 
 	pins = require('./routes/pins'),
+	interimtag = require('./routes/interimtag'),
+	interimrating = require('./routes/interimrating'),
 	addnewpin = require('./routes/addnewpin'),
 	followthisboard = require('./routes/followthisboard'),
 	addfromurl = require('./routes/addnewpin/addfromurl'),
@@ -87,6 +89,8 @@ app.post('/signup', signup.do_work);
 //when we get a request for {app/pins} we should call routes/pins.js
 app.get('/pins', pins.get_user_pins);
 app.get('/addnewpin', addnewpin.do_work);
+app.post('/interimtag', interimtag.do_work);
+app.post('/interimrating', interimrating.do_work);
 app.get('/addnewpin/addfromurl', addfromurl.do_work);
 
 app.post('/addnewpin/addfromurl/selectboard', selectboard.do_work);
