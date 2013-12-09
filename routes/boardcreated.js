@@ -9,10 +9,7 @@ var boardDefaultImage = "http://fortunebrainstormtech.files.wordpress.com/2012/0
 
 function addboard(req,res,boardname) {
 	 oracle.connect(connectData, function(err, connection) {
-	 		var sqlGetBoards = 
-			"SELECT B.BOARDNAME AS BN, B.BOARDID AS BID, B.BOARD_PIC, B.BOARD_PIN_COUNT AS COUNTER " +
-			"FROM BOARD B " +
-			"WHERE B.USERID='" + req.session.userid+"'";
+	 		
 		    if ( err ) {
 		    	console.log(err);
 		    } else {
@@ -23,17 +20,9 @@ function addboard(req,res,boardname) {
 			  	    if ( err ) {
 			  	    	console.log("Error after running insert query"+err);
 			  	    } else {
-			  	    	connection.execute(sqlGetBoards, [], 
-							function (err, results) {
-								if (err) {
-									console.log("Error after running get boards query: " + err);
-								} else {
-									console.log ("Number of boards returned: "+results.length);		
-									connection.close();
-									output_boards(req, res, results);
-								}	
-							}
-						);
+						connection.close();
+						res.writeHead(301, {Location: '/boards?id=' + req.session.userid});
+      					res.end();
 			  	    }
 			  	}); // end connection.execute
 		    }
