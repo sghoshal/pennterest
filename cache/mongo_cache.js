@@ -27,8 +27,6 @@ var connectData = {
 var oracle =  require("oracle");
 
 
-
-
 /* Mongo DB methods */
 exports.get_photos = function get_photos_from_cache(req, res, sql_results) {
 
@@ -44,8 +42,6 @@ exports.get_photos = function get_photos_from_cache(req, res, sql_results) {
         } 
     }); 
 }
-
-
 
 
 exports.write_file = function write_file(req, res, photo_id, photo_url) {

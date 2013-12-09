@@ -40,10 +40,11 @@ function read_file_mongo(req, res, photo_id) {
                 res.writeHead(200, {
                                     'Content-Type': 'image/jpeg',
                                     'Content-Length':fileData.length});
-                console.log("File length is " +fileData.length);
-                                res.write(fileData, "binary");
-                                res.end(fileData,"binary");
-                                console.log('Really done');
+                
+                //console.log("File length is " +fileData.length);
+                res.write(fileData, "binary");
+                res.end(fileData,"binary");
+                console.log('Done!');
 
             });
         });
@@ -57,7 +58,7 @@ function output_cached_pins (req, res, photo_id) {
 
 exports.do_work = function(req, res) {
 
-    console.log("IN CACHED PHOTO PAGE...");
+    console.log("IN /cache/photo/c_pins PAGE...");
     console.log("Session Authenticated: " + req.session.userAuthenticated);
     console.log("PHOTO ID Queried " + req.query.pid);
     console.log("Session User ID: "  + req.session.userid);
