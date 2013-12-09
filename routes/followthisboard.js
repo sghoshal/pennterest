@@ -18,28 +18,9 @@ function query_db(req, res) {
 					if (err) {
 						console.log("Error after inserting data into following table: "+err);
 					} else {
-						connection.execute("SELECT BOARDNAME FROM BOARD WHERE BOARDID='" + req.query.bid+"'", [], 
-							function (err, results) {
-								if (err) {
-									console.log("Error after fetching the board name which I just followed: "+err);
-								} else {
-									boardname = results[0].BOARDNAME;
-									console.log("The board which I just followed: "+boardname);
-									connection.execute("SELECT FIRSTNAME FROM USERS WHERE USERID='" + req.query.id+"'", [], 
-										function (err, results) {
-											if (err) {
-												console.log("Error after fetching user whose board I just followed: "+err);
-											} else {
-												connection.close();
-												username = results[0].FIRSTNAME;
-												console.log("The user whose board I just followed: "+username);
-												output_boards(req, res, boardname, username);
-											}	
-										}
-									);
-								}	
-							}
-						);
+						connection.close();
+						res.writeHead(301, {Location: '/boards?id=' + req.query.id});
+						res.end();
 					}	
 				}
 			);	
