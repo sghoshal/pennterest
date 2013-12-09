@@ -19,13 +19,20 @@ block content
   
   // Create a table with one row per result
   table(border='1')
-    - for (var inx = 0; inx < results.length; inx++)
+    - for (var inx = 0; inx < resultsone.length; inx++)
         tr
           td
-            a(href="/boards/boardpins?id=" + queried_userid + "&bid=" + results[inx].BID) #{results[inx].BN}
+            a(href="/boards/boardpins?id=" + queried_userid + "&bid=" + resultsone[inx].BOARDID) #{resultsone[inx].BOARDNAME}
           td 
-            img(src=results[inx].BOARD_PIC, height="240" width="320")
-          td=results[inx].COUNTER
+            img(src=resultsone[inx].BOARD_PIC, height="240" width="320")
+          td=resultsone[inx].BOARD_PIN_COUNT
+          if session_userid!=queried_userid
+            if results[inx]==0
+              td
+                a(href="/followthisboard?id=" + queried_userid + "&bid=" + resultsone[inx].BOARDID) Follow this Board!
+            else
+              td
+                The You already follow this Board!    
 
 
           

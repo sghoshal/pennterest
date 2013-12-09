@@ -16,6 +16,7 @@ var express = require('express'),
 	user = require('./routes/user'), 
 	pins = require('./routes/pins'),
 	addnewpin = require('./routes/addnewpin'),
+	followthisboard = require('./routes/followthisboard'),
 	addfromurl = require('./routes/addnewpin/addfromurl'),
 	selectboard = require('./routes/addnewpin/addfromurl/selectboard'),
 	pinnewphoto = require('./routes/addnewpin/addfromurl/selectboard/pinnewphoto'),
@@ -97,6 +98,7 @@ app.get('/pins/pinsphoto', pinsphoto.do_work);
 app.get('/logout',logout.do_work);
 //when we get a request for {app/boards} we should call routes/boards.js
 app.get('/boards', boards.do_work);
+app.get('/followthisboard', followthisboard.do_work);
 app.get('/pinphotoonboard', pinphotoonboard.do_work);
 app.get('/photopinnedonboard', photopinnedonboard.do_work);
 app.get('/createnewboard', createnewboard.do_work);
