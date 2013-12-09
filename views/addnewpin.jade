@@ -1,0 +1,17 @@
+// Jade file to specify output of an actors list
+// Inherits from layout
+extend layout
+block content
+  h1 #{title}
+  
+  // Add pin from external URL
+  tr
+    td
+      a(href="/addnewpin/addfromurl?id="+userid) From Web <br/>
+      <br/>
+
+  // Add pin through recommendations
+  tr
+    td
+      a(href="/home?id="+userid) From Pennterest <br/>
+      <br/>

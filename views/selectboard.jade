@@ -11,5 +11,4 @@ block content
 		-	for (var inx = 0; inx < results.length; inx++)
 				tr
 					td
-						a(href="/photopinnedonboard?id=" + userid + "&pid=" + photoid + "&bid=" + results[inx].BOARDID) #{results[inx].BOARDNAME}
-	
+						a(href="/addnewpin/addfromurl/selectboard/pinnewphoto?id=" + userid + "&url=" + url + "&bid=" + results[inx].BOARDID) #{results[inx].BOARDNAME}

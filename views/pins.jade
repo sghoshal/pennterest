@@ -8,6 +8,13 @@ block content
       a(href="./home?id="+session_userid) Home <br/>
       <br/>
 
+  if session_userid==queried_userid
+    // If this is currently logged in user's page then only let him add a new board
+    tr
+      td
+        a(href="/addnewpin?id="+session_userid) Add a new Pin <br/>
+        <br/>
+
   table(border='1')
     - for (var inx = 0; inx < results.length; inx++)
         tr

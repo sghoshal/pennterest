@@ -8,7 +8,7 @@ var oracle =  require("oracle");
 function query_db(req, res) {
 	oracle.connect(connectData, function (err, connection) {
 		var sqlGetPins =
-			"select p.photoid AS PID, p.url AS URL, p.avg_rating AS AVG, p.pin_count AS COUNT " +
+			"select distinct p.photoid AS PID, p.url AS URL, p.avg_rating AS AVG, p.pin_count AS COUNT " +
 			"from photo p, pin pi " +
 			"where pi.photoid = p.photoid and pi.userid=" + req.query.id + " " 
 			"order by p.photoid";

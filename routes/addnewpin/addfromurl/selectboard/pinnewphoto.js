@@ -19,20 +19,31 @@ function query_db(req, res) {
 			  	console.log("pid"+req.query.pid);
 			  	console.log("bid"+req.query.bid);
 			  	console.log("uid"+req.session.userid);
-			  	connection.execute("INSERT INTO pin VALUES("+req.query.pid+","+req.session.userid+","+req.query.bid+")",
+			  	//var justCreatedPhotoid = PHOTOID_SEQ.nextval;
+			  	//("INSERT INTO board(boardid,boardname,userid,board_pic) VALUES(BOARDID_SEQ.nextval,'"+boardname+"','"+req.session.userid+"','"+boardDefaultImage+"')",
+			  	connection.execute("INSERT INTO PHOTO(photoid,url,first_pinnerid) VALUES(PHOTOID_SEQ.nextval,'"+req.query.url+"',"+req.session.userid+")",
 			  			   [], 
 			  			   function(err, results) {
 			  	    if ( err ) {
-			  	    	console.log("Error after running insert query"+err);
+			  	    	console.log("Error after running insert into pin query"+err);
 			  	    } else {
-			  	    	connection.execute(sqlGetBoardPins, [], 
+			  	    	connection.execute("INSERT INTO PIN VALUES(PHOTOID_SEQ.nextval-1"+","+req.session.userid+","+req.query.bid+")",	
+			  	    			   [],
 							function (err, results) {
 								if (err) {
 									console.log("Error after running get board pins query: " + err);
 								} else {
-									console.log ("Number of pins returned: "+results.length);		
-									connection.close();
-									output_pins(req, res, results);
+									connection.execute(sqlGetBoardPins, [], 
+										function (err, results) {
+											if (err) {
+												console.log("Error after running get board pins query: " + err);
+											} else {
+												console.log ("Number of pins returned: "+results.length);		
+												connection.close();
+												output_pins(req, res, results);
+											}	
+										}
+									);
 								}	
 							}
 						);
@@ -64,7 +75,7 @@ function redirect_to_login(req, res){
 }
 
 exports.do_work = function(req, res) {
-	console.log("IN PHOTO PINNED ON BOARD PAGE...");
+	console.log("IN PIN NEW PHOTO PAGE...");
 	console.log("Session Authenticated: " + req.session.userAuthenticated);
     console.log("User ID Queried " + req.query.id);
     console.log("Session User ID: "  + req.session.userid);
