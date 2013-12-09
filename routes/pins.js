@@ -52,7 +52,7 @@ function query_db(req, res, query_id) {
 
 						console.log("Size of the results of first query: "+results.length)
 						for (var i = 0; i < results.length; i++)
-							console.log ("PHOTOID: " + results[i]["PHOTOID"] +
+							console.log ("PHOTOID: " + results[i]["PID"] +
                                          " IS_CACHED: " + results[i]["IS_CACHED"] +
                                          " URL:" + results[i]["URL"] );
 						output_pins(req, res, results);

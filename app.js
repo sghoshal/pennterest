@@ -31,8 +31,8 @@ var express = require('express'),
 	interest = require('./routes/interest'),
 	interestaddition = require('./routes/interestaddition'),
     follow = require('./routes/follow'),
+    followers = require('./routes/followers'),    
     search = require('./routes/search'),
-    followers = require('./routes/followers'),
     cache_photo_c_pin = require('./cache/photo/c_pin'),
     mongo_cache = require('./cache/mongo_cache');
 
