@@ -19,15 +19,15 @@ var express = require('express'),
 	home = require('./routes/home'),
 	profile = require('./routes/profile'),
 	changepassword = require('./routes/changepassword'),
+    query = require('./routes/followers'),
     cache_photo_c_pin = require('./cache/photo/c_pin'),
-    query = require('./routes/followers');
+    mongo_cache = require('./cache/mongo_cache');
 
 var app = express();
 init_app(app);
 
 /* Global variable available to all modules */
 photos_cached = false;
-cached_photos = new Object();
 
 /* This funnction compiles the stylus CSS files, etc. */
 function compile(str, path) {
@@ -87,6 +87,8 @@ app.get('/followers', query.load);
 app.get('/home', home.do_work);
 app.get('/profile', profile.do_work);
 app.get('/cache/photo/c_pin', cache_photo_c_pin.do_work);
+app.get('/cache/mongo_cache', mongo_cache.do_work);
+
 
 http.createServer(app).listen(app.get('port'), function(){
 	console.log('Express server listening on port ' + app.get('port'));

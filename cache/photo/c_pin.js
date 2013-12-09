@@ -12,91 +12,8 @@ assert = require('assert');
 var MongoDB = require('mongodb');
 var fs = require('fs');
 var http = require('http');
-
-
 var request = require('request');
 
-
-function write_file_mongo(req, res, photo_id, photo_url) {
-    MongoClient.connect('mongodb://CIS550:databaseproject@dharma.mongohq.com:10042/Pennterest-Trial', function(err, db) {
-        if(!err) {
-            console.log("We are connected to Mongo HQ");
-        }
-        fileId = photo_id + ".txt";
-        console.log("FileID: " + fileId);
-
-        GridStore.exist(db, fileId, function(err, exists) {
-            assert.equal(null, err);
-            //assert.equal(true, exists);
-
-            if (exists) {
-                //cached_photos[photo_id] = photo_url;
-                //console.log("Cached: " + photo_id + ": " + cached_photos[photo_id]);
-                console.log ("FILE: " + fileId + " already exists in GridFS. Not writing again!");
-            }
-            
-            // Create a new instance of the gridstore
-            var gridStore = new GridStore(db, fileId, 'w');
-
-            // Open the file
-            gridStore.open(function(err, gridStore) {
-        
-                http.get(photo_url, function (response) {
-              
-                    response.setEncoding('binary');
-                     
-                    var image2 = '';
-                    console.log("New File. " + fileId + ". Will write it to GridFS");
-                    console.log('Reading data in chunks first...');
-                    
-                    response.on('data', function(chunk){
-                        image2 += chunk;
-                        //console.log('reading data');
-                    });
-                    
-                    response.on('end', function() {
-                        console.log('Done reading data!');
-
-                        image = new Buffer(image2,"binary");
-                        
-                        // Write some data to the file
-                        gridStore.write(image, function(err, gridStore) {
-                            assert.equal(null, err);
-
-                            // Close (Flushes the data to MongoDB). ie Overwrites previous value
-                            gridStore.close(function(err, result) {
-                                assert.equal(null, err);
-                                console.log('Wrote file: ' + fileId);
-
-                            });
-                        });
-                    });
-                });
-
-            });
-        });
-    });
-
-}
-
-
-function check_photo_exists_mongodb(req, res, photo_id) {
-    MongoClient.connect('mongodb://CIS550:databaseproject@dharma.mongohq.com:10042/Pennterest-Trial', function(err, db) {
-        if(!err) {
-            console.log("We are connected to Mongo HQ");
-        }
-
-        fileId = photo_id + ".txt";
-        console.log("FileID: " + fileId);
-
-        GridStore.exist(db, fileId, function(err, exists) {
-            assert.equal(err, null);
-            assert.equal(exists, true);
-            console.log("File " + fileId + "does not exist!");
-
-        });
-    }); 
-}
 
 function read_file_mongo(req, res, photo_id) {
 
@@ -129,7 +46,6 @@ function read_file_mongo(req, res, photo_id) {
                                 console.log('Really done');
 
             });
-
         });
     }); 
 }

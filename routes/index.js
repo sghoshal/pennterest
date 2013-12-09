@@ -12,7 +12,6 @@ BSON = require('mongodb').pure().BSON,
 assert = require('assert');
 var MongoDB = require('mongodb');
 var fs = require('fs');
-
 var request = require('request');
 var http = require('http');
 
@@ -24,7 +23,6 @@ var connectData = {
 
 var oracle =  require("oracle");
 
-var count_written_files = 0;
 
 function get_photos_to_be_cached(req, res) {
     oracle.connect(connectData, function (err, connection) {
@@ -68,7 +66,6 @@ function cache_all_photos(req, res, sql_results) {
             write_to_gridfs(req, res, db, sql_results[i]["PHOTOID"], sql_results[i]["URL"]); 
             i++;
         }
-        //console.log("No of new files written to GridFS: " + count_written_files); 
     }); 
 }   
 
@@ -83,9 +80,8 @@ function write_to_gridfs(req, res, db, p_id, photo_url) {
         //assert.equal(true, exists);
 
         if (exists) {
-            cached_photos[photo_id] = photo_url;
-            console.log("Cached: " + photo_id + ": " + cached_photos[photo_id]);
-            return console.dir ("FILE: " + fileId + " already exists in GridFS. Not writing again!");
+            //cached_photos[photo_id] = photo_url;
+            return console.dir ("FILE: " + fileId + " already cached(exists) in GridFS. Not writing again!");
         }
         
         // Create a new instance of the gridstore
@@ -94,7 +90,6 @@ function write_to_gridfs(req, res, db, p_id, photo_url) {
         // Open the file
         gridStore.open(function(err, gridStore) {
     
-            count_written_files++;
             http.get(photo_url, function (response) {
           
                 response.setEncoding('binary');
@@ -134,90 +129,11 @@ function write_to_gridfs(req, res, db, p_id, photo_url) {
 
 
 exports.do_work = function(req, res) {
-    count_written_files = 0;
 
     console.log ("INDEX PAGE...");
     if (!photos_cached) {
-        get_photos_to_be_cached (req, res)
+        get_photos_to_be_cached(req, res)
         photos_cached = true;
     }
     res.render('index', { title: 'Welcome to Pennterest!' });
 };
-
-
-
-/*
-function zach_gridstore_impl (req, res, db) {
-    var fileId = 'ourexamplefiletowrite.txt';
-    // Create a new instance of the gridstore
-
-    var gridStore = new GridStore(db, 'ourexamplefiletowrite.txt', 'w');
-    // Open the file
-    gridStore.open(function(err, gridStore) {
-
-        http.get('http://www.hdwallpapers3d.com/wp-content/uploads/2013/06/Robert-Downey-Jr-SH2-Movie-Posters-robert-downey-jr-26552473-800-1278.jpg', function (response) {
-      
-            response.setEncoding('binary');
-            
-            var image2 = '';
-          
-            console.log('reading data in chunks first');
-            response.on('data', function(chunk){
-                image2 += chunk;
-                console.log('reading data');
-            });
-            
-            response.on('end', function() {
-                console.log('done reading data');
-
-                image = new Buffer(image2,"binary");
-                
-                // Write some data to the file
-                gridStore.write(image, function(err, gridStore) {
-                    assert.equal(null, err);
-
-                    // Close (Flushes the data to MongoDB)
-                    gridStore.close(function(err, result) {
-                        assert.equal(null, err);
-                        console.log('Wrote file');
-
-                        
-                        GridStore.read(db, fileId, function(err, fileData) {
-                            console.log('Read file: ' + fileId);
-
-                            assert.equal(image.toString('base64'), fileData.toString('base64'));
-                            
-                            console.log('Done, writing local images for testing purposes');
-                            
-                            var fd =  fs.openSync('image.jpg', 'w');
-
-                            fs.write(fd, image, 0, image.length, 0, function(err,written){
-
-                            });
-
-                            var fd2 =  fs.openSync('image_copy.jpg', 'w');
-                            fs.write(fd2, fileData, 0, fileData.length, 0, function(err,written){
-
-                            });
-                            
-                            res.writeHead(200, {
-                                'Content-Type': 'image/jpeg',
-                                'Content-Length':fileData.length});
-
-                            console.log("File length is " +fileData.length);
-                            res.write(fileData, "binary");
-                            res.end(fileData,"binary");
-                            console.log('Really done');
-
-                        });
-                        
-
-                    });
-                });
-            });
-
-        });
-    });
-}
-*/
-
