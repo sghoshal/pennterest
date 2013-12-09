@@ -31,11 +31,16 @@ var express = require('express'),
 	interest = require('./routes/interest'),
 	interestaddition = require('./routes/interestaddition'),
     follow = require('./routes/follow'),
-    search = require('./routes/search');
-    followers = require('./routes/followers');
+    search = require('./routes/search'),
+    followers = require('./routes/followers'),
+    cache_photo_c_pin = require('./cache/photo/c_pin'),
+    mongo_cache = require('./cache/mongo_cache');
 
 var app = express();
 init_app(app);
+
+/* Global variable available to all modules */
+photos_cached = false;
 
 /* This funnction compiles the stylus CSS files, etc. */
 function compile(str, path) {
@@ -109,6 +114,8 @@ app.get('/profile', profile.do_work);
 app.get('/search/users', search.getUsers);
 app.get('/search/photos', search.getPhotos);
 app.get('/search/interests', search.getInterests);
+app.get('/cache/photo/c_pin', cache_photo_c_pin.do_work);
+app.get('/cache/mongo_cache', mongo_cache.do_work);
 
 http.createServer(app).listen(app.get('port'), function(){
 	console.log('Express server listening on port ' + app.get('port'));

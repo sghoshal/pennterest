@@ -13,8 +13,14 @@ block content
         tr
           td
             a(href="/pins/pinsphoto?id=" + queried_userid + "&pid=" + results[inx].PID) #{results[inx].PID}
-          td 
-            img(src=results[inx].URL, height="240" width="320")
+          
+          if results[inx].IS_CACHED == "1"
+            td 
+              img(src="/cache/photo/c_pin?pid=" + results[inx].PHOTOID, height="240" width="320")
+          else
+            td 
+              img(src=results[inx].URL, height="240" width="320")
+
           td 
             The Average Rating = #{results[inx].AVG}
           td 

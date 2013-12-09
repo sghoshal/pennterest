@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1 #{title}
+ 
+  table(border='1')
+    - for (var i = 0; i < results.length; i++)
+        if results[i].IS_CACHED == "1"
+          tr
+            td=results[i].PHOTOID
+            td 
+              img(src="/cache/photo/c_pin?pid=" + results[i].PHOTOID, height="240" width="320")
+        else
+          tr
+            td=results[i].PHOTOID
+            td 
+              img(src=results[i].URL, height="240" width="320") 
