@@ -1,6 +1,6 @@
 
 /**
- * Module dependencies. 
+ * Module dependencies.
  */
 
 /* This is app initialization code */
@@ -12,9 +12,9 @@ var express = require('express'),
 	nib = require("nib"),
 	login = require('./routes/login'),
 	signupdetails = require('./routes/signupdetails'),
-	signup = require('./routes/signup'), 
+	signup = require('./routes/signup'),
 	logout = require('./routes/logout'),
-	user = require('./routes/user'), 
+	user = require('./routes/user'),
 	pins = require('./routes/pins'),
 	interimtag = require('./routes/interimtag'),
 	interimrating = require('./routes/interimrating'),
@@ -40,7 +40,6 @@ var express = require('express'),
 	interest = require('./routes/interest'),
 	interestaddition = require('./routes/interestaddition'),
     follow = require('./routes/follow'),
-    followers = require('./routes/followers'),    
     search = require('./routes/search'),
     cache_photo_c_pin = require('./cache/photo/c_pin'),
     mongo_cache = require('./cache/mongo_cache');
@@ -60,19 +59,19 @@ function compile(str, path) {
 
 /**
  * This is app initialization code
- */ 
+ */
 function init_app() {
 	// all environments
 	app.set('port', process.env.PORT || 8080);
-	
+
 	// Use Jade to do views
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'jade');
-	
+
 	app.use(express.favicon());
 	// Set the express logger: log to the console in dev mode
 	app.use(express.logger('dev'));
-	
+
 	app.use(express.json());
 	app.use(express.urlencoded());
 	app.use(express.cookieParser());
@@ -81,14 +80,14 @@ function init_app() {
 	app.use(express.methodOverride());
 	app.use(app.router);
 	app.use(express.static(path.join(__dirname, 'public')));
-	
+
 	// Use Stylus, which compiles .styl --> CSS
 	app.use(stylus.middleware(
 	{ src: __dirname + '/public'
 	, compile: compile
 	}
 	));
-	
+
 	// development only
 	if ('development' == app.get('env')) {
 		app.use(express.errorHandler());
@@ -126,11 +125,10 @@ app.get('/boards/boardpins/boardpinphoto', boardpinphoto.do_work);
 app.get('/recommendation',recommendation.do_work);
 app.get('/interest',interest.do_work);
 app.get('/interestaddition',interestaddition.do_work);
-app.get('/followers', followers.load);
-app.get('/following', follow.getFollowing);
-
 app.get('/home', home.do_work);
 app.get('/profile', profile.do_work);
+app.get('/:id/followers', follow.getFollowers);
+app.get('/:id/following', follow.getFollowing);
 app.get('/search/users', search.getUsers);
 app.get('/search/photos', search.getPhotos);
 app.get('/search/interests', search.getInterests);

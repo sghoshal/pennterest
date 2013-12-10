@@ -2,18 +2,18 @@ extends layout
 
 block content
 
-  h1= title 
+  h1= title
     </br>
     tr
       td
         a(href='/home?id=' + queried_id) Home
       td
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       td
         a(href='/logout?id=' + queried_id) Logout
       td
-        &nbsp;&nbsp;  
-      
+        &nbsp;&nbsp;
+
       </br>
       </br>
 
@@ -21,19 +21,19 @@ block content
         a(href='/boards?id=' + user_id) Boards
       td
         &nbsp;&nbsp;
-      
+
       td
         a(href='/pins?id=' + user_id) Pins
       td
-        &nbsp;&nbsp;   
-      
+        &nbsp;&nbsp;
+
       td
-        a(href='/followers?id=' + user_id) Followers
+        a(href='/' + user_id + '/followers') Followers
       td
         &nbsp;&nbsp;
-      
+
       td
-        a(href='/following?id=' + user_id) Following
+        a(href='/' + user_id + '/following') Following
       td
         &nbsp;&nbsp;
 
@@ -45,4 +45,9 @@ block content
       td
         a(href='/interest') Interests
       td
-        &nbsp;&nbsp;
+          &nbsp;&nbsp;
+
+      td
+        a(href='/search/photos') Search
+      td
+         &nbsp;&nbsp;
