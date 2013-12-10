@@ -1,32 +1,38 @@
-// Jade file to specify output of an recommended photos
-// Inherits from layout
 extend layout
 block content
-  h1 #{title}
+  h1 Photos you may like...
   
-  // Put a click button that lets us return to the index page 
-  p
-    a(href="./home?id="+userid) Home <br/>
+  // Get back to logged in users home page
+  tr
+    td
+      a(href="/home?id="+userid) Home <br/>
+      <br/>
+  
+  
   
   // Create a table with one row per result
-  table
+  table(border='1')
     - for (var inx = 0; inx < rec_photos.length; inx++)
-        tr  
+        tr
+          td 
+            a(href="/boards/boardpins/boardpinphoto?id=" + userid + "&pid=" + rec_photoids[inx]) #{rec_photoids[inx]}
           td 
             img(src=rec_photos[inx], height="240" width="320")
-          td &nbsp;
-          td &nbsp;
-          td=rec_photos_avg_rating[inx]
-          td &nbsp;
-          td &nbsp;
-          td=rec_photos_pin_count[inx]
-      
-     - for (var inx = 0; inx < rec_ppl.length; inx++)
-        tr  
-          td=rec_ppl[inx].FIRSTNAME
-          td=rec_ppl[inx].LASTNAME
-     
+          td 
+            The Average Rating = #{rec_photos_avg_rating[inx]}
+          td 
+            The This photo has been pinned #{rec_photos_pin_count[inx]} times
+          td
+            a(href="/pinphotoonboard?id=" + userid + "&pid=" + rec_photoids[inx]) Pin it!
          
-
-          
-  
+  h1 People with similar interests... </br>
+   
+  table(border='1')
+    - for (var i = 0; i < rec_ppl.length; i++)
+        tr
+          td
+            rec_userid = '/profile?id=' + rec_ppl[i].USERID
+            // div
+            //  - console.log("From Jade: " + rec_userid)
+            // div
+            a(href=rec_userid) #{rec_ppl[i].FIRSTNAME} #{rec_ppl[i].LASTNAME} <br/>
