@@ -7,30 +7,30 @@ block content
       td
         a(href='/home?id=' + user_id) Home
       td
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       td
         a(href='/logout?id=' + queried_id) Logout
       td
-        &nbsp;&nbsp;  
-      
+        &nbsp;&nbsp;
+
       </br>
 
       td
         a(href='/boards?id=' + queried_id) Boards
       td
         &nbsp;&nbsp;
-      
+
       td
         a(href='/pins?id=' + queried_id) Pins
       td
-        &nbsp;&nbsp;   
-      
+        &nbsp;&nbsp;
+
       td
-        a(href='/followers?id=' + queried_id) Followers
+        a(href='/' + user_id +'/followers') Followers
       td
         &nbsp;&nbsp;
-      
+
       td
-        a(href='/following?id=' + queried_id) Following
+        a(href='/' + user_id + '/following') Following
       td
         &nbsp;&nbsp;
