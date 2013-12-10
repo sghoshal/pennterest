@@ -5,8 +5,9 @@ var connectData = {
 		"database": "CIS550" };
 var oracle =  require("oracle");
 var mongo_cache = require('../cache/mongo_cache');
+assert = require('assert');
 
-function query_db(req, res) {
+function query_db(req, res, callback) {
 	oracle.connect(connectData, function(err, connection) {
 	 		var sqlGetBoardPins =
 			"select p.photoid AS PID, p.url AS URL, p.avg_rating AS AVG, p.pin_count AS COUNT " +
@@ -15,6 +16,7 @@ function query_db(req, res) {
 			"order by p.photoid";
 		    if ( err ) {
 		    	console.log(err);
+                callback(true, false);
 		    } else {
 			  	// inserting user entry
 			  	console.log("pid"+req.query.pid);
@@ -25,15 +27,18 @@ function query_db(req, res) {
 			  			   function(err, results) {
 			  	    if ( err ) {
 			  	    	console.log("Error after running insert query"+err);
+                        callback(true, false);
 			  	    } else {
 			  	    	connection.execute(sqlGetBoardPins, [], 
 							function (err, results) {
 								if (err) {
 									console.log("Error after running get board pins query: " + err);
+                                    callback(true, false);
 								} else {
 									console.log ("Number of pins returned: "+results.length);		
 									connection.close();
 									output_pins(req, res, results);
+                                    callback(false, true);
 								}	
 							}
 						);
@@ -67,12 +72,16 @@ function redirect_to_login(req, res){
 exports.do_work = function(req, res) {
 	console.log("IN PHOTO PINNED ON BOARD PAGE...");
 	console.log("Session Authenticated: " + req.session.userAuthenticated);
-    console.log("User ID Queried " + req.query.id);
+    console.log("Queried User ID: " + req.query.id + "\tPhoto ID: " + req.query.pid);
     console.log("Session User ID: "  + req.session.userid);
 	
 	if (req.session.userAuthenticated) {
-        mongo_cache.get_photo_pin_count (req, res, req.query.pid);
-		query_db(req, res);
+
+		query_db(req, res, function (err, success) {
+            assert.equal(err, false);
+            if (success)
+                mongo_cache.do_work(req, res, req.query.pid);
+        });
     }
 	else
 		redirect_to_login(req, res);

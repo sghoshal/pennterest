@@ -66,6 +66,8 @@ function cache_all_photos(req, res, sql_results) {
             
             console.log("PHOTO ID: " + photo_id_to_cache + " URL: " + photo_url_to_cache);
             // mongo_cachewrite_to_gridfs(req, res, db, sql_results[i]["PHOTOID"], sql_results[i]["URL"]); 
+            
+            /* Use this if you want to check if file already exists in Mongo and then write                
             check_photo_exists(req, res, db, photo_id_to_cache, function(err, exists) {
 
                 if(err) return console.log("ERROR in check_photo_exists callback");
@@ -75,6 +77,9 @@ function cache_all_photos(req, res, sql_results) {
                         write_file(req, res, db, photo_id_to_cache, photo_url_to_cache);
                 }
             });
+            */
+            // Force write to Mongo
+            write_file(req, res, db, photo_id_to_cache, photo_url_to_cache);
         }
     }); 
 }   
