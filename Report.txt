@@ -1,0 +1,39 @@
+Team: GroupByAwesomeness
+	Harsh Asher:		asherh@seas.upenn.edu
+	Soumyadeep Ghoshal: sghoshal@seas.upenn.edu
+	Sam Rossi:			samrossi@seas.upenn.edu
+	Dhyanam Vaidya:		dhyanamv@seas.upenn.edu
+
+Accomplished:
+
+-	Sign Up
+-	Secured Log in using SHA1
+-	Default password for user -> Change on first login	
+-	Session handling
+-	Logout
+-	Home Page for logged in user
+-	Profile page for all other users
+-	View Boards of a user
+-	Create Board (only logged in user has this privilege)
+-	Show Pins
+-	Add pins -> only to logged in user's board
+-	Create pins from external URL
+-	Followers
+-	Following
+-	Search:
+	-	Users
+	-	Photos
+	-	Interests
+-	Recommendation:
+    -	Photos
+	-	Users
+-	Caching MongoDB:
+    -	App launch -> Cache all photos with pin_count > 5 (GridFS)
+	-	On PinIt click -> Cache photo if pin_count > 5
+	-	Read photos from cache along with pins fetched from Oracle
+
+-	Triggers
+-	Indexing
+-	Basic Front End
+-	JQuery on Searched Photos
+

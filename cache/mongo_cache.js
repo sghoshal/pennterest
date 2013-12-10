@@ -44,7 +44,11 @@ exports.get_photos = function get_photos_from_cache(req, res, sql_results) {
 }
 
 
-exports.write_file = function write_file(req, res, photo_id, photo_url) {
+exports.write_file = function write_file(req, res, p_id, p_url) {
+
+    var photo_id = p_id;
+    var photo_url = p_url;
+    
     MongoClient.connect('mongodb://CIS550:databaseproject@dharma.mongohq.com:10042/Pennterest-Trial', function(err, db) {
         if(!err) {
             console.log("We are connected to Mongo HQ");
@@ -156,7 +160,9 @@ function redirect_to_login(req, res) {
 }
 
 
-exports.get_photo_pin_count = function get_photo_pin_count(req, res, photo_id) {
+exports.get_photo_pin_count = function get_photo_pin_count(req, res, p_id) {
+
+    var photo_id = p_id;
 
     oracle.connect(connectData, function (err, connection) {
         var sql_get_pin_count = 
@@ -231,15 +237,15 @@ function update_is_cached_oracle(req, res, photo_id) {
     });   
 }
 
-exports.do_work = function(req, res) {
+exports.do_work = function(req, res, p_id) {
 
     console.log("IN MONGO_CACHE PAGE...");
     console.log("Session Authenticated: " + req.session.userAuthenticated);
-    console.log("Photo ID Queried " + req.query.id);
+    console.log("Photo ID Queried " + p_id);
     console.log("Session User ID: "  + req.session.userid);
 
     if (req.session.userAuthenticated) {
-        mongo_cache.get_photo_pin_count(req, res, req.query.id);
+        mongo_cache.get_photo_pin_count(req, res, p_id);
         // write_file_mongo(req, res, '10027', 'http://www.hdwallpapers3d.com/wp-content/uploads/2013/06/Robert-Downey-Jr-SH2-Movie-Posters-robert-downey-jr-26552473-800-1278.jpg');
         // read_file_mongo(req, res, "10027");
         // output_cached_pins(req, res, ["10026", "10024"]);
