@@ -11,7 +11,7 @@ function query_db(req, res) {
 		var sqlGetBoardPins =
 			"select p.photoid AS PID, p.url AS URL, p.avg_rating AS AVG, p.pin_count AS COUNT " +
 			"from photo p, pin pi " +
-			"where pi.photoid = p.photoid and pi.boardid=" + req.query.bid + " " 
+			"where pi.photoid = p.photoid and pi.boardid='" + req.query.bid + "' " +
 			"order by p.photoid";
 		
 		if (err) {

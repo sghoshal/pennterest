@@ -154,7 +154,7 @@ function changePasswordInDB(req,res,pwd)
 	    	console.log(err);
 	    } else {
 		  	// change password query
-		  	connection.execute("UPDATE users SET passwd='"+pwd+"' WHERE userid="+req.session.userid,
+		  	connection.execute("UPDATE users SET passwd='"+pwd+"' WHERE userid='"+req.session.userid + "'",
 		  			   [], 
 		  			   function(err, results) {
 		  	    if ( err ) {

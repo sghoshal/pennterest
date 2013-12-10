@@ -9,26 +9,58 @@ var oracle =  require("oracle");
 function query_db(req, res) {
 	oracle.connect(connectData, function (err, connection) {
 		var sqlGetBoards = 
-			"SELECT B.BOARDNAME AS BN, B.BOARDID AS BID, B.BOARD_PIC, B.BOARD_PIN_COUNT AS COUNTER " +
+			"SELECT B.BOARDNAME, B.BOARDID, B.BOARD_PIC, B.BOARD_PIN_COUNT " +
 			"FROM BOARD B " +
-			"WHERE B.USERID=" + req.query.id;
+			"WHERE B.USERID='" + req.query.id+"'";
+
+		var boardsNotFollowed = 
+			"select boardid "+
+			"from board "+
+			"where userid='" +  req.query.id + "' and boardid NOT IN (select boardid from following where userid='" + req.session.userid + "')"
 		console.log ("Before if else");		
 		if (err) {
 			console.log("There is an error" + err);
 		} else {
 			connection.execute(sqlGetBoards, [], 
-				function (err, results) {
+				function (err, resultsone) {
 					if (err) {
-						console.log("DB query: " + err);
+						console.log("Error after first query: " + err);
 					} else {
-						console.log ("Returned result from DB");		
-						connection.close();
-						output_boards(req, res, results);
+						console.log("Total number of Boards the person whom I want to follow owns: "+resultsone.length);
+						connection.execute(boardsNotFollowed, [], 
+							function (err, resultstwo) {
+								if (err) {
+									console.log("Error after second query: " + err);
+								} else {
+									console.log ("And out of those, how many do I NOT follow: "+resultstwo.length);		
+									connection.close();
+									//output_boards(req, res, results);
+									combine_queries(req, res, resultsone, resultstwo);
+								}	
+							}
+						);
 					}	
 				}
 			);
 		}
 	});
+}
+
+function combine_queries(req, res, resultsone, resultstwo) {
+	var results = [];
+	for (var i=0; i<resultsone.length; i++) {
+		for (var j=0; j<resultstwo.length; j++) {
+			if (resultsone[i].BOARDID == resultstwo[j].BOARDID) {
+				results.push(0);
+				break;
+			}
+			else if (j == resultstwo.length-1) {
+				results.push(1);
+				break;
+			}
+		}
+	}
+	output_boards(req, res, resultsone, results);
 }
 
 /*
@@ -37,9 +69,10 @@ Given a set of query results, output a table
 res = HTTP result object sent back to the client
 name = Name to query for
 results = List object of query results */
-function output_boards(req, res,results) {
+function output_boards(req, res, resultsone, results) {
 	res.render('boards.jade',
 		   { title: "Boards of " + req.query.id,
+		     resultsone: resultsone,
 		     results: results,
 		     session_userid: req.session.userid,
 		     queried_userid: req.query.id }

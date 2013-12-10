@@ -7,36 +7,21 @@ var oracle =  require("oracle");
 
 function query_db(req, res) {
 	oracle.connect(connectData, function (err, connection) {
-		console.log("pid: "+req.query.pid);
 		console.log("uid: "+req.session.userid);
-		
-        var sqlGetBoards =
-			"select BOARDID, BOARDNAME " +
-			"from BOARD " +
-			"where USERID='" + req.session.userid + "' " +
-			" AND BOARDID NOT IN (select BOARDID from PIN where photoid='" + req.query.pid +"' and userid='" + req.session.userid +"')"		
-		
-        console.log("After query declaration");
+		var sqlGetBoards =
+			"select B.BOARDID, B.BOARDNAME " +
+			"from BOARD B " +
+			"where B.USERID='" + req.session.userid + "'";		
 		if (err) {
 			console.log("Error in query: "+err);
 		} else {
-            var sqlGetBoards =
-            "select BOARDID, BOARDNAME " +
-            "from BOARD " +
-            "where USERID='" + req.session.userid + "' AND BOARDID NOT IN (select BOARDID FROM PIN P where P.photoid='" + req.query.pid +"' and P.userid='" + req.session.userid +"')"
-
 			connection.execute(sqlGetBoards, [], 
 				function (err, results) {
 					if (err) {
 						console.log("Error after executing the boards query: "+err);
 					} else {
-
 						connection.close();
-						console.log("Size of the results of boards query: "+results.length);
-                        for (var i = 0; i < results.length; i++) {
-                            console.log (results[i]);
-                            console.log("ID: " + results[i].BOARDID + " BOARD: " + results[i].BOARDNAME);
-                        }
+						console.log("Total number of Boards I own is: "+results.length)
 						output_boards(req, res, results);
 					}	
 				}
@@ -46,11 +31,11 @@ function query_db(req, res) {
 }
 
 function output_boards (req, res, results) {
-	res.render('pinphotoonboard.jade',
-		{ title: "Select your Board on which you'd like to pin this Photo..",
+	res.render('selectboard.jade',
+		{ title: "Now select your Board on which you'd like to pin this Photo..",
 		  results: results,
 		  userid: req.session.userid,
-		  photoid: req.query.pid});
+		  url: req.body.url});
 }
 
 function load_error_page(req, res) {
@@ -65,9 +50,9 @@ function redirect_to_login(req, res){
 }
 
 exports.do_work = function(req, res) {
-	console.log("IN PIN PHOTO ON BOARD PAGE...");
+	console.log("IN SELECT BOARD PAGE...");
 	console.log("Session Authenticated: " + req.session.userAuthenticated);
-    console.log("User ID Queried " + req.query.id);
+    //console.log("User ID Queried " + req.query.id);
     console.log("Session User ID: "  + req.session.userid);
 	
 	if (req.session.userAuthenticated)

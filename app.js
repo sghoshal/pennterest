@@ -16,6 +16,15 @@ var express = require('express'),
 	logout = require('./routes/logout'),
 	user = require('./routes/user'), 
 	pins = require('./routes/pins'),
+	interimtag = require('./routes/interimtag'),
+	interimrating = require('./routes/interimrating'),
+	addnewpin = require('./routes/addnewpin'),
+	followthisboard = require('./routes/followthisboard'),
+	addfromurl = require('./routes/addnewpin/addfromurl'),
+	selectboard = require('./routes/addnewpin/addfromurl/selectboard'),
+	pinnewphoto = require('./routes/addnewpin/addfromurl/selectboard/pinnewphoto'),
+	fetchimages = require('./routes/fetchimages'),
+	pinselectedimage = require('./routes/pinselectedimage'),
 	pinsphoto = require('./routes/pins/pinsphoto'),
 	pinphotoonboard = require('./routes/pinphotoonboard'),
 	photopinnedonboard = require('./routes/photopinnedonboard'),
@@ -92,11 +101,22 @@ app.get('/signupdetails', signupdetails.do_work);
 app.post('/signup', signup.do_work);
 //when we get a request for {app/pins} we should call routes/pins.js
 app.get('/pins', pins.get_user_pins);
+app.get('/addnewpin', addnewpin.do_work);
+app.post('/interimtag', interimtag.do_work);
+app.post('/interimrating', interimrating.do_work);
+app.get('/addnewpin/addfromurl', addfromurl.do_work);
+
+app.post('/addnewpin/addfromurl/selectboard', selectboard.do_work);
+app.get('/addnewpin/addfromurl/selectboard/pinnewphoto', pinnewphoto.do_work);
+
+app.post('/fetchimages',fetchimages.do_work);
+app.get('/pinselectedimage', pinselectedimage.do_work);
 app.get('/pins/pinsphoto', pinsphoto.do_work);
 app.get('/logout',logout.do_work);
 //when we get a request for {app/boards} we should call routes/boards.js
 app.get('/boards', boards.do_work);
 app.post('/changepassword',changepassword.do_work);
+app.get('/followthisboard', followthisboard.do_work);
 app.get('/pinphotoonboard', pinphotoonboard.do_work);
 app.get('/photopinnedonboard', photopinnedonboard.do_work);
 app.get('/createnewboard', createnewboard.do_work);

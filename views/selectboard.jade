@@ -1,0 +1,14 @@
+// Jade file to specify output of an actors list
+// Inherits from layout
+extend layout
+block content
+	h1 #{title}
+
+
+	if results.length!=0  
+	// Create a table with one row per result
+	table(border='1')
+		-	for (var inx = 0; inx < results.length; inx++)
+				tr
+					td
+						a(href="/addnewpin/addfromurl/selectboard/pinnewphoto?id=" + userid + "&url=" + url + "&bid=" + results[inx].BOARDID) #{results[inx].BOARDNAME}

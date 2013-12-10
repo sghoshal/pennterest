@@ -12,26 +12,62 @@ block content
   
   
   // Create a table with one row per result
-  table(border='1')
+  table(border='0')
     tr
       td 
-        img(src=results[0].URL)
+        img(src=photoResults[0].URL height="480" width="530")
+    tr
       td 
-        The Average Rating = #{results[0].AVG}
+        The Average Rating = #{photoResults[0].AVG}
       td 
-        The My Rating = #{results[0].SCORE}
+        The First Pinner ID = #{photoResults[0].FPID}
       td 
-        The First Pinner ID = #{results[0].FPID}
-      td 
-        The This photo has been pinned #{results[0].COUNT} times
+        The This photo has been pinned #{photoResults[0].COUNT} times
+      if alreadyRated != 0
+        td 
+          The My Rating = #{ratingResults[0].SCORE}
       td
-        a(href="/pinphotoonboard?id=" + session_userid + "&pid=" + results[0].PID) Pin it!
-    tr 
-      td
-        The Tags:   
-        - for (var inx = 0; inx < results.length; inx++)
-            td
-              The Tags: <br/>#{results[inx].TAG} 
-      
+        a(href="/pinphotoonboard?id=" + queried_userid + "&pid=" + photoResults[0].PID) Pin it!
+    if hasBeenTagged != 0
+      tr 
+        td
+          The Tags:   
+          - for (var inx = 0; inx < tagResults.length; inx++)
+              td
+                The Tags: <br/>#{tagResults[inx].TAG} 
+    
 
- 
+  if alreadyRated == 0
+    form(method='post', action='/interimrating?id='+queried_userid+'&pid='+queried_photoid) 
+      table(border='0')
+        tr
+          td Give your Rating
+          td :
+          td
+            input(type='radio', name='rating' value='one')
+            | 1
+            input(type='radio', name='rating' value='two')
+            | 2
+            input(type='radio', name='rating' value='three')
+            | 3
+            input(type='radio', name='rating' value='four')
+            | 4
+            input(type='radio', name='rating' value='five')
+            | 5  
+          td
+            input(type='submit', value='Submit')
+
+
+  if ishe_allowed_to_tag == 10
+    form(method='post', action='/interimtag?id='+queried_userid+'&pid='+queried_photoid)
+      table(border='0')
+        tr
+          td Leave a tag
+          td :
+          td
+            input(type='text', name='tags', size='25')
+          td
+            input(type='submit', value='Submit')
+
+
+    

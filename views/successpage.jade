@@ -1,0 +1,18 @@
+// Jade file to specify output of an actors list
+// Inherits from layout
+extend layout
+block content
+  h1 #{title} <br/>
+  h3 What next would you like to do? <br/>
+  
+  // Get back to logged in users home page
+  tr
+    td
+      a(href="/home?id="+session_userid) Go to my Home Page <br/>
+      <br/>
+
+  // Go back to the boards which you were watching
+  tr
+    td
+      a(href=path) #{message} <br/>
+      <br/>

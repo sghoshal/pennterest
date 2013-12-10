@@ -9,7 +9,10 @@ var boardDefaultImage = "http://fortunebrainstormtech.files.wordpress.com/2012/0
 
 function addboard(req,res,boardname) {
 	 oracle.connect(connectData, function(err, connection) {
-	 		
+	 		var sqlGetBoards = 
+			"SELECT B.BOARDNAME AS BN, B.BOARDID AS BID, B.BOARD_PIC, B.BOARD_PIN_COUNT AS COUNTER " +
+			"FROM BOARD B " +
+			"WHERE B.USERID='" + req.session.userid+"'";
 		    if ( err ) {
 		    	console.log(err);
 		    } else {
@@ -20,9 +23,17 @@ function addboard(req,res,boardname) {
 			  	    if ( err ) {
 			  	    	console.log("Error after running insert query"+err);
 			  	    } else {
-						connection.close();
-						res.writeHead(301, {Location: '/boards?id=' + req.session.userid});
-      					res.end();
+			  	    	connection.execute(sqlGetBoards, [], 
+							function (err, results) {
+								if (err) {
+									console.log("Error after running get boards query: " + err);
+								} else {
+									console.log ("Number of boards returned: "+results.length);		
+									connection.close();
+									output_boards(req, res, results);
+								}	
+							}
+						);
 			  	    }
 			  	}); // end connection.execute
 		    }
@@ -36,7 +47,7 @@ res = HTTP result object sent back to the client
 name = Name to query for
 results = List object of query results */
 function output_boards(req, res,results) {
-	res.render('boards.jade',
+	res.render('pinselectedimage.jade',
 		   { title: "New board created! Here are your Boards.. ",
 		     results: results,
 		     session_userid: req.session.userid,
@@ -53,8 +64,6 @@ function redirect_to_login(req, res){
 function load_error_page(req, res) {
     res.render('error.jade');
 }
-
-
 
 exports.do_work = function(req, res){
 	console.log("IN BOARDS CREATED PAGE...");

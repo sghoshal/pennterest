@@ -1,0 +1,15 @@
+h1 Please paste the URL of the Image which you'd like to Pin! 
+ p #{error_msg}
+  p (*) Compulsory Fields
+    form(method='post', action='/addnewpin/addfromurl/selectboard?id='+userid)
+      table(border='0')
+        tr
+          td URL*
+          td :
+          td
+            input(type='text', name='url', size='75')
+        tr
+          td  
+          td  
+          td
+            input(type='submit', value='Submit')
