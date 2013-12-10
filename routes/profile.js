@@ -16,7 +16,7 @@ function get_user_info (req, res) {
             console.log(connection);
         } else {
             // selecting rows
-            connection.execute("SELECT userid, firstname, lastname FROM users WHERE userid=" + req.query.id, 
+            connection.execute("SELECT userid, firstname, lastname FROM users WHERE userid='" + req.query.id + "'", 
                        [], 
                        function(err, results) {
                 if ( err ) {
@@ -50,20 +50,20 @@ function load_error_page(req, res) {
 }
 
 exports.do_work = function(req, res){
-    console.log("HOME PAGE.");
+    console.log("PROFILE PAGE.");
     console.log("Session Authenticated: " + req.session.userAuthenticated);
     console.log("User ID Queried " + req.query.id);
     console.log("Session User ID: "  + req.session.userid);
 
     if (req.session.userAuthenticated) {
         if (req.session.userid == req.query.id) {
-          res.writeHead(301, {Location: '/home?id=' + req.session.userid});
-          res.end();
+            res.writeHead(301, {Location: '/home?id=' + req.session.userid});
+            res.end();
         }
         else {
           get_user_info(req, res);
         }
     }
     else
-    redirect_to_login(req, res);
+        redirect_to_login(req, res);
 };

@@ -51,13 +51,21 @@ function load_error_page(req, res) {
 }
 
 exports.do_work = function(req, res){
-  console.log("HOME PAGE.");
-  console.log("Session Authenticated: " + req.session.userAuthenticated);
-  console.log("User ID Queried " + req.query.id);
-  console.log("Session User ID: "  + req.session.userid);
-  
-  if (req.session.userAuthenticated)
-    get_user_info(req, res);
-  else
-    redirect_to_login(req, res);
+    console.log("HOME PAGE.");
+    console.log("Session Authenticated: " + req.session.userAuthenticated);
+    console.log("User ID Queried " + req.query.id);
+    console.log("Session User ID: "  + req.session.userid);
+
+    if (req.session.userAuthenticated) {
+        if (req.query.id == req.session.userid) {
+            get_user_info(req, res);
+        }
+        else {
+            res.writeHead(301, {Location: '/profile?id=' + req.query.id});
+            res.end();
+        }
+
+   }
+    else
+        redirect_to_login(req, res);
 };
