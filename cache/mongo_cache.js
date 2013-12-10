@@ -83,6 +83,7 @@ exports.write_file = function write_file(req, res, photo_id, photo_url) {
                         gridStore.close(function(err, result) {
                             assert.equal(null, err);
                             console.log('Wrote file: ' + fileId + "!\n");
+                            update_is_cached_oracle(req, res, photo_id);
 
                         });
                     });
@@ -155,11 +156,11 @@ function redirect_to_login(req, res) {
 }
 
 
-exports.get_photo_pin_count = function get_photo_pin_count(req, res, query_id) {
+exports.get_photo_pin_count = function get_photo_pin_count(req, res, photo_id) {
 
     oracle.connect(connectData, function (err, connection) {
         var sql_get_pin_count = 
-            "SELECT PHOTOID, URL, PIN_COUNT FROM PHOTO WHERE PHOTOID=" + query_id;
+            "SELECT PHOTOID, URL, PIN_COUNT FROM PHOTO WHERE PHOTOID='" + photo_id + "'";
         
         if (err) {
             console.log(err);
@@ -189,7 +190,10 @@ exports.get_photo_pin_count = function get_photo_pin_count(req, res, query_id) {
                                     if(err) return console.log("ERROR in check_photo_existscallback");
                                     else {
                                         console.log("Callback Success!");
-                                        if (!exists)
+                                        
+                                        if (exists) 
+                                            update_is_cached_oracle(req, res, photo_id);
+                                        else
                                             mongo_cache.write_file(req, res, pinned_photoid, pinned_photo_url);
                                     }
                             });
@@ -201,6 +205,31 @@ exports.get_photo_pin_count = function get_photo_pin_count(req, res, query_id) {
         }
     });
 };
+
+
+
+function update_is_cached_oracle(req, res, photo_id) {
+    oracle.connect(connectData, function (err, connection) {
+        var sql_update_is_cached = 
+            "UPDATE PHOTO " + 
+            "SET IS_CACHED=1 WHERE PHOTOID='" + photo_id + "'";
+        
+        if (err) {
+            console.log(err);
+        } else {
+            connection.execute(sql_update_is_cached, [], 
+                function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        connection.close();
+                        console.log("ORACLE: PHOTOID: " + photo_id + " IS_CACHED=1");
+                    }   
+                }
+            );
+        }
+    });   
+}
 
 exports.do_work = function(req, res) {
 
@@ -215,7 +244,7 @@ exports.do_work = function(req, res) {
         // read_file_mongo(req, res, "10027");
         // output_cached_pins(req, res, ["10026", "10024"]);
         // query_db(req, res, req.query.id);
-        //check_photo_exists_mongodb(req, res, '10024');
+        // check_photo_exists_mongodb(req, res, '10024');
     }
     else
         redirect_to_login(req, res);

@@ -4,6 +4,7 @@ var connectData = {
 		"password": "databaseproject", 
 		"database": "CIS550" };
 var oracle =  require("oracle");
+var mongo_cache = require('../cache/mongo_cache');
 
 function query_db(req, res) {
 	oracle.connect(connectData, function(err, connection) {
@@ -69,8 +70,10 @@ exports.do_work = function(req, res) {
     console.log("User ID Queried " + req.query.id);
     console.log("Session User ID: "  + req.session.userid);
 	
-	if (req.session.userAuthenticated)
+	if (req.session.userAuthenticated) {
+        mongo_cache.get_photo_pin_count (req, res, req.query.pid);
 		query_db(req, res);
+    }
 	else
 		redirect_to_login(req, res);
 }

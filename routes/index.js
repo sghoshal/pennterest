@@ -89,6 +89,7 @@ function check_photo_exists(req, res, db, photo_id, callback) {
         assert.equal(err, null);
         if (exists) {
             console.log("File: " + fileId + " ALREADY EXISTS IN MONGO!");
+            update_is_cached_oracle(req, res, photo_id);
             callback(null, true);
         }
         else {
@@ -99,8 +100,9 @@ function check_photo_exists(req, res, db, photo_id, callback) {
 }
 
 
-function write_file(req, res, db, photo_id, photo_url) {
+function write_file(req, res, db, p_id, photo_url) {
     
+    var photo_id = p_id;
     var fileId = photo_id + ".txt";
     console.log("Writing FileID: " + fileId + "...");
 
@@ -135,12 +137,35 @@ function write_file(req, res, db, photo_id, photo_url) {
                     gridStore.close(function(err, result) {
                         assert.equal(null, err);
                         console.log('Wrote file: ' + fileId + "!\n");
-
+                        update_is_cached_oracle(req, res, photo_id);
                     });
                 });
             });
         });
     });
+}
+
+function update_is_cached_oracle(req, res, photo_id) {
+    oracle.connect(connectData, function (err, connection) {
+        var sql_update_is_cached = 
+            "UPDATE PHOTO " + 
+            "SET IS_CACHED=1 WHERE PHOTOID='" + photo_id + "'";
+        
+        if (err) {
+            console.log(err);
+        } else {
+            connection.execute(sql_update_is_cached, [], 
+                function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        connection.close();
+                        console.log("ORACLE: PHOTOID: " + photo_id + " IS_CACHED=1");
+                    }   
+                }
+            );
+        }
+    });   
 }
 
 
