@@ -11,5 +11,9 @@ html(lang="en")
         a(id="following", href="../routes/follow")
             Following
     .col
-    - for (var i = 0; i < data.length; i++)
-        | #{data[i].FIRSTNAME} #{data[i].LASTNAME} <br/>
+        - for (var i = 0; i < data.length; i++)
+            - var str = '/profile?id=' + data[i]['USERID'];
+            a(href=str)
+                | #{data[i]['FIRSTNAME']} #{data[i]['LASTNAME']}
+            br
+
