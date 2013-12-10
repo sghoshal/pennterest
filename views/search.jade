@@ -4,6 +4,7 @@ html(lang="en")
     link(rel="stylesheet", href="/stylesheets/search.css")
     title
       | #{pageTitle}
+    script(type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js")
   body
     form(method="get")
         | Search: <input type="text" name="q"> <input type="submit" value="Search">
@@ -16,4 +17,22 @@ html(lang="en")
             | Interests
     #container
         block results
+    script.
+        window.glob = 0;
+        $('.img').hover(
+            function(e) {
+                var str =
+                    '<img src="' + $(this).attr('src') + '" class="big ' +
+                    (e.pageX < $(window).width() / 2 ? 'right' : 'left') + '" ' +
+                    'id="big' + window.glob + '">';
+                $('#container').append(str);
+                var i = $(window).scrollTop() + $('#container').position().top;
+                $('#big' + window.glob).css({top:i});
+                $('.img').css({opacity:0.4});
+            },
+            function() {
+                $('#big' + window.glob++).remove();
+                $('.img').css({opacity:1});
+            }
+        );
 
