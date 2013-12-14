@@ -10,23 +10,23 @@ var boardDefaultImage = "http://fortunebrainstormtech.files.wordpress.com/2012/0
 function addboard(req,res,boardname) {
 	 oracle.connect(connectData, function(err, connection) {
 	 		
-		    if ( err ) {
-		    	console.log(err);
-		    } else {
-			  	// inserting user entry
-			  	connection.execute("INSERT INTO board(boardid,boardname,userid,board_pic) VALUES(BOARDID_SEQ.nextval,'"+boardname+"','"+req.session.userid+"','"+boardDefaultImage+"')",
-			  			   [], 
-			  			   function(err, results) {
-			  	    if ( err ) {
-			  	    	console.log("Error after running insert query"+err);
-			  	    } else {
-						connection.close();
-						res.writeHead(301, {Location: '/boards?id=' + req.session.userid});
-      					res.end();
-			  	    }
-			  	}); // end connection.execute
-		    }
-		  }); // end oracle.connect
+	    if ( err ) {
+	    	console.log(err);
+	    } else {
+		  	// inserting user entry
+		  	connection.execute("INSERT INTO board(boardid,boardname,userid,board_pic) VALUES(BOARDID_SEQ.nextval,'"+boardname+"','"+req.session.userid+"','"+boardDefaultImage+"')",
+		  			   [], 
+		  			   function(err, results) {
+		  	    if ( err ) {
+		  	    	console.log("Error after running insert query"+err);
+		  	    } else {
+					connection.close();
+					res.writeHead(301, {Location: '/boards?id=' + req.session.userid});
+  					res.end();
+		  	    }
+		  	}); // end connection.execute
+	    }
+	  }); // end oracle.connect
 }
 
 /*
