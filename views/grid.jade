@@ -1,20 +1,27 @@
 doctype 5
 html(lang="en")
   head
-    link(rel="stylesheet", href="/stylesheets/search.css")
+    link(rel="stylesheet", href="/stylesheets/grid.css")
     title
       | #{pageTitle}
     script(type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js")
   body
-    form(method="get")
-        | Search: <input type="text" name="q"> <input type="submit" value="Search">
-    #buttons
-        a.tab(href="/search/users")
-            | Users
-        a.tab(href="/search/photos")
-            | Photos
-        a.tab(href="/search/interests")
-            | Interests
+    a(href='/profile?id=' + userid)
+        .title.pink
+            | Home
+    if search
+        br
+        form(method="get")
+            | Search: <input type="text" name="q"> <input type="submit" value="Search">
+        #buttons
+            a.tab.blue(href="/search/users")
+                | Users
+            a.tab.blue(href="/search/photos")
+                | Photos
+            a.tab.blue(href="/search/interests")
+                | Interests
+            a.tab.blue(href="/search/web")
+                | Web
     #container
         block results
     script.

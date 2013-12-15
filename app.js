@@ -26,7 +26,7 @@ var express = require('express'),
 	pinnewphoto = require('./routes/addnewpin/addfromurl/selectboard/pinnewphoto'),
 	fetchimages = require('./routes/fetchimages'),
 	pinselectedimage = require('./routes/pinselectedimage'),
-	pinsphoto = require('./routes/pins/pinsphoto'),
+	pinsphoto = require('./routes/pinsphoto'),
 	pinphotoonboard = require('./routes/pinphotoonboard'),
 	photopinnedonboard = require('./routes/photopinnedonboard'),
 	boards = require('./routes/boards'),
@@ -42,6 +42,7 @@ var express = require('express'),
 	interestaddition = require('./routes/interestaddition'),
     follow = require('./routes/follow'),
     search = require('./routes/search'),
+    bing = require('./routes/bing'),
     cache_photo_c_pin = require('./cache/photo/c_pin'),
     mongo_cache = require('./cache/mongo_cache');
 
@@ -134,6 +135,7 @@ app.get('/:id/following', follow.getFollowing);
 app.get('/search/users', search.getUsers);
 app.get('/search/photos', search.getPhotos);
 app.get('/search/interests', search.getInterests);
+app.get('/search/web', bing.search);
 app.get('/cache/photo/c_pin', cache_photo_c_pin.do_work);
 app.get('/cache/mongo_cache', mongo_cache.do_work);
 

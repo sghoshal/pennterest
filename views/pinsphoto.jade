@@ -3,47 +3,42 @@
 extend layout
 block content
   h1 #{title}
-  
+
   // Get back to logged in users home page
   tr
     td
       a(href="/home?id="+session_userid) Home <br/>
       <br/>
-  
-  
+
+
   // Create a table with one row per result
   table(border='0')
     tr
-      td 
+      td
         img(src=photoResults[0].URL height="480" width="530")
     tr
-      td 
-        The Average Rating of this Photo = #{photoResults[0].AVG}
-    tr
-      td 
+      td
+        The Average Rating = #{photoResults[0].AVG}
+      td
         The First Pinner ID = #{photoResults[0].FPID}
-    tr
-      td 
+      td
         The This photo has been pinned #{photoResults[0].COUNT} times
-    if alreadyRated != 0
-      tr
-        td 
-          The My Rating of this Photo = #{ratingResults[0].SCR}
-    tr
-      td 
+      if alreadyRated != 0
+        td
+          The My Rating = #{ratingResults[0].SCORE}
+      td
         a(href="/pinphotoonboard?id=" + queried_userid + "&pid=" + photoResults[0].PID) Pin it!
     if hasBeenTagged != 0
-      tr 
+      tr
         td
-          The <br/>Tags:   
+          The Tags:
           - for (var inx = 0; inx < tagResults.length; inx++)
-              tr
-                td
-                  The #{tagResults[inx].TAG} 
-    
+              td
+                The Tags: <br/>#{tagResults[inx].TAG}
+
 
   if alreadyRated == 0
-    form(method='post', action='/interimrating?id='+queried_userid+'&pid='+queried_photoid) 
+    form(method='post', action='/interimrating?id='+queried_userid+'&pid='+queried_photoid)
       table(border='0')
         tr
           td Give your Rating
@@ -58,7 +53,7 @@ block content
             input(type='radio', name='rating' value='four')
             | 4
             input(type='radio', name='rating' value='five')
-            | 5  
+            | 5
           td
             input(type='submit', value='Submit')
 
@@ -75,4 +70,4 @@ block content
             input(type='submit', value='Submit')
 
 
-    
+

@@ -16,26 +16,26 @@ var http = require('http');
 
 var request = require('request');
 
-var connectData = { 
-		"hostname": "cis550project.c2vffmuf4yhs.us-east-1.rds.amazonaws.com", 
-		"user": "CIS550", 
-		"password": "databaseproject", 
+var connectData = {
+		"hostname": "cis550project.c2vffmuf4yhs.us-east-1.rds.amazonaws.com",
+		"user": "CIS550",
+		"password": "databaseproject",
 		"database": "CIS550" };
 var oracle =  require("oracle");
 
 function query_db(req, res, query_id) {
 	oracle.connect(connectData, function (err, connection) {
-        
-        var sql_get_pin = 
+
+        var sql_get_pin =
             "select distinct p.photoid AS PID, p.is_cached, p.url AS URL, p.avg_rating AS AVG, p.pin_count AS COUNT " +
             "from photo p, pin pi " +
-            "where pi.photoid = p.photoid and pi.userid='" + query_id + "' " 
+            "where pi.photoid = p.photoid and pi.userid='" + query_id + "' "
             "order by p.photoid";
 
 		if (err) {
 			console.log("Error in query: "+err);
 		} else {
-			connection.execute(sql_get_pin, [], 
+			connection.execute(sql_get_pin, [],
 				function (err, results) {
 					if (err) {
 						console.log("Error after executing the first query: "+err);
@@ -48,17 +48,17 @@ function query_db(req, res, query_id) {
                                          " IS_CACHED: " + results[i]["IS_CACHED"] +
                                          " URL:" + results[i]["URL"] );
 						output_pins(req, res, results);
-					}	
+					}
 				}
-			);	
+			);
 		}
 	});
 }
 
 function output_pins (req, res, results) {
 
-    res.render('pins.jade', 
-                {"title": "Pins of " + req.query.id, 
+    res.render('pins.jade',
+                {"title": "Pins of " + req.query.id,
                  "queried_userid": req.query.id,
                  "session_userid": req.session.userid,
                  "results": results});
@@ -87,6 +87,6 @@ exports.get_user_pins = function(req, res) {
 	if (req.session.userAuthenticated) {
         query_db(req, res, req.query.id);
     }
-	else 
+	else
         redirect_to_login(req, res);
 };

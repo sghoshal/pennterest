@@ -7,7 +7,7 @@ function get(query, template, title) {
     return function(req, res) {
         var q = Object.keys(req.query);
         if (q.length === 0)
-            return blank(res, title);
+            return blank(req, res, title);
 
         var string = req.query[q[0]];
         var arr = string.split(' ');
@@ -31,8 +31,10 @@ function get(query, template, title) {
 
                 res.render(template,
                     {
-                           pageTitle: title,
-                           results: qres
+                            pageTitle: title,
+                            results: qres,
+                            search: true,
+                            userid: req.session.userid
                     }
                 );
             });
@@ -40,12 +42,14 @@ function get(query, template, title) {
      }
 }
 
-function blank(res, title) {
+function blank(req, res, title) {
     res.render(
-        'search',
+        'grid_photos',
         {
             pageTitle: title + ' Search',
-            results: []
+            results: [],
+            search: true,
+            userid: req.session.userid
         }
     );
 }
@@ -64,32 +68,32 @@ exports.getUsers = get(
     build(
         '',
         function(key) {
-            return "(SELECT email FROM users WHERE firstname LIKE '%" + key + "%'" +
+            return "(SELECT userid, firstname, lastname, profile_pic FROM users WHERE firstname LIKE '%" + key + "%'" +
                     " OR lastname LIKE '%" + key + "%' OR email LIKE '%" + key + "%')";
         },
         ' INTERSECT ',
         ''
     ),
-    'search_users',
+    'grid_users',
     'Users Search'
 );
 
 exports.getPhotos = get(
     build(
-        'SELECT url FROM photo WHERE photoid IN (',
+        'SELECT photoid, url FROM photo WHERE photoid IN (',
         function(key) {
             return "(SELECT photoid FROM tag WHERE tagvalue LIKE '%" + key + "%')";
         },
         ' INTERSECT ',
         ')'
     ),
-    'search_photos',
+    'grid_photos',
     'Photo Search'
 );
 
 exports.getInterests = get(
     build(
-        'SELECT email FROM users WHERE userid IN (',
+        'SELECT userid, firstname, lastname, profile_pic FROM users WHERE userid IN (',
         function(key) {
             return "(SELECT userid FROM interest WHERE interestvalue LIKE '%" + key +
                     "%')";
@@ -97,6 +101,6 @@ exports.getInterests = get(
         ' INTERSECT ',
         ')'
     ),
-    'search_users',
+    'grid_users',
     'Interests Search'
 );
