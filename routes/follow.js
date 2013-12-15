@@ -53,7 +53,7 @@ function get(query, template, title) {
 
 exports.getFollowers = get(
     function(key) {
-        return 'SELECT firstname, lastname FROM users WHERE userid in (' +
+        return 'SELECT userid, firstname, lastname FROM users WHERE userid in (' +
                    'SELECT DISTINCT userid FROM following WHERE boardid IN (' +
                            "SELECT boardid FROM board WHERE userid='" + key +"'))";
     },
@@ -63,7 +63,7 @@ exports.getFollowers = get(
 
 exports.getFollowing = get (
     function(key) {
-        return 'SELECT firstname, lastname FROM Users WHERE userid IN (' +
+        return 'SELECT userid, firstname, lastname FROM Users WHERE userid IN (' +
                    'SELECT DISTINCT userid FROM board WHERE boardid IN (' +
                        "SELECT boardid FROM following WHERE userid='" + key + "'))";
     },
