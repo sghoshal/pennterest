@@ -18,23 +18,28 @@ block content
         img(src=photoResults[0].URL height="480" width="530")
     tr
       td 
-        The Average Rating = #{photoResults[0].AVG}
+        The Average Rating of this Photo = #{photoResults[0].AVG}
+    tr
       td 
         The First Pinner ID = #{photoResults[0].FPID}
+    tr
       td 
         The This photo has been pinned #{photoResults[0].COUNT} times
-      if alreadyRated != 0
+    if alreadyRated != 0
+      tr
         td 
-          The My Rating = #{ratingResults[0].SCORE}
-      td
+          The My Rating of this Photo = #{ratingResults[0].SCR}
+    tr
+      td 
         a(href="/pinphotoonboard?id=" + queried_userid + "&pid=" + photoResults[0].PID) Pin it!
     if hasBeenTagged != 0
       tr 
         td
-          The Tags:   
+          The <br/>Tags:   
           - for (var inx = 0; inx < tagResults.length; inx++)
-              td
-                The Tags: <br/>#{tagResults[inx].TAG} 
+              tr
+                td
+                  The #{tagResults[inx].TAG} 
     
 
   if alreadyRated == 0

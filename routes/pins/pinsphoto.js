@@ -19,7 +19,7 @@ function query_db(req, res) {
 			"where photoid='" + req.query.pid+"'"; 
 
 		var sqlGetMyRating =
-			"select score " +
+			"select score AS SCR " +
 			"from rating " +
 			"where photoid='" + req.query.pid + "' and userid='" + req.session.userid+"'";  
 
@@ -43,7 +43,7 @@ function query_db(req, res) {
 											if (err) {
 												console.log("Error after fetching data from RATING table: " + err);
 											} else {
-												console.log ("Number of rows returned after running the ratings query: "+ratingResults.length);		
+												console.log ("Number of rows returned after running the ratings query: "+ratingResults.length);
 												connection.close();
 												is_he_allowed_to_tag(req, res, photoResults, tagResults, ratingResults);										
 											}	

@@ -24,8 +24,13 @@ block content
           td
             a(href="/boards/boardpins?id=" + queried_userid + "&bid=" + resultsone[inx].BOARDID) #{resultsone[inx].BOARDNAME}
           td 
-            img(src=resultsone[inx].BOARD_PIC, height="240" width="320")
+            a(href="/boards/boardpins?id=" + queried_userid + "&bid=" + resultsone[inx].BOARDID)
+              img(src=resultsone[inx].BOARD_PIC, height="240" width="320")
           td=resultsone[inx].BOARD_PIN_COUNT
+          // If this is currently logged in user's page then only let him delete his board
+          if session_userid==queried_userid
+            td
+              a(href="/deleteboard?id="+session_userid + "&bid=" + resultsone[inx].BOARDID onclick="return confirm('Are you sure?')") Delete this Board
           if session_userid!=queried_userid
             if results[inx]==0
               td
