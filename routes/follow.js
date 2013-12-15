@@ -3,7 +3,7 @@ var data = require('./db'),
     oracle = require('oracle'),
     db = data.db;
 
-function get(query, template, title) {
+function get(query, template, title, people) {
     return function(req, res) {
         var id = parseInt(req.params.id);
         oracle.connect(db, function(error, connection) {
@@ -24,21 +24,32 @@ function get(query, template, title) {
                                 console.log('error: ' + error);
                                 return res.send('Connection error', 500);
                             }
-                            console.log(query(id));
                             connection.execute(
-                                query(id),
-                                [], function(error, followers) {
-                                    if (error) {
-                                        console.log('error' + error);
-                                        return res.send(
-                                            'Query error: followers not found', 500
-                                        );
-                                    }
-                                    res.render(
-                                        template,
-                                        {
-                                            'pageTitle': title,
-                                            'data': followers
+                                'SELECT firstname, lastname FROM users ' +
+                                    "WHERE userid='" + req.params.id + "'",
+                                [],
+                                function(error, user) {
+                                    connection.execute(
+                                        query(id),
+                                        [], function(error, follow) {
+                                            if (error) {
+                                                console.log('error' + error);
+                                                return res.send(
+                                                    'Query error: followers not found',
+                                                    500
+                                                );
+                                            }
+                                            res.render(
+                                                template,
+                                                {
+                                                    pageTitle: title,
+                                                    userid: req.session.userid,
+                                                    results: follow,
+                                                    search: false,
+                                                    username: user,
+                                                    type: people
+                                                }
+                                            );
                                         }
                                     );
                                 }
@@ -53,20 +64,22 @@ function get(query, template, title) {
 
 exports.getFollowers = get(
     function(key) {
-        return 'SELECT userid, firstname, lastname FROM users WHERE userid in (' +
+        return 'SELECT userid, firstname, lastname, profile_pic FROM users WHERE userid in (' +
                    'SELECT DISTINCT userid FROM following WHERE boardid IN (' +
                            "SELECT boardid FROM board WHERE userid='" + key +"'))";
     },
-    'follow',
-    'Followers'
+    'grid_users',
+    'Followers',
+    'Following'
 );
 
 exports.getFollowing = get (
     function(key) {
-        return 'SELECT userid, firstname, lastname FROM Users WHERE userid IN (' +
+        return 'SELECT userid, firstname, lastname, profile_pic FROM Users WHERE userid IN (' +
                    'SELECT DISTINCT userid FROM board WHERE boardid IN (' +
                        "SELECT boardid FROM following WHERE userid='" + key + "'))";
     },
-    'follow',
-    'Following'
+    'grid_users',
+    'Following',
+    'Followed by'
 );

@@ -1,0 +1,22 @@
+extends grid
+block results
+    if !search
+        .title
+            a(href='/profile?id=' + userid)
+                | #{type} #{username[0]['FIRSTNAME']} #{username[0]['LASTNAME']}
+        br
+    #usercol.col
+        - for (var i = 0; i < results.length; i += 4)
+            br
+            br
+            - var n;
+            - for (var j = 0; j < 4 && i + j < results.length; j++)
+                - n = j;
+                img(class="img" src="#{results[i + j]['PROFILE_PIC']}")
+            if n < 3
+                br
+            - for (var j = 0; j < 4 && i + j < results.length; j++)
+                a(href='/profile?id=' + results[i + j]['USERID'])
+                    .name
+                        | #{results[i + j]['FIRSTNAME']} #{results[i + j]['LASTNAME']}
+            br

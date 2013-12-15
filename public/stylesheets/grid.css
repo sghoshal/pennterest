@@ -1,0 +1,74 @@
+body {
+    background-color: black;
+    color: #00FFFF;
+    font-family: "Open Sans";
+}
+
+.title {
+    font-size: 2em;
+    font-family: "Open Sans";
+}
+
+a:link, a:visited, a:hover, a:active {
+    text-decoration: none;
+    color: #00FFFF;
+    font-family: "Open Sans";
+}
+
+a.blue {
+    color: #33A6F2;
+}
+
+.col {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.tab {
+    margin-left: 1em;
+    font-size: 35px;
+}
+
+.img {
+    z-index: 0;
+    width: 23%;
+    height: 10em;
+    margin-left: 1%;
+    margin-right: 1%;
+    position: relative;
+}
+
+.big {
+    position: absolute;
+    z-index: 1;
+    width: 44%;
+    height: 27em;
+}
+
+.left {
+    z-index: 0;
+    margin-left: 5%;
+}
+
+.right {
+    margin-left: 50%;
+}
+
+.toplink {
+    margin-left: 1em;
+    font-size: 35px;
+}
+
+.name {
+    display: inline-block;
+    text-align: center;
+    width: 23%;
+    margin-left: 1%;
+    margin-right: 1%;
+    position: relative;
+    color: #7AFF7A;
+}
+
+.pink {
+    color: #FF00FF;
+}
