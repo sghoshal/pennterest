@@ -26,10 +26,10 @@ var oracle =  require("oracle");
 function query_db(req, res, query_id) {
 	oracle.connect(connectData, function (err, connection) {
 
-        var sql_get_pin =
-            "select distinct p.photoid AS PID, p.is_cached, p.url AS URL, p.avg_rating AS AVG, p.pin_count AS COUNT " +
-            "from photo p, pin pi " +
-            "where pi.photoid = p.photoid and pi.userid='" + query_id + "' "
+        var sql_get_pin = 
+            "select p.photoid AS PID, p.is_cached, p.url AS URL, p.avg_rating AS AVG, p.pin_count AS COUNT, b.boardid AS BID, b.boardname AS BNAME " +
+            "from photo p, pin pi, board b " +
+            "where pi.photoid = p.photoid and pi.boardid = b.boardid and pi.userid = b.userid and pi.userid='" + query_id + "' " 
             "order by p.photoid";
 
 		if (err) {

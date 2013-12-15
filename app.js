@@ -21,6 +21,8 @@ var express = require('express'),
 	addnewpin = require('./routes/addnewpin'),
 	followthisboard = require('./routes/followthisboard'),
 	deleteboard = require('./routes/deleteboard'),
+	deletepin = require('./routes/deletepin'),
+	deleteboardpin = require('./routes/deleteboardpin'),
 	addfromurl = require('./routes/addnewpin/addfromurl'),
 	selectboard = require('./routes/addnewpin/addfromurl/selectboard'),
 	pinnewphoto = require('./routes/addnewpin/addfromurl/selectboard/pinnewphoto'),
@@ -119,6 +121,8 @@ app.get('/boards', boards.do_work);
 app.post('/changepassword',changepassword.do_work);
 app.get('/followthisboard', followthisboard.do_work);
 app.get('/deleteboard', deleteboard.do_work);
+app.get('/deletepin', deletepin.do_work);
+app.get('/deleteboardpin', deleteboardpin.do_work);
 app.get('/pinphotoonboard', pinphotoonboard.do_work);
 app.get('/photopinnedonboard', photopinnedonboard.do_work);
 app.get('/createnewboard', createnewboard.do_work);
