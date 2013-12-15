@@ -26,13 +26,19 @@ block content
               a(href="/pins/pinsphoto?id=" + queried_userid + "&pid=" + results[inx].PID) 
                 img(src="/cache/photo/c_pin?pid=" + results[inx].PID, height="240" width="320")
           else
-            td 
-              img(src=results[inx].URL, height="240" width="320")
+            td
+              a(href="/pins/pinsphoto?id=" + queried_userid + "&pid=" + results[inx].PID)  
+                img(src=results[inx].URL, height="240" width="320")
 
           td 
             The Average Rating = #{results[inx].AVG}
           td 
             The This photo has been pinned #{results[inx].COUNT} times
+          td 
+            The This photo has been pinned on #{results[inx].BNAME}
           td
             a(href="/pinphotoonboard?id=" + session_userid + "&pid=" + results[inx].PID) Pin it!
+          if session_userid==queried_userid
+            td
+              a(href="/deletepin?id="+session_userid + "&bid=" + results[inx].BID + "&pid=" + results[inx].PID onclick="return confirm('Are you sure?')") Delete this Pin
   

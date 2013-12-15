@@ -27,5 +27,8 @@ block content
             The This photo has been pinned #{results[inx].COUNT} times
           td
             a(href="/pinphotoonboard?id=" + session_userid + "&pid=" + results[inx].PID) Pin it!
+          if session_userid==queried_userid
+            td
+              a(href="/deleteboardpin?id="+session_userid + "&bid=" + queried_boardid + "&pid=" + results[inx].PID onclick="return confirm('Are you sure?')") Delete this Pin
           
   
