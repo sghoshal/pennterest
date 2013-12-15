@@ -1,34 +1,43 @@
-extends layout
+!!! 5
+html(lang='en')
+head
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible', content='IE=edge')
+  meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  meta(name='description', content='')
+  meta(name='author', content='')
+  link(rel='shortcut icon', href='docs-assets/ico/favicon.png')
+  
+  title Pennterest
+  //
+    Bootstrap core CSS 
+  link(href='stylesheets/bootstrap.css', rel='stylesheet')
+  //
+    Custom styles for this template 
+  link(href='stylesheets/signin.css', rel='stylesheet')
+  
+body
+  .container
+    h1(style='text-align: center;') #{title}
+    h4(style='text-align: center;') #{msg}
+    form.form-signin(role='form', action='/login', method='post')
+      
+      h3.form-signin-heading Please sign in<br/>
+      
+      input.form-control(type='text', placeholder='Email address', required='required', autofocus='autofocus', name='username')
+      
+      input.form-control(type='password', placeholder='Password', name='password', required='required')
+      
+      label.checkbox
+        input(type='checkbox', value='remember-me', name='remember-me')
+        | Remember me
+      
+      button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign in
+      
+      p(style='text-align: center;')
+        br
+        br
+        | Not a member?
+      p(style='text-align: center;')
+        a(href='/signupdetails') Sign Up
 
-block content
-  
-  //form(method='get', action='/', id='mainForm')
-  //  input(name='firstName', value='')
-  //  input(name='lastName', value='')
-  //  input(type='submit', value='Your Pins', onClick='document.getElementById(\'mainForm\').action=\'/pins\';')
-  
-  h1= ''
-    p #{title}
-    p #{msg}
-  
-  h3 USER LOGIN
-    form(method='post', action='./login')
-      table(border='0')
-        tr
-          td Username
-          td :
-          td
-            input(type='text', name='username', size='25')
-        tr
-          td Password
-          td :
-          td
-            input(type='password', name='password', size='25')
-        tr
-          td  
-          td  
-          td
-            input(type='submit', value='Login')
-        
-            p Not a member? 
-              a(href='/signupdetails') Sign up

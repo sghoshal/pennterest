@@ -1,59 +1,85 @@
-h3 USER INFORMATION
- p #{error_msg}
-  p (*) Compulsory Fields
-    form(method='post', action='./signup')
+!!! 5
+html(lang='en')
+head
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible', content='IE=edge')
+  meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  meta(name='description', content='')
+  meta(name='author', content='')
+  link(rel='shortcut icon', href='docs-assets/ico/favicon.png')
+  title Sign Up
+  //
+     Bootstrap core CSS 
+  link(href='stylesheets/bootstrap.css', rel='stylesheet')
+  //
+     Custom styles for this template 
+  link(href='stylesheets/signin.css', rel='stylesheet')
+  
+body
+  .container
+    h1(style='text-align: center;') Sign Up!
+    p #{error_msg}
+    h5(style='text-align: center;') (*)Compulsory Fields
+
+    form.form-signin(role='form', action='/signup' method='post')
+      
       table(border='0')
         tr
           td Username(email id)*
           td :
           td
-            input(type='email', name='username', size='25')
+            input.form-control(type='text', placeholder='Email ID', required='required', autofocus='autofocus', name='username')
         tr
           td First Name*
           td :
           td
-            input(type='text', name='firstname', size='25')
+            input.form-control(type='text', placeholder='First Name', required='required', autofocus='autofocus', name='firstname')
         tr
           td Last Name*
           td :
           td
-            input(type='text', name='lastname', size='25')
+            input.form-control(type='text', placeholder='Last Name', required='required', autofocus='autofocus', name='lastname')
         tr
           td Password*
           td :
           td
-            input(type='password', name='password', size='25')
+            input.form-control(type='password', placeholder='Password', name='password', required='required')
         tr
           td Gender*
           td :
           td
-            input(type='radio', name='gender' value='M')
+            input.form-control(type='radio', autofocus='autofocus', name='gender', 
+            value='M', required='required')
             | Male
-            input(type='radio', name='gender' value='F')
+            input.form-control(type='radio', autofocus='autofocus', name='gender', 
+            value='F', required='required')
             | Female
+
         tr
           td Date of Birth*
           td :
           td
-            input(type='text', name='date_of_birth', value='DD-MON-YYYY')
+            input.form-control(type='text', placeholder='DD-MM-YYYY', autofocus='autofocus', 
+            required='required', name='date_of_birth')
+
         tr
           td Affiliation
           td :
           td
-            input(type='text', name='affiliation', size='25')
+            input.form-control(type='text', placeholder='Affiliation', autofocus='autofocus', name='affiliation')
 
         tr
-          td Profile Picture
+          td Profile Pic
           td :
           td
-            input(type='text', name='profile_pic', size='25')
+            input.form-control(type='text', placeholder='Your profile pic URL', autofocus='autofocus', name='profile_pic')
         tr
-          td Cover Picture
+          td Cover Pic
           td :
           td
-            input(type='text', name='cover_pic', size='25')
+            input.form-control(type='text', placeholder='Your cover pic URL', autofocus='autofocus', name='cover_pic')
         tr
-          td  
-          td  
-          td
-            input(type='submit', value='Submit')
+          td <br/>
+          td <br/>
+            
+      button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign Up
