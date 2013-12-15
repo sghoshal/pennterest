@@ -190,19 +190,22 @@ exports.get_photo_pin_count = function get_photo_pin_count(req, res, p_id) {
 
                         if (pinned_photo_pin_count > 5) {
                             console.log ("OK. This needs to be cached!");
+                            
                             mongo_cache.check_photo_exists(req, res, pinned_photoid, 
                                 function(err, exists) {
                                 
                                     if(err) return console.log("ERROR in check_photo_existscallback");
-                                    else {
-                                        console.log("Callback Success!");
-                                        
-                                        if (exists) 
+                                    else {                                        
+                                        if (exists) { 
+                                            console.log("Just updating IS_CACHED=1 in Oracle...")
                                             update_is_cached_oracle(req, res, photo_id);
-                                        else
+                                        }
+                                        else {
+                                            console.log("Write to Mongo and then Update Oracle IS_CACHED...");
                                             mongo_cache.write_file(req, res, pinned_photoid, pinned_photo_url);
+                                        }
                                     }
-                            });
+                            }); 
                         }
 
                     }   
@@ -255,80 +258,3 @@ exports.do_work = function(req, res, p_id) {
     else
         redirect_to_login(req, res);
 };
-
-
-
-/*
-function zach_gridstore_impl (req, res, db) {
-    var fileId = 'ourexamplefiletowrite.txt';
-    // Create a new instance of the gridstore
-
-    var gridStore = new GridStore(db, 'ourexamplefiletowrite.txt', 'w');
-    // Open the file
-    gridStore.open(function(err, gridStore) {
-
-        http.get('http://www.hdwallpapers3d.com/wp-content/uploads/2013/06/Robert-Downey-Jr-SH2-Movie-Posters-robert-downey-jr-26552473-800-1278.jpg', function (response) {
-      
-            response.setEncoding('binary');
-            
-            var image2 = '';
-          
-            console.log('reading data in chunks first');
-            response.on('data', function(chunk){
-                image2 += chunk;
-                console.log('reading data');
-            });
-            
-            response.on('end', function() {
-                console.log('done reading data');
-
-                image = new Buffer(image2,"binary");
-                
-                // Write some data to the file
-                gridStore.write(image, function(err, gridStore) {
-                    assert.equal(null, err);
-
-                    // Close (Flushes the data to MongoDB)
-                    gridStore.close(function(err, result) {
-                        assert.equal(null, err);
-                        console.log('Wrote file');
-
-                        
-                        GridStore.read(db, fileId, function(err, fileData) {
-                            console.log('Read file: ' + fileId);
-
-                            assert.equal(image.toString('base64'), fileData.toString('base64'));
-                            
-                            console.log('Done, writing local images for testing purposes');
-                            
-                            var fd =  fs.openSync('image.jpg', 'w');
-
-                            fs.write(fd, image, 0, image.length, 0, function(err,written){
-
-                            });
-
-                            var fd2 =  fs.openSync('image_copy.jpg', 'w');
-                            fs.write(fd2, fileData, 0, fileData.length, 0, function(err,written){
-
-                            });
-                            
-                            res.writeHead(200, {
-                                'Content-Type': 'image/jpeg',
-                                'Content-Length':fileData.length});
-
-                            console.log("File length is " +fileData.length);
-                            res.write(fileData, "binary");
-                            res.end(fileData,"binary");
-                            console.log('Really done');
-
-                        });
-                        
-
-                    });
-                });
-            });
-
-        });
-    });
-}
-*/

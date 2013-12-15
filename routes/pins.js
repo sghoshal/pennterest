@@ -16,7 +16,6 @@ var http = require('http');
 
 var request = require('request');
 
-
 var connectData = { 
 		"hostname": "cis550project.c2vffmuf4yhs.us-east-1.rds.amazonaws.com", 
 		"user": "CIS550", 

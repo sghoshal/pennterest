@@ -15,8 +15,16 @@ var http = require('http');
 var request = require('request');
 
 
-function read_file_mongo(req, res, photo_id) {
+var connectData = { 
+        "hostname": "cis550project.c2vffmuf4yhs.us-east-1.rds.amazonaws.com", 
+        "user": "CIS550", 
+        "password": "databaseproject", 
+        "database": "CIS550" };
+var oracle =  require("oracle");
 
+function read_file_mongo(req, res, p_id) {
+
+    var photo_id = p_id;
     var fileId = photo_id + ".txt";
     MongoClient.connect('mongodb://CIS550:databaseproject@dharma.mongohq.com:10042/Pennterest-Trial', function(err, db) {
         if(!err) {
@@ -24,37 +32,87 @@ function read_file_mongo(req, res, photo_id) {
         }
         console.log("FileID: " + fileId);
 
-        // Create a new instance of the gridstore
-        // var gridStore = new GridStore(db, fileId, 'r');
-        
-        GridStore.exist(db, fileId, function(err, exists) {
-            assert.equal(err, null);
-            assert.equal(exists, true);
+        console.log("Reading cached pic..." + fileId);
+        GridStore.read(db, fileId, function(err, fileData) {
+            if (err) {
+                console.log ("ERROR in reading " + fileId + "\t" + err);
+                load_backup_from_oracle(req, res, photo_id);
+            }
+            else {
+                if (fileData == null || fileData.length == 0) {
+                    load_from_oracle(req, res, p_id);
+                }
+                else {
+                    res.writeHead(200, {
+                                        'Content-Type': 'image/jpeg',
+                                        'Content-Length':fileData.length});
+                    
+                    res.write(fileData, "binary");
+                    res.end(fileData,"binary");
+                    console.log('Done!');
+                }
+            }
 
-            console.log("Reading cached pic..." + fileId);
-            GridStore.read(db, fileId, function(err, fileData) {
-                if (err) console.log ("ERROR in reading " + fileId + "\nerr");
-                
-                //output_cached_pins(req, res, "10024");
-
-                res.writeHead(200, {
-                                    'Content-Type': 'image/jpeg',
-                                    'Content-Length':fileData.length});
-                
-                //console.log("File length is " +fileData.length);
-                res.write(fileData, "binary");
-                res.end(fileData,"binary");
-                console.log('Done!');
-
-            });
         });
     }); 
 }
 
-function output_cached_pins (req, res, photo_id) {
-    res.render('c_pin.jade', {"pid": photo_id});
+function load_backup_from_oracle(req, res, p_id) {
+    console.log("BACKUP: Loading from Oracle ...");
+    var photo_id = p_id;
+
+    oracle.connect(connectData, function (err, connection) {
+        var sql_get_photo_url = "SELECT URL FROM PHOTO WHERE PHOTOID='" + photo_id + "'";
+        
+        if (err) {
+            console.log(err);
+        } else {
+            connection.execute(sql_get_photo_url, [], 
+                function (err, results) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        connection.close();
+                        console.log("PHOTOID: " + photo_id + "URL: " + results[0]["URL"]);
+                        render_photo_from_url(req, res, photo_id, results[0]["URL"]);
+                    }   
+                }
+            );
+        }
+    });
+
 }
 
+function render_photo_from_url(req, res, p_id, p_url) {
+    var photo_id = p_id;
+    var photo_url = p_url;
+    
+    http.get(photo_url, 
+        function (response) {        
+            response.setEncoding('binary');
+             
+            var image2 = '';
+            console.log('Reading data in chunks from Photo URL first...');
+            
+            response.on('data', function(chunk) {
+                image2 += chunk;
+            });
+            
+            response.on('end', function() {
+                console.log('Done reading data!');
+
+                image = new Buffer(image2,"binary");
+
+                res.writeHead(200, 
+                    {'Content-Type': 'image/jpeg', 'Content-Length':image.length});
+                    
+                    res.write(image, "binary");
+                    res.end(image,"binary");
+                    console.log('Done!');
+            
+            });
+        });
+}
 
 exports.do_work = function(req, res) {
 
