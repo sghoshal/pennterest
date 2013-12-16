@@ -74,6 +74,7 @@ function output_pins (req, res, results, username) {
                     queried_userid: req.query.id,
                     userid: req.session.userid,
                     results: results,
+                    sessionid: req.session.userid,
                     name: username
                 }
     );

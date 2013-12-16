@@ -59,7 +59,8 @@ function output_pins(req, res,results, username) {
 		            userid: req.session.userid,
 		            queried_userid: req.query.id,
 		            queried_boardid: req.query.bid,
-                    name: username
+                    name: username,
+                    sessionid: req.session.userid
                 }
 	  );
 }
