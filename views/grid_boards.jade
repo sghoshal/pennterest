@@ -1,0 +1,33 @@
+extends grid
+block results
+    .title
+        a(href='/profile?id=' + userid)
+            | Boards of #{name[0]['FIRSTNAME']} #{name[0]['LASTNAME']}
+    - for (var i = 0; i < results.length; i += 4)
+        br
+        br
+        - var n
+        - for (var j = 0; j < 4 && i + j < results.length; j++)
+            - n = j
+            img(class='img' src="#{results[i + j]['BOARD_PIC']}")
+        if n < 3
+            br
+        - for (var j = 0; j < n + 1; j++)
+            - var s = '/boards/boardpins?id=' + queried_userid + '&bid='
+            - var ss = results[i + j]['BOARDID']
+            .name
+                a(href=s + ss)
+                    | #{results[i + j]['BOARDNAME']}
+        br
+        - for (var j = 0; j < n + 1; j++)
+            .name.blue
+                | #{results[i + j]['BOARD_PIN_COUNT']} pin(s)
+        br
+        if userid == queried_userid
+            - for (var j = 0; j < n + 1; j++)
+                - var s = '/deletebaord?id=' + userid + '&bid='
+                - var ss = "results[i + j]['BOARDID']"
+                a(href=s + ss, onclick="return conform('Are you sure?')")
+                    .name
+                        | Delete this board
+        br

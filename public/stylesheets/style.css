@@ -1,6 +1,34 @@
+h1 {
+  margin: 0.67em 0;
+  font-size: 2em;
+  font-family: Georgia;
+  color: #eee;
+}
+
+h2 {
+  font-family: Georgia;
+  color: #ddd;
+}
+h3,h4,h5 {
+  font-family: Georgia;
+  color: #ccc;
+}
+
+table {
+  font-family: "Georgia";
+  font-size: 1.2em;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
 body {
   padding: 50px;
-  font: 14px "sans-serif", Helvetica, Arial, sans-serif;
+  /*background-color: #eee;*/
+  background-image: url('../img/black-metal.JPG');
+  background-size: 100% auto;
+  /*font: 14px "sans-serif", Helvetica, Arial, sans-serif;*/
+  font-family: Georgia;
+  color: #eee;
 }
 
 a {
