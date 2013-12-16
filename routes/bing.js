@@ -8,7 +8,7 @@ exports.search = function(req, res) {
         return res.render(
             'grid_bing',
             {
-                pageTitle: 'Web Search',
+                pageTitle: 'Bing Search',
                 results: [],
                 userid: req.session.userid,
                 search: true
@@ -23,7 +23,7 @@ exports.search = function(req, res) {
         return res.render(
             'grid_bing',
             {
-                pageTitle: 'Web Search',
+                pageTitle: 'Bing Search',
                 results: [],
                 userid: req.session.userid,
                 search: true
