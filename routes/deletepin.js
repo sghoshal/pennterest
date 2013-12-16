@@ -8,18 +8,19 @@ var oracle =  require("oracle");
 
 function query_db(req, res) {
 	oracle.connect(connectData, function (err, connection) {
-		var sqlDeleteBoard = 
-			"DELETE FROM PIN WHERE PHOTOID='" + req.query.pid + "' AND BOARDID='" + req.query.bid + + "' AND USERID='" + req.query.id + "'";
+		var sqlDeletePin = 
+			"DELETE FROM PIN WHERE PHOTOID='" + req.query.pid + "' AND BOARDID='" + req.query.bid + "' AND USERID='" + req.query.id + "'";
 
 		console.log ("Before if else");		
 		if (err) {
 			console.log("There is an error" + err);
 		} else {
-			connection.execute(sqlDeleteBoard, [], 
+			connection.execute(sqlDeletePin, [], 
 				function (err, resultsone) {
 					if (err) {
 						console.log("Error after running delete board query: " + err);
 					} else {
+						console.log("Delete Query Executed Successfully! ");
 						connection.close();
 						res.writeHead(301, {Location: '/pins?id=' + req.query.id});
       					res.end();

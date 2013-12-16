@@ -10,15 +10,15 @@ function query_db(req, res) {
 	 		var sqlGetBoardPins =
 			"select p.photoid AS PID, p.url AS URL, p.avg_rating AS AVG, p.pin_count AS COUNT " +
 			"from photo p, pin pi " +
-			"where pi.photoid = p.photoid and pi.boardid=" + req.query.bid + " " 
+			"where pi.photoid = p.photoid and pi.boardid='" + req.query.bid + "' " +
 			"order by p.photoid";
 		    if ( err ) {
 		    	console.log(err);
 		    } else {
 			  	// inserting user entry
-			  	console.log("pid"+req.query.pid);
-			  	console.log("bid"+req.query.bid);
-			  	console.log("uid"+req.session.userid);
+			  	console.log("url: "+req.query.url);
+			  	console.log("bid: "+req.query.bid);
+			  	console.log("uid: "+req.session.userid);
 			  	//var justCreatedPhotoid = PHOTOID_SEQ.nextval;
 			  	//("INSERT INTO board(boardid,boardname,userid,board_pic) VALUES(BOARDID_SEQ.nextval,'"+boardname+"','"+req.session.userid+"','"+boardDefaultImage+"')",
 			  	connection.execute("INSERT INTO PHOTO(photoid,url,first_pinnerid) VALUES(PHOTOID_SEQ.nextval,'"+req.query.url+"',"+req.session.userid+")",

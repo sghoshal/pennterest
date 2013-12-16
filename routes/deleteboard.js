@@ -10,7 +10,6 @@ function query_db(req, res) {
 	oracle.connect(connectData, function (err, connection) {
 		var sqlDeleteBoard = 
 			"DELETE FROM BOARD WHERE BOARDID='" + req.query.bid + "'";
-
 		console.log ("Before if else");		
 		if (err) {
 			console.log("There is an error" + err);
@@ -21,7 +20,7 @@ function query_db(req, res) {
 						console.log("Error after running delete board query: " + err);
 					} else {
 						connection.close();
-						res.writeHead(301, {Location: '/boards?id=' + req.query.id});
+						res.writeHead(301, {Location: '/boards?id=' + req.session.userid});
       					res.end();
 					}	
 				}
@@ -46,6 +45,8 @@ exports.do_work = function(req, res){
 	console.log("IN DELETE BOARD PAGE...");
 	console.log("Session Authenticated: " + req.session.userAuthenticated);
     console.log("Session User ID: "  + req.session.userid);
+    console.log("Board ID to be deleted: " + req.query.bid);
+    console.log("User ID from URL: " + req.query.id);
 	
 	if (req.session.userAuthenticated)
 		query_db(req, res);

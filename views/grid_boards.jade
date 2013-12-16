@@ -2,6 +2,15 @@ extends grid
 block results
     .title
         | Boards of #{name[0]['FIRSTNAME']} #{name[0]['LASTNAME']}
+        br
+        br
+
+    // If this is currently logged in user's page then only let him add a new board
+    if userid==queried_userid  
+        tr
+            td
+                a(href="/createnewboard?id="+userid) Create a new Board <br/>
+
     - for (var i = 0; i < results.length; i += 4)
         br
         br
@@ -36,9 +45,9 @@ block results
 
         if userid == queried_userid
             - for (var j = 0; j < n + 1; j++)
-                - var s = '/deletebaord?id=' + userid + '&bid=' + results[i + j]['BOARDID']
-                - var ss = ""
-                a(href=s, onclick="return conform('Are you sure?')")
-                    .name
-                        | Delete this board
+                - var s = '/deleteboard?id=' + userid + '&bid='
+                - var ss = results[i + j]['BOARDID']
+                    a(href=s + ss, onclick="return conform('Are you sure?')")
+                        .name
+                            | Delete this board
         br
