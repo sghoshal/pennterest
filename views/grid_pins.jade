@@ -3,6 +3,17 @@ block results
     .title
         a(href='/profile?id=' + userid)
             | Pins of #{name[0]['FIRSTNAME']} #{name[0]['LASTNAME']}
+        br
+        br
+
+
+    // If this is currently logged in user's page then only let him add a new pin
+    if userid==queried_userid
+        tr
+            td
+                a(href="/addnewpin?id="+userid) Add a new Pin <br/>
+
+
     - for (var i = 0; i < results.length; i += 4)
         br
         br

@@ -27,9 +27,9 @@ block results
                         | #{results[i + j]['BNAME']}
         br
         - for (var j = 0; j < n + 1; j++)
-            - var s = '/pinphotoonboard?id=' + userid + '&pid=' +
+            - var s = '/pinphotoonboard?id=' + user_id + '&pid=' + results[i + j]['PID']
             - var ss = results[i + j]['PID']
-                a(href=s + ss)
+                a(href=s)
                     .name
                         | Pin it!
         br

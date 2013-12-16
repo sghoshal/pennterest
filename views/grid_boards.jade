@@ -3,6 +3,15 @@ block results
     .title
         a(href='/profile?id=' + userid)
             | Boards of #{name[0]['FIRSTNAME']} #{name[0]['LASTNAME']}
+        br
+        br
+
+    // If this is currently logged in user's page then only let him add a new board
+    if userid==queried_userid
+        tr
+          td
+            a(href="/createnewboard?id="+userid) Create a new Board <br/>
+
     - for (var i = 0; i < results.length; i += 4)
         br
         br
