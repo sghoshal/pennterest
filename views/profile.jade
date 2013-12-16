@@ -1,19 +1,41 @@
 extends layout
 
 block content
-  h1= title
-    </br>
+  table(border = 0)
     tr
       td
-        a(href='/home?id=' + user_id) Home
+      |  #{title}
+    tr
       td
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      td
-        a(href='/logout?id=' + queried_id) Logout
-      td
-        &nbsp;&nbsp;
-
-      </br>
+        .container
+          .row
+            .span3
+              .navbar
+                .navbar-inner
+                  ul.nav
+                    li.dropdown
+                      a.dropdown-toggle(data-toggle='dropdown', href='#')
+                        |  Menu
+                        b.caret
+                      ul.dropdown-menu
+                        li
+                          a(href='/home?id=' + session_id) Home
+                        li
+                          a(href='/boards?id=' + session_id) My Boards
+                        li
+                          a(href='/pins?id=' + session_id) My Pins
+                        li
+                          a(href='/' + session_id + '/following') I am Following
+                        li
+                          a(href='/' + session_id + '/followers') My Followers
+                        li
+                          a(href='/recommendation?id=' + session_id) Recommended For Me
+                        li
+                          a(href='/interest?id=' + session_id) My Interests
+                        li
+                          a(href='/search/photos') Search!
+                        li
+                          a(href='/logout?id=' + session_id) Logout
 
       td
         a(href='/boards?id=' + queried_id) Boards

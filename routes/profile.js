@@ -34,7 +34,7 @@ function get_user_info (req, res) {
 function welcomeuser(req, res) {
     res.render('profile.jade',
                { "title": "Profile Page of " + user_display_name + "!",
-                 "queried_id": req.query.id, "user_id": req.session.userid}
+                 "queried_id": req.query.id, "session_id": req.session.userid}
             );
 }
 

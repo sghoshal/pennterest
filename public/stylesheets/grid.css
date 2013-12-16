@@ -1,18 +1,20 @@
 body {
-    background-color: black;
+    background-image: url('../img/black-metal.JPG');
     color: #00FFFF;
-    font-family: "Open Sans";
+    font-family: Georgia;
+
 }
 
 .title {
     font-size: 2em;
-    font-family: "Open Sans";
+    font-family: Georgia;
+    color: #eee;
 }
 
 a:link, a:visited, a:hover, a:active {
     text-decoration: none;
     color: #00FFFF;
-    font-family: "Open Sans";
+    font-family: Georgia;
 }
 
 a.blue {

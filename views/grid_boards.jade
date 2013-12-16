@@ -1,8 +1,7 @@
 extends grid
 block results
     .title
-        a(href='/profile?id=' + userid)
-            | Boards of #{name[0]['FIRSTNAME']} #{name[0]['LASTNAME']}
+        | Boards of #{name[0]['FIRSTNAME']} #{name[0]['LASTNAME']}
     - for (var i = 0; i < results.length; i += 4)
         br
         br

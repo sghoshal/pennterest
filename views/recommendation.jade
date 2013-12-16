@@ -1,6 +1,42 @@
 extend layout
 block content
   h1 Photos you may like...
+  table
+      tr
+        td
+        |  #{title}
+      tr
+        td
+          .container
+            .row
+              .span3
+                .navbar
+                  .navbar-inner
+                    ul.nav
+                      li.dropdown
+                        a.dropdown-toggle(data-toggle='dropdown', href='#')
+                          |  Menu
+                          b.caret
+                        ul.dropdown-menu
+                          li
+                            a(href='/home?id=' + sessionid) Home
+                          li
+                            a(href='/boards?id=' + sessionid) My Boards
+                          li
+                            a(href='/pins?id=' + sessionid) My Pins
+                          li
+                            a(href='/' + sessionid + '/following') I am Following
+                          li
+                            a(href='/' + sessionid + '/followers') My Followers
+                          li
+                            a(href='/recommendation?id=' + sessionid) Recommended For Me
+                          li
+                            a(href='/interest?id=' + sessionid) My Interests
+                          li
+                            a(href='/search/photos') Search!
+                          li
+                            a(href='/logout?id=' + sessionid) Logout
+
   
   // Get back to logged in users home page
   tr

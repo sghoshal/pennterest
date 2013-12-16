@@ -19,6 +19,7 @@ var rec_photos_avg_rating = new Array();
 var rec_photos_pin_count = new Array();
 var rec_ppl = new Array();
 
+var sessionid;
 
 function recommend_first(res)
 {
@@ -356,16 +357,29 @@ function display_recommended(res)
                  rec_photos_avg_rating: rec_photos_avg_rating,
                  rec_photos_pin_count: rec_photos_pin_count,
                  rec_ppl: rec_ppl,
-                 userid: userid
+                 userid: userid,
+                 sessionid: userid 
                  
                  }
           );    
+}
+
+function redirect_to_login(req, res){
+  console.log("Session started. Redirecting user to home page");
+  res.writeHead(301, {Location: '/'});
+  res.end();
 }
 
 
 exports.do_work = function(req, res){
     
     userid = req.session.userid;
-    recommend_first(res);
+    
+    if (req.session.userAuthenticated) {
+        recommend_first(res);
+    }
+    else {
+        redirect_to_login(req, res);
+    }
     
 };

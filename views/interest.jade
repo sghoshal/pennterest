@@ -30,7 +30,7 @@ body
   .container
     ul.list-group(style='width: 400px;')
       - for (var inx = 0; inx < results.length; inx++)
-          li.list-group-item 
+          li.list-group-item(style='color: black')
             if userid == sessionid
               a(href='/interestdeletion?id=' + userid + '&q=' + results[inx]['INTERESTVALUE']) x
               &nbsp;&nbsp;
