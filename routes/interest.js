@@ -26,7 +26,7 @@ function query_db(req, res, query_id) {
                         for (var i = 0; i < results.length; i++)
                             console.log ("USERID: " + results[i]["USERID"] +
                                          " INTEREST: " + results[i]["INTERESTVALUE"]);
-                        output_pins(req, res, results);
+                        output_pins(req, res, results, query_id);
                     }
                 }
             );
@@ -42,10 +42,11 @@ function redirect_to_login(req, res){
   res.end();
 }
 
-function output_pins (req, res, results) {
+function output_pins (req, res, results, query_id) {
 
         res.render('interest.jade', { title: 'My interests', 
-                                      userid: req.session.userid, 
+                                      userid: query_id, 
+                                      sessionid: req.session.userid,
                                       results: results })
 }
 

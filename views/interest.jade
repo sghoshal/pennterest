@@ -18,19 +18,28 @@ head
   link(rel='stylesheet', href='/stylesheets/style.css')
   
 body
-  .container
-    a(href='/home?id=' + userid) Back </br>
+  .container 
+    if userid == sessionid
+      h2 My interests
+    else
+      h2 Interests of #{userid}
 
-    p
-      #{title}</br>
+  .container
+    a(href='/home?id=' + userid) Back </br></br>
 
   .container
     ul.list-group(style='width: 400px;')
       - for (var inx = 0; inx < results.length; inx++)
-          li.list-group-item #{results[inx]['INTERESTVALUE']}
-    p
-      form(method='get' action='./interestaddition')
-        input(type='text', name='interest', size='25')
-        input(type='submit', value='Add!')
-        </br>
-        </br>
+          li.list-group-item 
+            if userid == sessionid
+              a(href='/interestdeletion?id=' + userid + '&q=' + results[inx]['INTERESTVALUE']) x
+              &nbsp;&nbsp;
+            | #{results[inx]['INTERESTVALUE']}
+    
+    if userid == sessionid
+      p
+        form(method='get' action='./interestaddition')
+          input(type='text', name='interest', size='25')
+          input(type='submit', value='Add!')
+          </br>
+          </br>
