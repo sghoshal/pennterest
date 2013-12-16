@@ -25,7 +25,7 @@ block content
         The This photo has been pinned #{photoResults[0].COUNT} times
       if alreadyRated != 0
         td
-          The My Rating = #{ratingResults[0].SCORE}
+          The My Rating = #{ratingResults[0].SCR}
       td
         a(href="/pinphotoonboard?id=" + queried_userid + "&pid=" + photoResults[0].PID) Pin it!
     if hasBeenTagged != 0

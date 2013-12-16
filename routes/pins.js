@@ -68,7 +68,7 @@ function query_db(req, res, query_id) {
 function output_pins (req, res, results, username) {
 
     res.render(
-                'grid_home',
+                'grid_pins',
                 {
                     pageTitle: "Pins of " + req.query.id,
                     queried_userid: req.query.id,
