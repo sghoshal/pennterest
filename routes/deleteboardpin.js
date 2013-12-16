@@ -9,7 +9,7 @@ var oracle =  require("oracle");
 function query_db(req, res) {
 	oracle.connect(connectData, function (err, connection) {
 		var sqlDeletePin = 
-			"DELETE FROM PIN WHERE PHOTOID='" + req.query.pid + "' AND BOARDID='" + req.query.bid + + "' AND USERID='" + req.query.id + "'";
+			"DELETE FROM PIN WHERE PHOTOID='" + req.query.pid + "' AND BOARDID='" + req.query.bid + "' AND USERID='" + req.query.id + "'";
 
 		console.log ("Before if else");		
 		if (err) {

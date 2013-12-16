@@ -46,9 +46,9 @@ block results
 
         if userid == queried_userid
             - for (var j = 0; j < n + 1; j++)
-                - var s = '/deletebaord?id=' + userid + '&bid='
-                - var ss = "results[i + j]['BOARDID']"
-                a(href=s + ss, onclick="return conform('Are you sure?')")
-                    .name
-                        | Delete this board
+                - var s = '/deleteboard?id=' + userid + '&bid='
+                - var ss = results[i + j]['BOARDID']
+                    a(href=s + ss, onclick="return conform('Are you sure?')")
+                        .name
+                            | Delete this board
         br
