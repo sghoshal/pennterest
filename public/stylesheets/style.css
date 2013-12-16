@@ -1,12 +1,48 @@
-/* body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+
+h1 {
+  margin: 0.67em 0;
+  font-size: 2em;
+  font-family: Georgia;
+  color: #eee;
 }
 
-a {
-  color: #00B7FF;
-} */
+h2 {
+  font-family: Georgia;
+  color: #ddd;
+}
+h3,h4,h5 {
+  font-family: Georgia;
+  color: #ccc;
+}
 
+table {
+  font-family: "Georgia";
+  font-size: 1.0em;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.signuptable {
+  font-family: "Georgia";
+  font-size: 1.2em;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td {
+	padding-left: 2px;
+}
+
+body {
+  padding: 50px;
+  background-image: url('../img/black-metal.JPG');
+  background-size: 100% auto;
+  /*font: 14px "sans-serif", Helvetica, Arial, sans-serif;*/
+  font-family: Georgia;
+  color: #eee;
+}
+
+/*
 body {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 11px;
@@ -18,8 +54,10 @@ h1, h2, h3, h4, h5, h6, p, ul, ol, li, form, input, textarea {
 	padding: 0px;
 	margin: 0px;
 }
+*/
+
 a {
-	color: #035c7a;
+	color: #00B7FF;
 	text-decoration: none;
 }
 a:hover {

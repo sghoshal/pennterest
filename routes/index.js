@@ -27,5 +27,11 @@ var oracle =  require("oracle");
 exports.do_work = function(req, res) {
 
     console.log("INDEX PAGE...");
-    res.render('index', { title: 'Welcome to Pennterest!' });
+    
+    if(req.session.userAuthenticated) {
+        res.writeHead(301, {Location: '/profile?id=' + req.session.userid});
+        res.end();
+    } else {
+        res.render('index', { title: 'Welcome to Pennterest!' });
+    }
 };

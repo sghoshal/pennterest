@@ -42,6 +42,7 @@ var express = require('express'),
 	recommendation = require('./routes/recommendation'),
 	interest = require('./routes/interest'),
 	interestaddition = require('./routes/interestaddition'),
+    interestdeletion = require('./routes/interestdeletion'),
     follow = require('./routes/follow'),
     search = require('./routes/search'),
     bing = require('./routes/bing'),
@@ -132,6 +133,7 @@ app.get('/boards/boardpins/boardpinphoto', boardpinphoto.do_work);
 app.get('/recommendation',recommendation.do_work);
 app.get('/interest',interest.do_work);
 app.get('/interestaddition',interestaddition.do_work);
+app.get('/interestdeletion',interestdeletion.do_work);
 app.get('/home', home.do_work);
 app.get('/profile', profile.do_work);
 app.get('/:id/followers', follow.getFollowers);

@@ -1,7 +1,11 @@
 body {
-  padding-top: 40px;
-  padding-bottom: 40px;
-  background-color: #eee;
+  padding: 50px;
+  /*background-color: #eee;*/
+  background-image: url('../img/black-metal.JPG');
+  background-size: 100% auto;
+  /*font: 14px "sans-serif", Helvetica, Arial, sans-serif;*/
+  font-family: Georgia;
+  color: #eee;
 }
 
 .form-signin {

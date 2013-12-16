@@ -3,71 +3,88 @@
 extend layout
 block content
   h1 #{title}
-
+  
   // Get back to logged in users home page
   tr
     td
       a(href="/home?id="+session_userid) Home <br/>
       <br/>
-
-
+  
+  
   // Create a table with one row per result
   table(border='0')
     tr
-      td
+      td 
         img(src=photoResults[0].URL height="480" width="530")
-    tr
       td
-        The Average Rating = #{photoResults[0].AVG}
+        table
+          tr
+            td
+              ul
+                a(href="/pinphotoonboard?id=" + queried_userid + "&pid=" + photoResults[0].PID) Pin it!
+          tr
+            td
+              ul
+                The Average Rating = #{photoResults[0].AVG}
+          tr
+            td
+              ul
+                The First Pinner ID = #{photoResults[0].FPID}   
+          tr
+            td
+              ul
+                The This photo has been pinned #{photoResults[0].COUNT} times
+          tr
+            if alreadyRated != 0
+              td 
+                ul
+                  The My Rating = #{ratingResults[0].SCR}
       td
-        The First Pinner ID = #{photoResults[0].FPID}
-      td
-        The This photo has been pinned #{photoResults[0].COUNT} times
-      if alreadyRated != 0
-        td
-          The My Rating = #{ratingResults[0].SCR}
-      td
-        a(href="/pinphotoonboard?id=" + queried_userid + "&pid=" + photoResults[0].PID) Pin it!
-    if hasBeenTagged != 0
-      tr
-        td
-          The Tags:
-          - for (var inx = 0; inx < tagResults.length; inx++)
+        table
+          if hasBeenTagged != 0
+            tr 
               td
-                The Tags: <br/>#{tagResults[inx].TAG}
+              
+                table
+                  tr
+                    td
+                      The Tags:&nbsp;&nbsp;
+                    - for (var inx = 0; inx < tagResults.length; inx++)
+                        td
+                          The #{tagResults[inx].TAG}&nbsp;&nbsp;   
 
+          if alreadyRated == 0
+            tr
+              td
+                form(method='post', action='/interimrating?id='+queried_userid+'&pid='+queried_photoid) 
+                  table(border='0')
+                    tr
+                      td Give your Rating
+                      td :
+                      td
+                        input(type='radio', name='rating' value='one')
+                        | 1
+                        input(type='radio', name='rating' value='two')
+                        | 2
+                        input(type='radio', name='rating' value='three')
+                        | 3
+                        input(type='radio', name='rating' value='four')
+                        | 4
+                        input(type='radio', name='rating' value='five')
+                        | 5  
+                      td
+                        input(type='submit', value='Submit')
 
-  if alreadyRated == 0
-    form(method='post', action='/interimrating?id='+queried_userid+'&pid='+queried_photoid)
-      table(border='0')
-        tr
-          td Give your Rating
-          td :
-          td
-            input(type='radio', name='rating' value='one')
-            | 1
-            input(type='radio', name='rating' value='two')
-            | 2
-            input(type='radio', name='rating' value='three')
-            | 3
-            input(type='radio', name='rating' value='four')
-            | 4
-            input(type='radio', name='rating' value='five')
-            | 5
-          td
-            input(type='submit', value='Submit')
-
-
-  if ishe_allowed_to_tag == 10
-    form(method='post', action='/interimtag?id='+queried_userid+'&pid='+queried_photoid)
-      table(border='0')
-        tr
-          td Leave a tag
-          td :
-          td
-            input(type='text', name='tags', size='25')
-          td
-            input(type='submit', value='Submit')
-
-
+          if ishe_allowed_to_tag == 10
+            tr
+              td
+                form(method='post', action='/interimtag?id='+queried_userid+'&pid='+queried_photoid)
+                  table(border='0')
+                    tr
+                      td Leave a tag
+                      td :
+                      td
+                        input(type='text', name='tags', size='25')
+                      td
+                        input(type='submit', value='Submit')
 
