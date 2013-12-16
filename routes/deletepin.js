@@ -11,6 +11,8 @@ function query_db(req, res) {
 		var sqlDeletePin = 
 			"DELETE FROM PIN WHERE PHOTOID='" + req.query.pid + "' AND BOARDID='" + req.query.bid + "' AND USERID='" + req.query.id + "'";
 
+		var newquery = "UPDATE BOARD SET BOARD_PIN_COUNT=(SELECT B.BOARD_PIN_COUNT FROM BOARD B B.BOARDID='" + req.query.bid +"')-1 where BOARDID='" + req.query.bid +"'"; 
+
 		console.log ("Before if else");		
 		if (err) {
 			console.log("There is an error" + err);
@@ -21,9 +23,17 @@ function query_db(req, res) {
 						console.log("Error after running delete board query: " + err);
 					} else {
 						console.log("Delete Query Executed Successfully! ");
-						connection.close();
-						res.writeHead(301, {Location: '/pins?id=' + req.query.id});
-      					res.end();
+						connection.execute(newquery, [], 
+						function (err, resultsone) {
+							if (err) {
+								console.log("Error after running delete board query: " + err);
+							} else {
+								console.log("Update Query Executed Successfully! ");
+								connection.close();
+								res.writeHead(301, {Location: '/pins?id=' + req.query.id});
+		      					res.end();
+							}	
+						});
 					}	
 				}
 			);

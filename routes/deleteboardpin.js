@@ -18,17 +18,27 @@ function query_db(req, res) {
 			connection.execute(sqlDeletePin, [], 
 				function (err, resultsone) {
 					if (err) {
-						console.log("Error after running delete board pin query: " + err);
+						console.log("Error after running delete board query: " + err);
 					} else {
-						connection.close();
-						res.writeHead(301, {Location: '/boards/boardpins?id=' + req.query.id + '&bid=' + req.query.bid});
-      					res.end();
+						console.log("Delete Query Executed Successfully! ");
+						connection.execute(newquery, [], 
+						function (err, resultsone) {
+							if (err) {
+								console.log("Error after running delete board query: " + err);
+							} else {
+								console.log("Update Query Executed Successfully! ");
+								connection.close();
+								res.writeHead(301, {Location: '/boards/boardpins?id=' + req.query.id + '&bid=' + req.query.bid});
+		      					res.end();
+							}	
+						});
 					}	
 				}
 			);
 		}
 	});
 }
+
 
 function redirect_to_login(req, res){
   console.log("Session started. Redirecting user to home page");
