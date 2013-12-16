@@ -50,6 +50,8 @@ function bing(keys, orig_req, orig_res) {
         options,
         function(req, res, body) {
             var qres = parse.get(body);
+            console.log("Here...");
+            console.log(qres);
             orig_res.render(
                 'grid_bing',
                 {
