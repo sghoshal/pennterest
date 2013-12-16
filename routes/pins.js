@@ -1,4 +1,3 @@
-
 var MongoClient = require('mongodb').MongoClient;
 var Db = require('mongodb').Db,
 Server = require('mongodb').Server,
@@ -26,10 +25,10 @@ var oracle =  require("oracle");
 function query_db(req, res, query_id) {
 	oracle.connect(connectData, function (err, connection) {
 
-        var sql_get_pin = 
+        var sql_get_pin =
             "select p.photoid AS PID, p.is_cached, p.url AS URL, p.avg_rating AS AVG, p.pin_count AS COUNT, b.boardid AS BID, b.boardname AS BNAME " +
             "from photo p, pin pi, board b " +
-            "where pi.photoid = p.photoid and pi.boardid = b.boardid and pi.userid = b.userid and pi.userid='" + query_id + "' " 
+            "where pi.photoid = p.photoid and pi.boardid = b.boardid and pi.userid = b.userid and pi.userid='" + query_id + "' "
             "order by p.photoid";
 
 		if (err) {
@@ -40,14 +39,25 @@ function query_db(req, res, query_id) {
 					if (err) {
 						console.log("Error after executing the first query: "+err);
 					} else {
-						connection.close();
-
-						console.log("Size of the results of first query: "+results.length)
-						for (var i = 0; i < results.length; i++)
-							console.log ("PHOTOID: " + results[i]["PID"] +
-                                         " IS_CACHED: " + results[i]["IS_CACHED"] +
-                                         " URL:" + results[i]["URL"] );
-						output_pins(req, res, results);
+                        connection.execute(
+                            "SELECT firstname, lastname FROM users WHERE userid='" +
+                            req.query.id + "'",
+                            [],
+                            function(err, username) {
+						        connection.close();
+						        console.log(
+                                    "Size of the results of first query: " +
+                                    results.length
+                                );
+						        for (var i = 0; i < results.length; i++)
+							        console.log (
+                                        "PHOTOID: " + results[i]["PID"] +
+                                        " IS_CACHED: " + results[i]["IS_CACHED"] +
+                                        " URL:" + results[i]["URL"]
+                                    );
+						        output_pins(req, res, results, username);
+                            }
+                        );
 					}
 				}
 			);
@@ -55,13 +65,18 @@ function query_db(req, res, query_id) {
 	});
 }
 
-function output_pins (req, res, results) {
+function output_pins (req, res, results, username) {
 
-    res.render('pins.jade',
-                {"title": "Pins of " + req.query.id,
-                 "queried_userid": req.query.id,
-                 "session_userid": req.session.userid,
-                 "results": results});
+    res.render(
+                'grid_pins',
+                {
+                    pageTitle: "Pins of " + req.query.id,
+                    queried_userid: req.query.id,
+                    userid: req.session.userid,
+                    results: results,
+                    name: username
+                }
+    );
 }
 
 function load_error_page(req, res) {

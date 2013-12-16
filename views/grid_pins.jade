@@ -1,0 +1,38 @@
+extends grid
+block results
+    .title
+        a(href='/profile?id=' + userid)
+            | Pins of #{name[0]['FIRSTNAME']} #{name[0]['LASTNAME']}
+    - for (var i = 0; i < results.length; i += 4)
+        br
+        br
+        - var n
+        - for (var j = 0; j < 4 && i + j < results.length; j++)
+            - n = j
+            img(class='img' src="#{results[i + j]['URL']}")
+        if n < 3
+            br
+        - for (var j = 0; j < 4 && i + j < results.length; j++)
+            .name.blue
+                | Average rating: #{results[i + j]['AVG']}
+        br
+        - for (var j = 0; j < n + 1; j++)
+            .name.blue
+                | Pin count: #{results[i + j]['COUNT']}
+        br
+        - for (var j = 0; j < n + 1; j++)
+            - var s = '/pinphotoonboard?id=' + userid + '&pid=' +
+            - var ss = results[i + j]['PID']
+                a(href=s + ss)
+                    .name
+                        | Pin it!
+        br
+        if userid == queried_userid
+            - for (var j = 0; j < n + 1; j++)
+                - var s = '/deletepin?id=' + userid + '&bid=' + results[i + j]['BID'];
+                - var ss = '&pid=' + results[i + j]['PID']
+                a(href=s + ss, onclick="return confirm('Are you sure?')")
+                    .name
+                        | Delete this pin
+            br
+

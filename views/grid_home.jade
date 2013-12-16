@@ -1,0 +1,34 @@
+extends grid
+block results
+    .title
+    - for (var i = 0; i < results.length; i += 4)
+        br
+        br
+        - var n
+        - for (var j = 0; j < 4 && i + j < results.length; j++)
+            - n = j
+            img(class='img' src="#{results[i + j]['URL']}")
+        if n < 3
+            br
+        - for (var j = 0; j < 4 && i + j < results.length; j++)
+            .name.blue
+                | Average rating: #{results[i + j]['AVG']}
+        br
+        - for (var j = 0; j < n + 1; j++)
+            .name.blue
+                | Pin count: #{results[i + j]['COUNT']}
+        br
+        - for (var j = 0; j < n + 1; j++)
+            - var s = '/boards?id=' + results[i + j]['USERID'] + '&bid=' + results[i + j]['BOARDID']
+            a(href=s)
+                    .name
+                        | #{results[i + j]['BOARDNAME']}
+        br
+        - for (var j = 0; j < n + 1; j++)
+            - var s = '/pinphotoonboard?id=' + userid + '&pid=' +
+            - var ss = results[i + j]['PID']
+                a(href=s + ss)
+                    .name
+                        | Pin it!
+        br
+

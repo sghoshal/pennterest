@@ -3,7 +3,7 @@
 extend layout
 block content
   h1 #{title}
-  
+
   // Get back to logged in users home page
   tr
     td
@@ -15,15 +15,15 @@ block content
     tr
       td
         a(href="/createnewboard?id="+session_userid) Create a new Board <br/>
-        <br/>    
-  
+        <br/>
+
   // Create a table with one row per result
   table(border='1')
     - for (var inx = 0; inx < resultsone.length; inx++)
         tr
           td
             a(href="/boards/boardpins?id=" + queried_userid + "&bid=" + resultsone[inx].BOARDID) #{resultsone[inx].BOARDNAME}
-          td 
+          td
             a(href="/boards/boardpins?id=" + queried_userid + "&bid=" + resultsone[inx].BOARDID)
               img(src=resultsone[inx].BOARD_PIC, height="240" width="320")
           td=resultsone[inx].BOARD_PIN_COUNT
@@ -37,8 +37,8 @@ block content
                 a(href="/followthisboard?id=" + queried_userid + "&bid=" + resultsone[inx].BOARDID) Follow this Board!
             else
               td
-                The Following!    
+                The Following!
 
 
-          
-  
+
+

@@ -69,6 +69,10 @@ a.blue {
     color: #7AFF7A;
 }
 
+.name.blue {
+    color: #33A6F2;
+}
+
 .pink {
     color: #FF00FF;
 }
