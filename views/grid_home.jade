@@ -1,5 +1,7 @@
 extends grid
 block results
+    h1 #{title}
+    h2 Here are some of the photos from the Boards you are following!
     .title
     - for (var i = 0; i < results.length; i += 4)
         br

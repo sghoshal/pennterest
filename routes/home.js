@@ -11,6 +11,13 @@ var user_display_name = null;
 
 
 function get_user_info (req, res) {
+  var getAllPhotos = "select p1.photoid AS PID, p1.url AS URL, p1.pin_count AS COUNT, p1.avg_rating AS AVG, p1.is_cached, b1.boardid AS BOARDID, b1.boardname AS BNAME, b1.userid AS USERID " +
+                     "from photo p1, board b1, pin pp1 " +
+                     "where pp1.boardid = b1.boardid and p1.photoid = pp1.photoid and pp1.userid = b1.userid and p1.photoid IN " +
+                     "(select p.photoid from photo p, pin pp where pp.photoid = p. photoid and pp.boardid IN " +
+                     "(select f.boardid from following f where userid='" + req.session.userid + "')) and b1.boardid IN " +
+                     "(select f.boardid from following f where userid='" + req.session.userid + "')";
+
 	 oracle.connect(connectData, function(err, connection) {
 		    if ( err ) {
 		    	console.log(connection);
@@ -22,20 +29,34 @@ function get_user_info (req, res) {
 			  	    if ( err ) {
 			  	    	console.log(err);
 			  	    } else {
-			  	    		connection.close(); // done with the connection
-			  	    		user_display_name = results[0].FIRSTNAME;
-			  	    		welcomeuser(req, res);
+                  user_display_name = results[0].FIRSTNAME;
+                  connection.execute(getAllPhotos, [],
+                    function (err, resultsPhotos) {
+                      if (err) {
+                        console.log("Error after fetching data from resultsPhotos table: " + err);
+                      } else {
+                        connection.close();
+                        console.log ("Number of rows returned after running the resultsPhotos query: "+resultsPhotos.length);
+                        welcomeuser(req, res, resultsPhotos);
+                      }
+                    }
+                  );
+			  	    		
 			  	    	}
 			  	}); // end connection.execute
 		  }
     }); // end oracle.connect
   }
 
-function welcomeuser(req, res) {
-  	res.render('login.jade',
-  			   { title: "Welcome " + user_display_name + "!",
-             queried_id: req.query.id, user_id: req.session.userid}
-  		    );
+function welcomeuser(req, res, resultsPhotos) {
+  	res.render('grid_home.jade',
+  		    { 
+             title: "Welcome " + user_display_name + "!",
+             queried_id: req.query.id, 
+             user_id: req.session.userid,
+             results : resultsPhotos
+          }
+  		);
 }
 
 function redirect_to_login(req, res){
