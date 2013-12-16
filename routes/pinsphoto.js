@@ -19,7 +19,7 @@ function query_db(req, res) {
 			"where photoid='" + req.query.pid+"'";
 
 		var sqlGetMyRating =
-			"select score " +
+			"select score AS SCR " +
 			"from rating " +
 			"where photoid='" + req.query.pid + "' and userid='" + req.session.userid+"'";
 
