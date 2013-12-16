@@ -1,15 +1,18 @@
-h3 PLEASE ENTER BOARD INFORMATION BELOW 
- p #{error_msg}
-  p (*) Compulsory Fields
-    form(method='post', action='./boardcreated?id='+userid)
-      table(border='0')
-        tr
-          td Board Name*
-          td :
-          td
-            input(type='text', name='boardname', size='25')
-        tr
-          td  
-          td  
-          td
-            input(type='submit', value='Submit')
+extends layout
+block content
+
+  h2 Please Enter Board Information Below
+    p #{error_msg}
+      p (*) Compulsory Fields
+        form(method='post', action='./boardcreated?id='+userid)
+          table(border='0')
+            tr
+              td Board Name*
+              td :
+              td
+                input(type='text', name='boardname', size='25')
+            tr
+              td  
+              td  
+              td
+                input(type='submit', value='Submit')

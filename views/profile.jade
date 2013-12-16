@@ -1,10 +1,12 @@
 extends layout
 
 block content
+  h2
+  |  #{title}
+  </br>
+  </br>
   table(border = 0)
-    tr
-      td
-      |  #{title}
+    
     tr
       td
         .container
@@ -36,28 +38,34 @@ block content
                           a(href='/search/photos') Search!
                         li
                           a(href='/logout?id=' + session_id) Logout
-
-      td
-        a(href='/boards?id=' + queried_id) Boards
-      td
-        &nbsp;&nbsp;
-
-      td
-        a(href='/pins?id=' + queried_id) Pins
-      td
-        &nbsp;&nbsp;
-
-      td
-        a(href='/' + queried_id +'/followers') Followers
-      td
-        &nbsp;&nbsp;
-
-      td
-        a(href='/' + queried_id + '/following') Following
-      td
-          &nbsp;&nbsp;
-
-      td
-        a(href='/search/photos') Search
-      td
-         &nbsp;&nbsp;
+      tr(style='font-size: 20px;')
+        td
+          a(href='/boards?id=' + queried_id) Boards
+      tr
+        td
+          </br>
+      
+      tr(style='font-size: 20px;')
+        td
+          a(href='/pins?id=' + queried_id) Pins
+      tr
+        td
+          </br>
+      tr(style='font-size: 20px;')
+        td
+          a(href='/' + queried_id +'/followers') Followers
+      tr
+        td
+          </br>
+      tr(style='font-size: 20px;')
+        td
+          a(href='/' + queried_id + '/following') Following
+      tr
+        td
+          </br>
+      tr(style='font-size: 20px;')
+        td
+          a(href='/interest?id=' + queried_id) Interests
+      tr
+        td
+          </br>

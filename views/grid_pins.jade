@@ -1,10 +1,13 @@
 extends grid
 block results
+    
+
     .title
-        a(href='/profile?id=' + userid)
-            | Pins of #{name[0]['FIRSTNAME']} #{name[0]['LASTNAME']}
-        br
-        br
+        | Pins of #{name[0]['FIRSTNAME']} #{name[0]['LASTNAME']}
+    
+    a(href='/profile?id=' + userid) Home    
+    br
+    br
 
 
     // If this is currently logged in user's page then only let him add a new pin
@@ -20,8 +23,13 @@ block results
         - var n
         - for (var j = 0; j < 4 && i + j < results.length; j++)
             - n = j
-            a(href="/pins/pinsphoto?id=" + queried_userid + "&pid=" + results[i + j]['PID'])
-                img(class='img' src="#{results[i + j]['URL']}")
+            if results[i + j].IS_CACHED == 1
+                a(href="/pins/pinsphoto?id=" + queried_userid + "&pid=" + results[i + j]['PID']) 
+                    img(class='img' src="/cache/photo/c_pin?pid=" + results[i + j].PID)
+            else
+                a(href="/pins/pinsphoto?id=" + queried_userid + "&pid=" + results[i + j]['PID'])  
+                    img(class='img' src=results[i + j].URL)
+        
         if n < 3
         br
         if results[i]['BNAME'] != NULL

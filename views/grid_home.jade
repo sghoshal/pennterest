@@ -1,7 +1,40 @@
 extends grid
 block results
-    h1 #{title}
-    h2 Here are some of the photos from the Boards you are following!
+    table 
+      tr
+        td
+          .container
+            .row
+              .span3
+                .navbar
+                  .navbar-inner
+                    ul.nav
+                      li.dropdown
+                        a.dropdown-toggle(data-toggle='dropdown', href='#')
+                          |  Menu
+                          b.caret
+                        ul.dropdown-menu
+                          li
+                            a(href='/home?id=' + queried_id) Home
+                          li
+                            a(href='/boards?id=' + user_id) My Boards
+                          li
+                            a(href='/pins?id=' + user_id) My Pins
+                          li
+                            a(href='/' + user_id + '/following') I am Following
+                          li
+                            a(href='/' + user_id + '/followers') My Followers
+                          li
+                            a(href='/recommendation?id=' + user_id) Recommended For Me
+                          li
+                            a(href='/interest?id=' + user_id) My Interests
+                          li
+                            a(href='/search/photos') Search!
+                          li
+                            a(href='/logout?id=' + queried_id) Logout
+    .container
+        h1 #{title}
+        h2 Here are some of the photos from the Boards you are following!
     .title
     - for (var i = 0; i < results.length; i += 4)
         br
