@@ -1,11 +1,41 @@
 extends grid
 block results
-    
+    table
+      tr
+        td
+          .container
+            .row
+              .span3
+                .navbar
+                  .navbar-inner
+                    ul.nav
+                      li.dropdown
+                        a.dropdown-toggle(data-toggle='dropdown', href='#')
+                          |  Menu
+                          b.caret
+                        ul.dropdown-menu
+                          li
+                            a(href='/home?id=' + userid) Home
+                          li
+                            a(href='/boards?id=' + userid) My Boards
+                          li
+                            a(href='/pins?id=' + userid) My Pins
+                          li
+                            a(href='/' + userid + '/following') I am Following
+                          li
+                            a(href='/' + userid + '/followers') My Followers
+                          li
+                            a(href='/recommendation?id=' + userid) Recommended For Me
+                          li
+                            a(href='/interest?id=' + userid) My Interests
+                          li
+                            a(href='/search/photos') Search!
+                          li
+                            a(href='/logout?id=' + userid) Logout
 
     .title
         | Pins of #{name[0]['FIRSTNAME']} #{name[0]['LASTNAME']}
-    
-    a(href='/profile?id=' + userid) Home    
+
     br
     br
 
@@ -23,13 +53,12 @@ block results
         - for (var j = 0; j < 4 && i + j < results.length; j++)
             - n = j
             if results[i + j].IS_CACHED == 1
-                a(href="/pins/pinsphoto?id=" + queried_userid + "&pid=" + results[i + j]['PID']) 
-                    img(class='img' src="/cache/photo/c_pin?pid=" + results[i + j].PID)
+                img(class='img' src="/cache/photo/c_pin?pid=" + results[i + j].PID)
+                     a(href="/pins/pinsphoto?id=" + queried_userid + "&pid=" + results[i + j]['PID'])
             else
-                a(href="/pins/pinsphoto?id=" + queried_userid + "&pid=" + results[i + j]['PID'])  
-                    img(class='img' src=results[i + j].URL)
-        
-        if n < 3
+                img(class='img' src=results[i + j].URL)
+                    a(href="/pins/pinsphoto?id=" + queried_userid + "&pid=" + results[i + j]['PID'])
+        br
         br
         if results[i]['BNAME'] != NULL
             - for (var j = 0; j < n + 1; j++)
@@ -61,11 +90,11 @@ block results
                 else
                     - var s = '/deleteboardpin?id=' + userid + '&bid=' + queried_boardid;
                     - var ss = '&pid=' + results[i + j]['PID']
-                    
+
 
                 a(href=s + ss, onclick="return confirm('Are you sure?')")
                     .name
                         | Delete this pin
-                        
+
         br
 
