@@ -12,11 +12,9 @@ function addinterest(req,res) {
 		    if ( err ) {
 		    	console.log(err);
 		    } else {
-		    	console.log("in addinterest...");
 		    	var i=0;
 			  	// inserting interest for a particular user
 		    	
-
 			  	connection.execute("INSERT INTO interest VALUES("+req.session.userid+",'"+req.query.interest+"')",
 			  			   [], 
 			  			   function(err, results) {
@@ -25,18 +23,21 @@ function addinterest(req,res) {
 			  	    } 
 			  	    
 			  	    else{
-
 				    	connection.close();
-				    	res.render('interest.jade', { userid: userid });
+                        res.writeHead(301, {Location: '/interest?id=' + userid});
+                        res.end();
 			  	    }
 			
 			  	}); // end connection.execute
-	  	  			  
 		    }
-		  }); // end oracle.connect
+		}); // end oracle.connect
 }
 
 exports.do_work = function(req, res){
+    console.log("IN INTEREST ADDITIONS PAGE...");
+    console.log("Session Authenticated, Userid: " + req.session.userAuthenticated + ", " + req.session.userid);
+    console.log("User ID Queried " + req.query.id);
+
 	userid = req.session.userid;
 	addinterest(req,res,req.query.interest);	
 };
