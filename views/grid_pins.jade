@@ -53,11 +53,11 @@ block results
         - for (var j = 0; j < 4 && i + j < results.length; j++)
             - n = j
             if results[i + j].IS_CACHED == 1
-                img(class='img' src="/cache/photo/c_pin?pid=" + results[i + j].PID)
-                     a(href="/pins/pinsphoto?id=" + queried_userid + "&pid=" + results[i + j]['PID'])
+                a(href="/pins/pinsphoto?id=" + queried_userid + "&pid=" + results[i + j]['PID'])
+                    img(class='img' src="/cache/photo/c_pin?pid=" + results[i + j].PID)
             else
-                img(class='img' src=results[i + j].URL)
-                    a(href="/pins/pinsphoto?id=" + queried_userid + "&pid=" + results[i + j]['PID'])
+                a(href="/pins/pinsphoto?id=" + queried_userid + "&pid=" + results[i + j]['PID'])
+                    img(class='img' src=results[i + j].URL)
         br
         br
         if results[i]['BNAME'] != NULL

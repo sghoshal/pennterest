@@ -42,7 +42,8 @@ block results
         - var n
         - for (var j = 0; j < 4 && i + j < results.length; j++)
             - n = j
-            img(class='img' src="#{results[i + j]['URL']}")
+            a(href="/pins/pinsphoto?id=" + user_id + "&pid=" + results[i + j]['PID'])
+              img(class='img' src="#{results[i + j]['URL']}")
         if n < 3
             br
         - for (var j = 0; j < 4 && i + j < results.length; j++)
