@@ -1,7 +1,41 @@
 extends grid
+block dropdown
+    table
+      tr
+        td
+          .container
+            .row
+              .span3
+                .navbar
+                  .navbar-inner
+                    ul.nav
+                      li.dropdown
+                        a.dropdown-toggle(data-toggle='dropdown', href='#')
+                          |  Menu
+                          b.caret
+                        ul.dropdown-menu
+                          li
+                            a(href='/home?id=' + userid) Home
+                          li
+                            a(href='/boards?id=' + userid) My Boards
+                          li
+                            a(href='/pins?id=' + userid) My Pins
+                          li
+                            a(href='/' + userid + '/following') I am Following
+                          li
+                            a(href='/' + userid + '/followers') My Followers
+                          li
+                            a(href='/recommendation?id=' + userid) Recommended For Me
+                          li
+                            a(href='/interest?id=' + userid) My Interests
+                          li
+                            a(href='/search/photos') Search!
+                          li
+                            a(href='/logout?id=' + userid) Logout
+
+
 block results
-	#photocol.col
-	p
-		- for (var i = 0; i < results.length; i++)
-			a(href="")
-				img(class="img", src=results[i])
+    #photocol.col
+        - for (var i = 0; i < results.length; i++)
+            a(href="")
+                img(class="img", src=results[i])
