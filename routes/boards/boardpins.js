@@ -10,7 +10,7 @@ function query_db(req, res) {
     console.log('asdsdas');
 	oracle.connect(connectData, function (err, connection) {
 		var sqlGetBoardPins =
-			"select p.photoid AS PID, p.url AS URL, p.avg_rating AS AVG, p.pin_count AS COUNT " +
+			"select p.photoid AS PID, p.is_cached, p.url AS URL, p.avg_rating AS AVG, p.pin_count AS COUNT " +
 			"from photo p, pin pi " +
 			"where pi.photoid = p.photoid and pi.boardid='" + req.query.bid + "' " +
 			"order by p.photoid";
