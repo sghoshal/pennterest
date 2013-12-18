@@ -211,11 +211,10 @@ function recommend_fourth(res)
  
                        [], 
                        function(err, results) {
-                if(results.length == 0)
-                {
-                    console.log("no photo found in fourth");
-                    recommend_fourth(res);
-                }
+            if(results.length == 0){
+                console.log("no photo found in fourth");
+                recommend_fifth(res);
+            }
             else if ( err ) {
                     console.log(err);
                 } 
