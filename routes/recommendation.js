@@ -20,6 +20,7 @@ var rec_photos_pin_count = new Array();
 var rec_ppl = new Array();
 
 var sessionid;
+var query_start_time;
 
 function recommend_first(res)
 {
@@ -28,7 +29,7 @@ function recommend_first(res)
             console.log(connection);
         } else {
 
-            
+            query_start_time = new Date().getTime();
             connection.execute("SELECT PHOTOID,AVG_RATING,PIN_COUNT,URL FROM PHOTO WHERE PHOTOID IN " +
                     "(SELECT PHOTOID FROM PHOTO NATURAL JOIN TAG WHERE TAGVALUE IN " +
                     "(SELECT TAGVALUE FROM TAG WHERE PHOTOID IN " +
@@ -40,6 +41,7 @@ function recommend_first(res)
                                             "ORDER BY AVG_RATING*PIN_COUNT DESC, PIN_COUNT ASC", 
                        [], 
                        function(err, results) {
+                console.log("Time for Recommendation query: " + (new Date().getTime() - query_start_time) + "ms");
                 if(results.length == 0)
                 {
                     console.log("no photo found in first");

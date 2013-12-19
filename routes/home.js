@@ -8,9 +8,10 @@ var oracle =  require("oracle");
 var userid = null;
 var username = null;
 var user_display_name = null;
-
+var query_start_time;
 
 function get_user_info (req, res) {
+
   var getAllPhotos = "select p1.photoid AS PID, p1.url AS URL, p1.pin_count AS COUNT, p1.avg_rating AS AVG, p1.is_cached, b1.boardid AS BOARDID, b1.boardname AS BNAME, b1.userid AS USERID " +
                      "from photo p1, board b1, pin pp1 " +
                      "where pp1.boardid = b1.boardid and p1.photoid = pp1.photoid and pp1.userid = b1.userid and p1.photoid IN " +
@@ -18,6 +19,7 @@ function get_user_info (req, res) {
                      "(select f.boardid from following f where userid='" + req.session.userid + "')) and b1.boardid IN " +
                      "(select f.boardid from following f where userid='" + req.session.userid + "')";
 
+        query_start_time = new Date().getTime();
 	 oracle.connect(connectData, function(err, connection) {
 		    if ( err ) {
 		    	console.log(connection);
@@ -36,7 +38,7 @@ function get_user_info (req, res) {
                         console.log("Error after fetching data from resultsPhotos table: " + err);
                       } else {
                         connection.close();
-                        console.log ("Number of rows returned after running the resultsPhotos query: "+resultsPhotos.length);
+                        console.log("Time for Query: " + (new Date().getTime() - query_start_time) + "ms");
                         welcomeuser(req, res, resultsPhotos);
                       }
                     }

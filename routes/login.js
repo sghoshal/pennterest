@@ -21,6 +21,8 @@ var chrsz   = 8;
 var userid = null;
 var username = null;
 var user_display_name = null;
+var query_start_time;
+
 
 function generatehash(req,res,secretpassword, salt) {
     var pwd = "";
@@ -170,9 +172,12 @@ function check_password(req,res,pwd) {
 		    } 
             else {
 			  	// selecting rows
+                query_start_time = new Date().getTime();
 			  	connection.execute("SELECT userid, firstname, passwd FROM users WHERE email='"+username+"'", 
 			  			   [], 
 			  			   function(err, results) {
+                        console.log("Time for Login Query: " + (new Date().getTime() - query_start_time) + "ms");
+
 			  		if(results.length == 0)
 			  		{
 			  			res.render('index.jade',

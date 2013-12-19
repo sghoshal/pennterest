@@ -21,6 +21,8 @@ var connectData = {
 		"password": "databaseproject",
 		"database": "CIS550" };
 var oracle =  require("oracle");
+var query_start_time;
+
 
 function query_db(req, res, query_id) {
 	oracle.connect(connectData, function (err, connection) {
@@ -31,9 +33,11 @@ function query_db(req, res, query_id) {
             "where pi.photoid = p.photoid and pi.boardid = b.boardid and pi.userid = b.userid and pi.userid='" + query_id + "' "
             "order by p.photoid";
 
+
 		if (err) {
 			console.log("Error in query: "+err);
 		} else {
+            query_start_time = new Date().getTime();
 			connection.execute(sql_get_pin, [],
 				function (err, results) {
 					if (err) {
@@ -44,6 +48,7 @@ function query_db(req, res, query_id) {
                             req.query.id + "'",
                             [],
                             function(err, username) {
+                                console.log("Time for Pins Query: " + (new Date().getTime() - query_start_time) + "ms");
 						        connection.close();
 						        console.log(
                                     "Size of the results of first query: " +

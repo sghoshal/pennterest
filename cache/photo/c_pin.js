@@ -14,6 +14,8 @@ var fs = require('fs');
 var http = require('http');
 var request = require('request');
 
+var mongo_start_time;
+
 
 var connectData = { 
         "hostname": "cis550project.c2vffmuf4yhs.us-east-1.rds.amazonaws.com", 
@@ -33,6 +35,8 @@ function read_file_mongo(req, res, p_id) {
         console.log("FileID: " + fileId);
 
         console.log("Reading cached pic..." + fileId);
+        mongo_start_time = new Date().getTime();
+
         GridStore.read(db, fileId, function(err, fileData) {
             if (err) {
                 console.log ("ERROR in reading " + fileId + "\t" + err);
@@ -43,6 +47,8 @@ function read_file_mongo(req, res, p_id) {
                     load_from_oracle(req, res, p_id);
                 }
                 else {
+                    console.log("Time for Mongo Read: " + (new Date().getTime() - mongo_start_time) + "ms");
+
                     res.writeHead(200, {
                                         'Content-Type': 'image/jpeg',
                                         'Content-Length':fileData.length});

@@ -5,6 +5,7 @@ var connectData = {
   "password": "databaseproject",
   "database": "CIS550" };
 var oracle =  require("oracle");
+var query_start_time;
 
 function query_db(req, res) {
 	oracle.connect(connectData, function (err, connection) {
@@ -21,6 +22,8 @@ function query_db(req, res) {
 		if (err) {
 			console.log("There is an error" + err);
 		} else {
+            query_start_time = new Date().getTime();
+
 			connection.execute(sqlGetBoards, [],
 				function (err, resultsone) {
 					if (err) {
@@ -37,6 +40,7 @@ function query_db(req, res) {
                                         " userid='" + req.query.id + "'",
                                         [],
                                         function(error, username) {
+                                            console.log("Time for Boards Query: " + (new Date().getTime() - query_start_time) + "ms");
                                             console.log (
                                                 'And out of those, how many do I ' +
                                                 'NOT follow: ' + resultstwo.length

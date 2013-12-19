@@ -16,9 +16,7 @@ var http = require('http');
 
 var request = require('request');
 var mongo_cache = require('./mongo_cache')
-
 /* Oracle DB */
-
 var connectData = { 
         "hostname": "cis550project.c2vffmuf4yhs.us-east-1.rds.amazonaws.com", 
         "user": "CIS550", 
@@ -139,6 +137,7 @@ exports.read_file = function read_file_mongo(req, res, photo_id) {
                 res.writeHead(200, {
                     'Content-Type': 'image/jpeg',
                     'Content-Length':fileData.length});
+
 
 
                 console.log("File length is " +fileData.length);
